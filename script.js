@@ -1213,16 +1213,29 @@ document.addEventListener("click", (event) => {
 window.addEventListener("load", function () {
   ensureCounselingModal();
 
-  const isAutomatedAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse/i.test(navigator.userAgent);
-  if (isAutomatedAudit) return;
+  let entryTimerStarted = false;
+  function triggerEntryTimer() {
+    if (entryTimerStarted) return;
+    entryTimerStarted = true;
 
-  setTimeout(() => {
-    const modal = document.querySelector("#lead-modal");
-    if (modal && !modal.classList.contains("is-open") && !sessionStorage.getItem("thankyouName")) {
-      const isMobile = window.innerWidth <= 768;
-      openLeadModal("", isMobile ? "Mobile Entry Popup (4s)" : "Desktop Entry Popup (4s)");
-    }
-  }, 4000);
+    ['pointerdown', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach(ev => {
+      window.removeEventListener(ev, triggerEntryTimer, { passive: true });
+      document.removeEventListener(ev, triggerEntryTimer, { passive: true });
+    });
+
+    setTimeout(() => {
+      const modal = document.querySelector("#lead-modal");
+      if (modal && !modal.classList.contains("is-open") && !sessionStorage.getItem("thankyouName")) {
+        const isMobile = window.innerWidth <= 768;
+        openLeadModal("", isMobile ? "Mobile Entry Popup (4s)" : "Desktop Entry Popup (4s)");
+      }
+    }, 4000);
+  }
+
+  ['pointerdown', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach(ev => {
+    window.addEventListener(ev, triggerEntryTimer, { passive: true, once: true });
+    document.addEventListener(ev, triggerEntryTimer, { passive: true, once: true });
+  });
 });
 
 document.addEventListener("mouseleave", (e) => {
