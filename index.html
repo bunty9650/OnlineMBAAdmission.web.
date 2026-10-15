@@ -87,12 +87,29 @@
 }
   </script>
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-T8D27KKV');</script>
+  <!-- Google Tag Manager (Deferred for Core Web Vitals) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function initGTM() {
+      if (window._gtmDidInit) return;
+      window._gtmDidInit = true;
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-T8D27KKV');
+    }
+    ['pointerdown','touchstart','scroll','keydown'].forEach(function(e) {
+      window.addEventListener(e, initGTM, {once: true, passive: true});
+    });
+    if ('requestIdleCallback' in window) {
+      window.addEventListener('load', function() {
+        requestIdleCallback(function() { setTimeout(initGTM, 3800); });
+      });
+    } else {
+      window.addEventListener('load', function() { setTimeout(initGTM, 3800); });
+    }
+  </script>
   <!-- End Google Tag Manager -->
 
   <link rel="preload" as="image" href="/images/hero-bg.webp" type="image/webp" fetchpriority="high">
@@ -118,6 +135,9 @@
       align-items: center !important;
       text-decoration: none !important;
       flex-shrink: 0 !important;
+    }
+    .brand picture, .footer-brand picture {
+      display: contents !important;
     }
     .brand-logo {
       height: 48px !important;
@@ -672,7 +692,10 @@
 
         <header class="top-bar">
     <a class="brand" href="/" aria-label="Online MBA Admission Home" style="display:flex; align-items:center; text-decoration:none;">
-      <img src="/logo.png?v=5.1" alt="Online MBA Admission" class="brand-logo" width="199" height="84" fetchpriority="high" decoding="async">
+      <picture>
+        <source srcset="/logo.webp?v=5.2" type="image/webp">
+        <img src="/logo.png?v=5.2" alt="Online MBA Admission" class="brand-logo" width="199" height="84" fetchpriority="high" decoding="async">
+      </picture>
     </a>
 
     <!-- Main Navigation (Standardized 7 Links) -->
@@ -1834,7 +1857,10 @@
         <!-- Col 1: Brand and Regulatory Disclosures -->
         <div class="griffin-footer-col brand-col">
           <a class="footer-brand" href="/" aria-label="Online MBA Admission Home">
-            <img src="/logo.png?v=5.1" alt="Online MBA Admission" class="footer-logo" width="160" height="68" loading="lazy" decoding="async">
+            <picture>
+              <source srcset="/logo.webp?v=5.2" type="image/webp">
+              <img src="/logo.png?v=5.2" alt="Online MBA Admission" class="footer-logo" width="160" height="68" loading="lazy" decoding="async">
+            </picture>
           </a>
           <p class="brand-disclosure">
             Online MBA Admission is an independent statutory education guidance platform helping students and working professionals choose UGC-DEB entitled programs.
