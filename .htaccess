@@ -1,0 +1,67 @@
+# Apache Rewrite Rules for Clean Extensionless URLs & Canonical Host
+RewriteEngine On
+RewriteBase /
+
+# 1. Enforce Canonical Host (https://www.onlinembaadmission.com)
+RewriteCond %{HTTP_HOST} ^onlinembaadmission\.com [NC]
+RewriteRule ^(.*)$ https://www.onlinembaadmission.com/$1 [L,R=301]
+
+# 2. Legacy University URLs to /universities/{slug}
+RewriteRule ^university-ignou-online(\.html)?$ /universities/ignou [R=301,L]
+RewriteRule ^university-amity-online(\.html)?$ /universities/amity [R=301,L]
+RewriteRule ^university-manipal-online(\.html)?$ /universities/manipal-jaipur [R=301,L]
+RewriteRule ^university-du-sol-online(\.html)?$ /universities/du-sol [R=301,L]
+RewriteRule ^university-gla-online(\.html)?$ /universities/gla [R=301,L]
+RewriteRule ^university-andhra-online(\.html)?$ /universities/andhra-university [R=301,L]
+RewriteRule ^university-ccsu-online(\.html)?$ /universities/ccsu [R=301,L]
+RewriteRule ^university-parul-online(\.html)?$ /universities/parul [R=301,L]
+RewriteRule ^university-imt-ghaziabad-online(\.html)?$ /universities/imt-ghaziabad [R=301,L]
+RewriteRule ^university-symbiosis-online(\.html)?$ /universities/symbiosis [R=301,L]
+RewriteRule ^university-kj-somaiya-online(\.html)?$ /universities/kj-somaiya [R=301,L]
+RewriteRule ^university-imi-kolkata-online(\.html)?$ /universities/imi-kolkata [R=301,L]
+
+# Compare URL to /comparison
+RewriteRule ^compare(\.html)?$ /comparison [R=301,L]
+
+# Duplicate Specialization URLs to Canonical Full Slugs
+RewriteRule ^specializations/banking-finance(\.html)?$ /specializations/banking-and-finance [R=301,L]
+RewriteRule ^specializations/business-ai(\.html)?$ /specializations/ai-for-business [R=301,L]
+RewriteRule ^specializations/fintech(\.html)?$ /specializations/fintech-and-financial-services [R=301,L]
+RewriteRule ^specializations/supply-chain(\.html)?$ /specializations/supply-chain-management [R=301,L]
+RewriteRule ^specializations/sustainability-esg(\.html)?$ /specializations/sustainability-and-esg-management [R=301,L]
+
+# 3. Legacy Blog URLs to /blogs/{slug}
+RewriteRule ^blog-direct-admission-without-cat(\.html)?$ /blogs/direct-admission-without-cat [R=301,L]
+RewriteRule ^blog-highest-paying-specializations(\.html)?$ /blogs/highest-paying-specializations [R=301,L]
+RewriteRule ^blog-is-online-mba-valid-govt-jobs(\.html)?$ /blogs/is-online-mba-valid-govt-jobs [R=301,L]
+RewriteRule ^blog-no-cost-emi-guide(\.html)?$ /blogs/no-cost-emi-guide [R=301,L]
+RewriteRule ^blog-online-vs-distance-mba(\.html)?$ /blogs/online-vs-distance-mba [R=301,L]
+RewriteRule ^blog-ugc-deb-approval-guide(\.html)?$ /blogs/ugc-deb-approval-guide [R=301,L]
+RewriteRule ^blog/?$ /blogs [R=301,L]
+RewriteRule ^blog/(.*)$ /blogs/$1 [R=301,L]
+
+# 4. Redirect external requests from .html to clean extensionless URLs (301 Permanent)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/([^.]+)\.html [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# 5. Internally route clean URL /slug to slug.html
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
+
+# 6. Internally route directory without trailing slash to directory/index.html
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.*)$ $1/index.html [NC,L]
+
+DirectoryIndex index.html
+
+# Security & Caching
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+</IfModule>

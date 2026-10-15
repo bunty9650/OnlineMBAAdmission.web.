@@ -1,0 +1,53 @@
+# Environment & Secrets (Crucial: never push credentials to GitHub)
+.env
+.env.*
+
+# Python bytecode & server logs
+__pycache__/
+*.pyc
+*.pyo
+*.log
+
+# Duplicate nested folder
+onlinembaadmission.com/
+
+# Temporary / Scratch & Internal Research folders
+scratch/
+SEO Brain/
+_archive/
+
+# Local maintenance & inspect python scripts
+check_*.py
+inspect_*.py
+test_*.py
+scratch_*.py
+audit_*.py
+compare_*.py
+find_*.py
+create_*.py
+generate_*.py
+restore_*.py
+update_*.py
+build_*.py
+dsu_specs_data.py
+jamia_specs_data.py
+
+# HTTrack copier artifacts
+hts-cache/
+hts-log.txt
+cookies.txt
+backblue.gif
+fade.gif
+
+# Downloaded domain mirror folders
+e7.pngegg.com/
+latestlogo.com/
+raw.githubusercontent.com/
+upload.wikimedia.org/
+w7.pngwing.com/
+www.googletagmanager.com/
+www.uxdt.nic.in/
+
+# OS files
+.DS_Store
+Thumbs.db

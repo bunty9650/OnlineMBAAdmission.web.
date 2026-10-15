@@ -1,0 +1,39 @@
+# Canonical & 301 Permanent Redirects
+/university-ignou-online /universities/ignou 301
+/university-amity-online /universities/amity 301
+/university-manipal-online /universities/manipal-jaipur 301
+/university-du-sol-online /universities/du-sol 301
+/university-gla-online /universities/gla 301
+/university-andhra-online /universities/andhra-university 301
+/university-ccsu-online /universities/ccsu 301
+/university-parul-online /universities/parul 301
+/university-chandigarh-online /universities/chandigarh-university 301
+/university-chandigarh-university-online /universities/chandigarh-university 301
+/university-imt-ghaziabad-online /universities/imt-ghaziabad 301
+/university-symbiosis-online /universities/symbiosis 301
+/university-kj-somaiya-online /universities/kj-somaiya 301
+/university-imi-kolkata-online /universities/imi-kolkata 301
+
+/compare /comparison 301
+/compare.html /comparison 301
+
+/specializations/banking-finance /specializations/banking-and-finance 301
+/specializations/business-ai /specializations/ai-for-business 301
+/specializations/fintech /specializations/fintech-and-financial-services 301
+/specializations/supply-chain /specializations/supply-chain-management 301
+/specializations/sustainability-esg /specializations/sustainability-and-esg-management 301
+
+/blog-direct-admission-without-cat /blogs/direct-admission-without-cat 301
+/blog-highest-paying-specializations /blogs/highest-paying-specializations 301
+/blog-is-online-mba-valid-govt-jobs /blogs/is-online-mba-valid-govt-jobs 301
+/blog-no-cost-emi-guide /blogs/no-cost-emi-guide 301
+/blog-online-vs-distance-mba /blogs/online-vs-distance-mba 301
+/blog-ugc-deb-approval-guide /blogs/ugc-deb-approval-guide 301
+/blog /blogs 301
+/blog/* /blogs/:splat 301
+
+/universities/:univ/mba-in-:spec /university/:univ/mba-in-:spec 301
+/university/:univ /universities/:univ 301
+
+/thankyou.html /thankyou 301
+/*.html /:splat 301

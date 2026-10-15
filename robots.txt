@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /*?*utm_
+
+Sitemap: https://www.onlinembaadmission.com/sitemap.xml
