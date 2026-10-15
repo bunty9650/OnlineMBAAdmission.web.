@@ -96,7 +96,7 @@
   <!-- End Google Tag Manager -->
 
   <link rel="preload" as="image" href="/images/hero-bg.webp" type="image/webp" fetchpriority="high">
-  <link rel="stylesheet" href="/styles.css?v=4.1">
+  <link rel="stylesheet" href="/styles.css?v=5.0">
   <style id="critical-nav-css">
     /* Modern Navigation Header System */
     .top-bar {
@@ -257,6 +257,33 @@
         padding: 9px 16px !important;
         font-size: 13.5px !important;
       }
+    }
+    @media (max-width: 720px) {
+      .top-bar {
+        min-height: 64px !important;
+        padding: 0 16px !important;
+      }
+      .brand-logo {
+        height: 42px !important;
+        max-width: 175px !important;
+      }
+      .top-actions .small-cta, .top-actions .header-counseling-btn {
+        display: none !important;
+      }
+    }
+    .hero-media {
+      position: absolute !important;
+      inset: 0 !important;
+      overflow: hidden !important;
+    }
+    .hero-bg-img {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      pointer-events: none !important;
     }
 
     /* ========================================================
@@ -645,7 +672,7 @@
 
         <header class="top-bar">
     <a class="brand" href="/" aria-label="Online MBA Admission Home" style="display:flex; align-items:center; text-decoration:none;">
-      <img src="/logo.png" alt="Online MBA Admission" class="brand-logo" width="199" height="84" fetchpriority="high" decoding="async">
+      <img src="/logo.png?v=5.1" alt="Online MBA Admission" class="brand-logo" width="199" height="84" fetchpriority="high" decoding="async">
     </a>
 
     <!-- Main Navigation (Standardized 7 Links) -->
@@ -673,7 +700,9 @@
 
   <main>
     <section class="hero" id="hero">
-      <div class="hero-media" aria-hidden="true"></div>
+      <div class="hero-media" aria-hidden="true">
+        <img src="/images/hero-bg.webp" alt="" class="hero-bg-img" width="960" height="640" fetchpriority="high" decoding="async">
+      </div>
       <div class="hero-overlay"></div>
       <div class="container hero-grid">
         <div class="hero-copy">
@@ -1805,7 +1834,7 @@
         <!-- Col 1: Brand and Regulatory Disclosures -->
         <div class="griffin-footer-col brand-col">
           <a class="footer-brand" href="/" aria-label="Online MBA Admission Home">
-            <img src="/logo.png" alt="Online MBA Admission" class="footer-logo" width="160" height="68" loading="lazy" decoding="async">
+            <img src="/logo.png?v=5.1" alt="Online MBA Admission" class="footer-logo" width="160" height="68" loading="lazy" decoding="async">
           </a>
           <p class="brand-disclosure">
             Online MBA Admission is an independent statutory education guidance platform helping students and working professionals choose UGC-DEB entitled programs.
