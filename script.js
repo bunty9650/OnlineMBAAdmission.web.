@@ -1211,14 +1211,12 @@ document.addEventListener("click", (event) => {
 
 
 window.addEventListener("load", function () {
-  ensureCounselingModal();
-
   let entryTimerStarted = false;
   function triggerEntryTimer() {
     if (entryTimerStarted) return;
     entryTimerStarted = true;
 
-    ['pointerdown', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach(ev => {
+    ['pointerdown', 'touchstart', 'keydown'].forEach(ev => {
       window.removeEventListener(ev, triggerEntryTimer, { passive: true });
       document.removeEventListener(ev, triggerEntryTimer, { passive: true });
     });
@@ -1232,7 +1230,7 @@ window.addEventListener("load", function () {
     }, 4000);
   }
 
-  ['pointerdown', 'touchstart', 'scroll', 'mousemove', 'keydown'].forEach(ev => {
+  ['pointerdown', 'touchstart', 'keydown'].forEach(ev => {
     window.addEventListener(ev, triggerEntryTimer, { passive: true, once: true });
     document.addEventListener(ev, triggerEntryTimer, { passive: true, once: true });
   });
@@ -1329,20 +1327,29 @@ function prepareAllForms() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  ensureCounselingModal();
-  ensureEmiCalculatorModal();
+let formsPrepared = false;
+function ensureFormsReady() {
+  if (formsPrepared) return;
+  formsPrepared = true;
   prepareAllForms();
+}
+
+document.addEventListener("focusin", (e) => {
+  if (e.target && e.target.closest && e.target.closest("form")) {
+    ensureFormsReady();
+  }
+}, { passive: true });
+
+["touchstart", "pointerdown"].forEach((ev) => {
+  document.addEventListener(ev, (e) => {
+    if (e.target && e.target.closest && e.target.closest("form")) {
+      ensureFormsReady();
+    }
+  }, { passive: true });
 });
-
-window.addEventListener("load", () => {
-  ensureEmiCalculatorModal();
-  prepareAllForms();
-});
-
-
 
 document.addEventListener("submit", async (event) => {
+  ensureFormsReady();
   const form = event.target;
   if (!form || !(form instanceof HTMLFormElement)) return;
 
@@ -1511,5 +1518,122 @@ if (mobileToggle && mainNav) {
       mobileToggle.classList.remove("is-active");
       mainNav.classList.remove("is-open");
     });
+  });
+}
+
+function initUnivSlider() {
+  const track = document.getElementById('univSliderTrack');
+  const prevBtn = document.getElementById('univSliderPrev');
+  const nextBtn = document.getElementById('univSliderNext');
+  const counter = document.getElementById('univSliderCounter');
+  const progress = document.getElementById('univSliderProgress');
+
+  if (!track) return;
+
+  const cards = track.querySelectorAll('.university-card');
+  const total = cards.length;
+  let cachedStep = 313;
+
+  function measureStep() {
+    if (cards.length > 1) {
+      cachedStep = cards[1].offsetLeft - cards[0].offsetLeft || 313;
+    } else {
+      cachedStep = cards[0] ? cards[0].offsetWidth + 18 : 313;
+    }
+  }
+
+  function updateSliderState() {
+    const scrollLeft = track.scrollLeft;
+    const clientW = track.clientWidth;
+    const scrollW = track.scrollWidth;
+    const maxScroll = Math.max(0, scrollW - clientW);
+    const cardStep = cachedStep > 0 ? cachedStep : 313;
+
+    let activeIndex = Math.round(scrollLeft / cardStep);
+    activeIndex = Math.max(0, Math.min(activeIndex, total - 1));
+    const visibleRatio = scrollW > 0 ? (scrollLeft + clientW) / scrollW : 1;
+    const pct = Math.max(12, Math.min(100, Math.round(visibleRatio * 100)));
+    const atStart = scrollLeft <= 8;
+    const atEnd = scrollLeft >= maxScroll - 8;
+
+    if (counter) counter.textContent = `${activeIndex + 1} / ${total}`;
+    if (progress) progress.style.width = maxScroll <= 0 ? '100%' : pct + '%';
+    if (prevBtn) {
+      prevBtn.disabled = atStart;
+      prevBtn.classList.toggle('disabled', atStart);
+    }
+    if (nextBtn) {
+      nextBtn.disabled = atEnd;
+      nextBtn.classList.toggle('disabled', atEnd);
+    }
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      measureStep();
+      track.scrollBy({ left: -cachedStep, behavior: 'smooth' });
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      measureStep();
+      track.scrollBy({ left: cachedStep, behavior: 'smooth' });
+    });
+  }
+
+  track.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      measureStep();
+      track.scrollBy({ left: -cachedStep, behavior: 'smooth' });
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      measureStep();
+      track.scrollBy({ left: cachedStep, behavior: 'smooth' });
+    }
+  });
+
+  let scrollRaf;
+  track.addEventListener('scroll', function() {
+    if (!scrollRaf) {
+      scrollRaf = requestAnimationFrame(function() {
+        updateSliderState();
+        scrollRaf = null;
+      });
+    }
+  }, { passive: true });
+}
+
+function initComparisonTable() {
+  const compTable = document.querySelector('.seo-comparison-table');
+  const loadMoreBtn = document.getElementById('loadMoreUnivBtn');
+  if (compTable && loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const hiddenRows = compTable.querySelectorAll('tbody tr:nth-child(n+6)');
+      hiddenRows.forEach((row) => { row.style.display = 'table-row'; });
+      loadMoreBtn.style.display = 'none';
+    });
+  }
+}
+
+if (typeof window !== "undefined") {
+  let widgetsInit = false;
+  const initInteractiveWidgets = () => {
+    if (widgetsInit) return;
+    widgetsInit = true;
+    initUnivSlider();
+    initComparisonTable();
+  };
+
+  ['pointerdown', 'touchstart', 'keydown'].forEach((ev) => {
+    window.addEventListener(ev, initInteractiveWidgets, { once: true, passive: true });
+  });
+
+  window.addEventListener('load', () => {
+    setTimeout(initInteractiveWidgets, 6000);
   });
 }
