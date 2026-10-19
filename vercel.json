@@ -6,6 +6,7 @@
     { "source": "/compare", "destination": "/comparison", "permanent": true },
     { "source": "/compare.html", "destination": "/comparison", "permanent": true },
     { "source": "/blog", "destination": "/blogs", "permanent": true },
+    { "source": "/blogs/page/2", "destination": "/blogs/page-2", "permanent": true },
     { "source": "/blog/:match*", "destination": "/blogs/:match*", "permanent": true },
     { "source": "/blog-direct-admission-without-cat", "destination": "/blogs/direct-admission-without-cat", "permanent": true },
     { "source": "/blog-highest-paying-specializations", "destination": "/blogs/highest-paying-specializations", "permanent": true },

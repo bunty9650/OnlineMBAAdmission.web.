@@ -1620,6 +1620,201 @@ function initComparisonTable() {
   }
 }
 
+function initReadingProgressBar() {
+  const progressBar = document.getElementById('readingProgressBar');
+  const progressText = document.getElementById('readingProgressText');
+  if (!progressBar && !progressText) return;
+
+  window.addEventListener('scroll', function() {
+    const h = document.documentElement;
+    const b = document.body;
+    const st = 'scrollTop';
+    const sh = 'scrollHeight';
+    const max = (h[sh] || b[sh]) - h.clientHeight;
+    const percent = max > 0 ? Math.min(100, Math.max(0, Math.round(((h[st] || b[st]) / max) * 100))) : 0;
+    if (progressBar) progressBar.style.width = percent + '%';
+    if (progressText) progressText.textContent = percent + '%';
+  }, { passive: true });
+}
+
+function initTOC() {
+  const tocLinks = document.querySelectorAll('.blog-toc-link');
+  
+  // 1. Collapse / Expand toggle button
+  const toggleBtn = document.getElementById('tocToggleBtn');
+  const tocList = document.querySelector('.blog-toc-list');
+  if (toggleBtn && tocList) {
+    toggleBtn.addEventListener('click', function() {
+      const isHidden = window.getComputedStyle(tocList).display === 'none';
+      tocList.style.display = isHidden ? 'grid' : 'none';
+      toggleBtn.innerHTML = isHidden 
+        ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="18 15 12 9 6 15"/></svg> Collapse'
+        : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg> Expand';
+    });
+  }
+
+  // 2. Smooth click scroll with sticky header offset
+  document.querySelectorAll('.blog-toc-link, [data-scroll]').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      const targetId = this.getAttribute('href') || this.getAttribute('data-scroll');
+      if (targetId && targetId.startsWith('#')) {
+        const targetEl = document.querySelector(targetId);
+        if (targetEl) {
+          e.preventDefault();
+          const topBarOffset = 82;
+          const elementPosition = targetEl.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - topBarOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+  });
+
+  // 3. Active Section Scrollspy
+  if (tocLinks.length > 0) {
+    const sections = [];
+    tocLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        const el = document.querySelector(href);
+        if (el) sections.push({ el, link });
+      }
+    });
+
+    if (sections.length > 0) {
+      window.addEventListener('scroll', function() {
+        const scrollPos = window.pageYOffset + 120;
+        let currentSection = sections[0];
+        for (let i = 0; i < sections.length; i++) {
+          if (sections[i].el.offsetTop <= scrollPos) {
+            currentSection = sections[i];
+          }
+        }
+        sections.forEach(s => s.link.classList.remove('is-active'));
+        if (currentSection) {
+          currentSection.link.classList.add('is-active');
+        }
+      }, { passive: true });
+    }
+  }
+}
+
+function initBlogPagination() {
+  const blogGrid = document.querySelector('.blog-grid');
+  const paginationNav = document.querySelector('.blog-pagination-nav');
+  const paginationInfo = document.getElementById('blog-pagination-info');
+  if (!blogGrid || !paginationNav) return;
+
+  const cards = Array.from(blogGrid.querySelectorAll('.blog-card'));
+  if (cards.length <= 10) return;
+
+  const PAGE_SIZE = 10;
+  const totalPages = Math.ceil(cards.length / PAGE_SIZE);
+  let currentPage = 1;
+
+  // Check URL query param ?page=X
+  try {
+    const urlParams = new URLSearchParams(window.location.search);
+    const pageParam = parseInt(urlParams.get('page'), 10);
+    if (pageParam && pageParam >= 1 && pageParam <= totalPages) {
+      currentPage = pageParam;
+    }
+  } catch (e) {}
+
+  function renderPage(page, scrollToTop = false) {
+    currentPage = page;
+    const startIdx = (page - 1) * PAGE_SIZE;
+    const endIdx = page * PAGE_SIZE;
+
+    cards.forEach((card, idx) => {
+      if (idx >= startIdx && idx < endIdx) {
+        card.style.display = '';
+        card.style.animation = 'fadeInSlide 0.3s ease forwards';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Render nav buttons
+    paginationNav.innerHTML = '';
+
+    // Prev Button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'blog-page-btn' + (currentPage === 1 ? ' disabled' : '');
+    prevBtn.innerHTML = '&larr; Prev';
+    prevBtn.setAttribute('aria-label', 'Previous Page');
+    if (currentPage > 1) {
+      prevBtn.addEventListener('click', () => {
+        renderPage(currentPage - 1, true);
+        updateUrl(currentPage);
+      });
+    }
+    paginationNav.appendChild(prevBtn);
+
+    // Numbered buttons
+    for (let i = 1; i <= totalPages; i++) {
+      const pageBtn = document.createElement('button');
+      pageBtn.className = 'blog-page-btn' + (i === currentPage ? ' active' : '');
+      pageBtn.textContent = i;
+      pageBtn.setAttribute('aria-label', `Page ${i}`);
+      if (i !== currentPage) {
+        pageBtn.addEventListener('click', () => {
+          renderPage(i, true);
+          updateUrl(i);
+        });
+      }
+      paginationNav.appendChild(pageBtn);
+    }
+
+    // Next Button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'blog-page-btn' + (currentPage === totalPages ? ' disabled' : '');
+    nextBtn.innerHTML = 'Next &rarr;';
+    nextBtn.setAttribute('aria-label', 'Next Page');
+    if (currentPage < totalPages) {
+      nextBtn.addEventListener('click', () => {
+        renderPage(currentPage + 1, true);
+        updateUrl(currentPage);
+      });
+    }
+    paginationNav.appendChild(nextBtn);
+
+    // Info text
+    if (paginationInfo) {
+      const showingStart = startIdx + 1;
+      const showingEnd = Math.min(endIdx, cards.length);
+      paginationInfo.textContent = `Showing ${showingStart} \u2013 ${showingEnd} of ${cards.length} expert articles (Page ${currentPage} of ${totalPages})`;
+    }
+
+    if (scrollToTop) {
+      const target = document.querySelector('.section-heading') || blogGrid;
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }
+
+  function updateUrl(page) {
+    try {
+      const newUrl = page === 1 ? window.location.pathname : `${window.location.pathname}?page=${page}`;
+      window.history.pushState({ page: page }, '', newUrl);
+    } catch (e) {}
+  }
+
+  window.addEventListener('popstate', function() {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pageParam = parseInt(urlParams.get('page'), 10) || 1;
+      renderPage(pageParam, false);
+    } catch (err) {}
+  });
+
+  renderPage(currentPage, false);
+}
+
 if (typeof window !== "undefined") {
   let widgetsInit = false;
   const initInteractiveWidgets = () => {
@@ -1636,4 +1831,17 @@ if (typeof window !== "undefined") {
   window.addEventListener('load', () => {
     setTimeout(initInteractiveWidgets, 6000);
   });
+
+  // Always initialize blog features immediately
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initReadingProgressBar();
+      initTOC();
+      initBlogPagination();
+    });
+  } else {
+    initReadingProgressBar();
+    initTOC();
+    initBlogPagination();
+  }
 }

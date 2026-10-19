@@ -7,6 +7,8 @@ __pycache__/
 *.pyc
 *.pyo
 *.log
+*.zip
+hostinger_public_html.zip
 
 # Duplicate nested folder
 onlinembaadmission.com/
@@ -16,21 +18,24 @@ scratch/
 SEO Brain/
 _archive/
 
-# Local maintenance & inspect python scripts
-check_*.py
-inspect_*.py
-test_*.py
-scratch_*.py
-audit_*.py
-compare_*.py
-find_*.py
-create_*.py
-generate_*.py
-restore_*.py
-update_*.py
-build_*.py
-dsu_specs_data.py
-jamia_specs_data.py
+# Local maintenance & inspect python scripts in root
+/check_*.py
+/inspect_*.py
+/test_*.py
+/scratch_*.py
+/audit_*.py
+/compare_*.py
+/find_*.py
+/create_*.py
+/generate_*.py
+/restore_*.py
+/update_*.py
+/build_*.py
+/assemble_*.py
+/expand_*.py
+/make_*.py
+/dsu_specs_data.py
+/jamia_specs_data.py
 
 # HTTrack copier artifacts
 hts-cache/

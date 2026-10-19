@@ -125,6 +125,7 @@ LEGACY_301_MAP = {
     "/blogs-online-vs-distance-mba": "/blogs/online-vs-distance-mba",
     "/blogs-ugc-deb-approval-guide": "/blogs/ugc-deb-approval-guide",
     "/blog": "/blogs",
+    "/blogs/page/2": "/blogs/page-2",
     "/contact": "/admission",
     "/contact.html": "/admission",
     "/sitemap": "/sitemap.xml",
@@ -182,10 +183,14 @@ class CleanUrlHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-Length", str(len(data)))
             out_bytes = data
 
-        if any(path.endswith(ext) for ext in [".css", ".js", ".png", ".webp", ".jpg", ".jpeg", ".ico", ".svg"]):
-            self.send_header("Cache-Control", "public, max-age=31536000, immutable")
+        if any(path.endswith(ext) for ext in [".css", ".js"]):
+            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+        elif any(path.endswith(ext) for ext in [".png", ".webp", ".jpg", ".jpeg", ".ico", ".svg"]):
+            self.send_header("Cache-Control", "public, max-age=3600")
         else:
-            self.send_header("Cache-Control", "public, max-age=0, must-revalidate")
+            self.send_header("Cache-Control", "no-cache, no-store, must-revalidate, max-age=0")
 
         super().end_headers()
         return io.BytesIO(out_bytes)
