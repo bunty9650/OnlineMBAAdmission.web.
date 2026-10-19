@@ -1301,3 +1301,228 @@ html, body {
   line-height: 1.5 !important;
   min-width: 620px !important;
 }
+
+/* ==========================================================
+   HOMEPAGE HERO: LUXURY EYEBROW BADGE & DYNAMIC CTA BUTTONS
+   ========================================================== */
+@keyframes heroPillFloat {
+  0% { transform: translateY(0); box-shadow: 0 4px 18px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.3); }
+  100% { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.25), inset 0 1px 2px rgba(255,255,255,0.45); }
+}
+
+@keyframes beaconPulse {
+  0% { transform: scale(0.85); opacity: 0.9; }
+  50% { transform: scale(1.8); opacity: 0; }
+  100% { transform: scale(0.85); opacity: 0; }
+}
+
+@keyframes textShine {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes lightSheen {
+  0% { left: -100%; }
+  35% { left: 160%; }
+  100% { left: 160%; }
+}
+
+.hero-eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 16px 7px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.16), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  margin-bottom: 16px;
+  animation: heroPillFloat 3.5s ease-in-out infinite alternate;
+  cursor: default;
+  max-width: fit-content;
+}
+
+.hero-live-beacon {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.beacon-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 10px #22c55e, 0 0 4px #4ade80;
+  position: relative;
+  z-index: 2;
+}
+
+.beacon-wave {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(34, 197, 94, 0.7);
+  animation: beaconPulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  z-index: 1;
+}
+
+.eyebrow-badge-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #ffedd5 0%, #fef08a 35%, #ffd166 70%, #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textShine 4s linear infinite;
+}
+
+.eyebrow-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(34, 197, 94, 0.22);
+  border: 1px solid rgba(74, 222, 128, 0.55);
+  color: #86efac;
+  font-size: 10.5px;
+  font-weight: 800;
+  padding: 2.5px 9px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 28px 0 0;
+}
+
+.hero-btn-primary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #ff4d29 0%, #ff6b35 50%, #f59e0b 100%);
+  color: #ffffff !important;
+  font-weight: 800;
+  font-size: 15.5px;
+  letter-spacing: 0.3px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 28px rgba(255, 77, 41, 0.42), 0 2px 6px rgba(0, 0, 0, 0.14);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.hero-btn-primary::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: skewX(-25deg);
+  animation: lightSheen 3.8s infinite;
+}
+
+.hero-btn-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 16px 36px rgba(255, 77, 41, 0.55), 0 4px 12px rgba(0, 0, 0, 0.18);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.hero-btn-primary .btn-arrow {
+  transition: transform 0.2s ease;
+}
+
+.hero-btn-primary:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+.hero-btn-secondary {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #ffffff;
+  color: #074e52 !important;
+  font-weight: 800;
+  font-size: 15.5px;
+  letter-spacing: 0.2px;
+  padding: 14px 28px;
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.2);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 48px;
+  box-sizing: border-box;
+}
+
+.hero-btn-secondary:hover {
+  transform: translateY(-3px) scale(1.02);
+  background: #f0fdf9;
+  color: #0a6d6f !important;
+  border-color: #38bdf8;
+  box-shadow: 0 16px 36px rgba(255, 255, 255, 0.35), 0 0 24px rgba(56, 189, 248, 0.35);
+}
+
+.hero-btn-secondary svg {
+  color: #0a6d6f;
+  transition: transform 0.2s ease;
+}
+
+.hero-btn-secondary:hover svg {
+  transform: scale(1.12);
+}
+
+@media (max-width: 640px) {
+  .hero-eyebrow-pill {
+    padding: 6px 14px 6px 10px !important;
+    gap: 8px !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+  .eyebrow-badge-title {
+    font-size: 12px !important;
+    letter-spacing: 0.4px !important;
+    white-space: nowrap !important;
+  }
+  .hero-eyebrow-pill .eyebrow-status-tag,
+  .eyebrow-status-tag {
+    display: none !important;
+  }
+  .hero-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+  .hero-btn-primary,
+  .hero-btn-secondary {
+    width: 100% !important;
+    min-height: 48px !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+}
+
