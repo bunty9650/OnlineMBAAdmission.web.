@@ -1712,9 +1712,9 @@ function initBlogPagination() {
   if (!blogGrid || !paginationNav) return;
 
   const cards = Array.from(blogGrid.querySelectorAll('.blog-card'));
-  if (cards.length <= 10) return;
+  if (cards.length <= 9) return;
 
-  const PAGE_SIZE = 10;
+  const PAGE_SIZE = 9;
   const totalPages = Math.ceil(cards.length / PAGE_SIZE);
   let currentPage = 1;
 
