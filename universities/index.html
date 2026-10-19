@@ -61,7 +61,7 @@
 }
   </script>
 
-  <link rel="stylesheet" href="/styles.css?v=5.4">
+  <link rel="stylesheet" href="/styles.css?v=9.0">
   <style>
     /* Executive Horizontal University Directory Styles */
     .univ-listing-container {
@@ -488,9 +488,90 @@
       vertical-align: middle !important;
     }
 
-  
-    
-
+    /* Bulletproof Mobile Comparison Table Rules */
+    .table-responsive {
+      width: 100% !important;
+      max-width: 100% !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+      display: block !important;
+      margin: 20px 0 !important;
+      border-radius: 12px !important;
+      border: 1px solid #e2e8f0 !important;
+      background: #ffffff !important;
+      box-sizing: border-box !important;
+    }
+    .table-responsive::-webkit-scrollbar {
+      height: 6px !important;
+    }
+    .table-responsive::-webkit-scrollbar-track {
+      background: #f1f5f9 !important;
+      border-radius: 4px !important;
+    }
+    .table-responsive::-webkit-scrollbar-thumb {
+      background: #cbd5e1 !important;
+      border-radius: 4px !important;
+    }
+    .table-responsive::-webkit-scrollbar-thumb:hover {
+      background: #0a6d6f !important;
+    }
+    .seo-comparison-table {
+      width: 100% !important;
+      min-width: 840px !important;
+      border-collapse: separate !important;
+      border-spacing: 0 !important;
+      table-layout: auto !important;
+      background: #ffffff !important;
+    }
+    .seo-comparison-table th,
+    .seo-comparison-table td {
+      white-space: nowrap !important;
+      text-overflow: clip !important;
+      overflow: visible !important;
+    }
+    .seo-comparison-table td:first-child,
+    .seo-comparison-table th:first-child {
+      min-width: 190px !important;
+      white-space: normal !important;
+    }
+    .seo-comparison-table td:nth-child(2) {
+      min-width: 140px !important;
+      white-space: normal !important;
+    }
+    .mobile-table-swipe-hint {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: #f0fdfa;
+      border: 1px solid #99f6e4;
+      border-radius: 20px;
+      padding: 7px 16px;
+      margin: 14px auto 8px;
+      font-size: 12px;
+      font-weight: 750;
+      color: #075e60;
+      width: fit-content;
+      box-shadow: 0 2px 6px rgba(10, 109, 111, 0.08);
+      animation: pulseTableHint 2.4s infinite ease-in-out;
+    }
+    .mobile-table-swipe-hint svg {
+      color: #0d9488;
+      flex-shrink: 0;
+    }
+    @media (max-width: 820px) {
+      .mobile-table-swipe-hint {
+        display: inline-flex !important;
+      }
+    }
+    @keyframes pulseTableHint {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(5px);
+      }
+    }
   </style>
   <style id="critical-nav-css">
     </style>
@@ -2300,12 +2381,20 @@
     </section>
 
     <!-- Master Comparison Table -->
-    <section class="section" style="background:#fbfbfd; padding-top:40px;">
+    <section class="section" id="master-comparison" style="background:#fbfbfd; padding-top:40px;">
       <div class="container">
         <div class="section-heading centered">
           <p class="eyebrow">At-a-Glance Matrix</p>
           <h2>Master Fee and Accreditation Comparison Table</h2>
           <p>Side-by-side evaluation of all major Online MBA universities for the 2026 academic cycle.</p>
+        </div>
+
+        <div class="mobile-table-swipe-hint">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0a6d6f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+          <span>Swipe horizontally to view comparison table &rarr;</span>
         </div>
 
         <div class="table-responsive">
