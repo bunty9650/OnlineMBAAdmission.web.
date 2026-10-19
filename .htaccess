@@ -8,7 +8,7 @@ RewriteCond %{HTTP_HOST} ^onlinembaadmission\.com [NC]
 RewriteRule ^(.*)$ https://www.onlinembaadmission.com/$1 [L,R=301]
 
 # 2. API Route for Lead Submissions
-RewriteRule ^api/lead/?$ api/lead.php [L,QSA]
+RewriteRule ^api/lead/?$ php/lead.php [L,QSA]
 
 # 3. Legacy University URLs to /universities/{slug}
 RewriteRule ^university-ignou-online(\.html)?$ /universities/ignou [R=301,L]

@@ -42,6 +42,7 @@ PRODUCTION_DIRS = {
     "specializations",
     "university",
     "images",
+    "php",
 }
 
 # Patterns to skip
