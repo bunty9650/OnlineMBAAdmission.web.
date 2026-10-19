@@ -1054,7 +1054,7 @@ def generate_article_html(post):
             <span>By <strong>Rajiv Sharma</strong> (Sr. Academic Counsellor)</span>
           </span>
           <span>&bull; Published: October 2026</span>
-          <span>&bull; {read_time} (~4,000 Words)</span>
+          <span>&bull; {read_time}</span>
           <span class="meta-pill-verified"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> UGC-DEB Fact-Checked</span>
         </div>
       </header>
