@@ -134,8 +134,23 @@
 }
   </script>
 
-  <link rel="stylesheet" href="/styles.css?v=8.0">
+  <link rel="stylesheet" href="/styles.css?v=8.1">
   <style>
+    /* Checkbox Size Normalization */
+    #article-form input[type="checkbox"],
+    .lead-form input[type="checkbox"] {
+      width: 18px !important;
+      min-width: 18px !important;
+      max-width: 18px !important;
+      height: 18px !important;
+      min-height: 18px !important;
+      max-height: 18px !important;
+      margin: 3px 0 0 0 !important;
+      flex-shrink: 0 !important;
+      cursor: pointer !important;
+      accent-color: #0a6d6f !important;
+      display: inline-block !important;
+    }
     /* Critical Mobile TOC & Viewport Safety */
     @media (max-width: 768px) {
       .blog-toc-card {
@@ -258,7 +273,7 @@
         <div class="article-meta-bar">
           <span class="article-author-chip">
             <span class="author-chip-avatar">RS</span>
-            <span>By <strong>Dr. Rajiv Sharma</strong> (Senior Academic Council)</span>
+            <span>By <strong>Rajiv Sharma</strong> (Sr. Academic Counsellor)</span>
           </span>
           <span>&bull; Published: October 2026</span>
           <span>&bull; 14 Min Read (~4,000 Words)</span>
@@ -431,7 +446,7 @@ A master's business degree is a lifelong credential that directly influences you
         </p>
         <ul>
           <li><strong>NAAC Accreditation Grade:</strong> Institutions must hold a National Assessment and Accreditation Council (NAAC) score of at least 3.26 on a 4-point scale (Grade A or higher), or rank within the Top 100 in the university category of the National Institutional Ranking Framework (NIRF) at least twice in the preceding three cycles.</li>
-          <li><strong>Category-1 Graded Autonomy:</strong> Top-tier universities like Jain University, Dr. D.Y. Patil Vidyapeeth (DPU), and Manipal University Jaipur hold UGC Category-1 Graded Autonomy, authorizing them to develop responsive, industry-aligned curricula without bureaucratic delays.</li>
+          <li><strong>Category-1 Graded Autonomy:</strong> Top-tier universities like Jain University, D.Y. Patil Vidyapeeth (DPU), and Manipal University Jaipur hold UGC Category-1 Graded Autonomy, authorizing them to develop responsive, industry-aligned curricula without bureaucratic delays.</li>
           <li><strong>AICTE Approval for Technical Management:</strong> While university-granted MBAs operate under statutory UGC entitlement, leading institutions also maintain All India Council for Technical Education (AICTE) recognition to guarantee complete alignment with national technical management education norms.</li>
         </ul>
 
@@ -560,7 +575,7 @@ A master's business degree is a lifelong credential that directly influences you
         <td>Capgemini, Infosys, Flipkart, Morgan Stanley, PwC</td>
       </tr>
       <tr>
-        <td><strong><a href="/universities/dpu-online">Dr. D.Y. Patil Vidyapeeth (DPU)</a></strong></td>
+        <td><strong><a href="/universities/dpu-online">D.Y. Patil Vidyapeeth (DPU Online)</a></strong></td>
         <td>NAAC A++ (3.52)</td>
         <td>UGC-DEB, Category-1 Autonomy</td>
         <td>₹1,40,000</td>
@@ -820,7 +835,7 @@ A master's business degree is a lifelong credential that directly influences you
         <td>LiquiLoans, GrayQuest, HDFC</td>
       </tr>
       <tr>
-        <td><strong>Dr. D.Y. Patil (DPU Online)</strong></td>
+        <td><strong>D.Y. Patil (DPU Online)</strong></td>
         <td>₹1,40,000</td>
         <td>₹11,666 / mo</td>
         <td>₹7,777 / mo</td>
@@ -881,8 +896,8 @@ A master's business degree is a lifelong credential that directly influences you
               </div>
             </div>
             <div style="margin-bottom:14px;">
-              <label style="display:flex; align-items:flex-start; gap:8px; font-size:0.8rem; color:#4a5568; line-height:1.4;">
-                <input type="checkbox" name="consent" required checked style="margin-top:2px;">
+              <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.82rem; color:#4a5568; line-height:1.45; cursor:pointer;">
+                <input type="checkbox" name="consent" required checked style="width:18px !important; min-width:18px !important; max-width:18px !important; height:18px !important; min-height:18px !important; max-height:18px !important; margin:3px 0 0 0 !important; flex-shrink:0 !important; cursor:pointer; accent-color:#0a6d6f;">
                 <span>I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry.</span>
               </label>
             </div>
@@ -955,11 +970,8 @@ A master's business degree is a lifelong credential that directly influences you
         <div class="article-author-card">
           <div class="author-avatar-circle">RS</div>
           <div class="author-info">
-            <h4>Written by Dr. Rajiv Sharma</h4>
-            <div class="author-title">Chief Academic Advisor &bull; Online MBA Admission</div>
-            <p class="author-bio">
-              Dr. Sharma has served on academic advisory councils and statutory boards for leading central and state universities. He specializes in UGC-DEB regulatory compliance, curriculum benchmarking, and student credit transfer frameworks.
-            </p>
+            <h4>Rajiv Sharma</h4>
+            <div class="author-title">Sr. Academic Counsellor</div>
           </div>
         </div>
 
