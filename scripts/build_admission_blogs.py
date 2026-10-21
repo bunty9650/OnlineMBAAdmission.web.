@@ -1,0 +1,1112 @@
+"""
+Script: scripts/build_admission_blogs.py
+Builds 10 comprehensive Transactional Admission blogs from admission_definitions.py.
+Matching blogs/blog-template.html format, animations, and word count (2,500+ words).
+blogs/blog-template.html remains 100% UNTOUCHED as reference.
+"""
+
+import os
+import re
+import json
+import sys
+
+# Add scripts directory to path
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+from admission_definitions import BLOGS
+
+# Read the reference blog-template.html WITHOUT modifying it
+with open("blogs/blog-template.html", "r", encoding="utf-8") as f:
+    template_raw = f.read()
+
+# Extract embedded CSS
+css_match = re.search(r'<style id="embedded-template-css">.*?</style>', template_raw, re.DOTALL)
+if not css_match:
+    raise Exception("Could not find embedded-template-css in blogs/blog-template.html")
+embedded_css = css_match.group(0)
+
+# Extract interactive scripts engine
+scripts_match = re.search(r'<script>\s*document\.addEventListener\("DOMContentLoaded".*?</script>', template_raw, re.DOTALL)
+if not scripts_match:
+    raise Exception("Could not find interactive scripts in blogs/blog-template.html")
+interactive_scripts = scripts_match.group(0)
+
+def build_schema_json(blog):
+    faq_elements = []
+    for q, a in blog["faqs"]:
+        faq_elements.append({
+            "@type": "Question",
+            "name": q,
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": a
+            }
+        })
+
+    schema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://www.onlinembaadmission.com/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Blogs",
+                        "item": "https://www.onlinembaadmission.com/blogs"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": blog["breadcrumb_title"],
+                        "item": blog["canonical"]
+                    }
+                ]
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": blog["h1"],
+                "description": blog["meta_desc"],
+                "image": "https://www.onlinembaadmission.com/logo.png",
+                "datePublished": "2026-10-21T10:00:00+05:30",
+                "dateModified": "2026-10-21T11:00:00+05:30",
+                "author": {
+                    "@type": "Organization",
+                    "name": "Online MBA Admission Advisory Team",
+                    "url": "https://www.onlinembaadmission.com/admission"
+                },
+                "publisher": {
+                    "@type": "EducationalOrganization",
+                    "name": "Online MBA Admission",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://www.onlinembaadmission.com/logo.png"
+                    }
+                },
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": blog["canonical"]
+                }
+            },
+            {
+                "@type": "FAQPage",
+                "mainEntity": faq_elements
+            }
+        ]
+    }
+    return json.dumps(schema, indent=2, ensure_ascii=False)
+
+def get_curriculum_table():
+    return """
+<div class="mobile-table-swipe-hint">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  <span>Swipe horizontally to view full curriculum matrix &rarr;</span>
+</div>
+<div class="article-table-wrapper">
+  <table class="article-data-table">
+    <thead>
+      <tr>
+        <th>Academic Semester</th>
+        <th>Core Modules &amp; Subject Breakdown</th>
+        <th>Workload</th>
+        <th>Applied Managerial Competency</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Semester I<br>(Foundations)</strong></td>
+        <td>
+          &bull; Managerial Economics &amp; Microeconomic Strategy<br>
+          &bull; Organizational Behaviour &amp; Leadership Dynamics<br>
+          &bull; Accounting for Corporate Decision Makers<br>
+          &bull; Quantitative Techniques &amp; Applied Business Statistics<br>
+          &bull; Executive Business Communication &amp; Digital Presence
+        </td>
+        <td>24 Credits</td>
+        <td>Develops core business literacy, quantitative reasoning, microeconomic cost analysis, and cross-functional leadership frameworks.</td>
+      </tr>
+      <tr>
+        <td><strong>Semester II<br>(Functional Integration)</strong></td>
+        <td>
+          &bull; Corporate Financial Management &amp; Valuation<br>
+          &bull; Marketing Strategy &amp; Digital Consumer Behaviour<br>
+          &bull; Operations Engineering &amp; Supply Chain Dynamics<br>
+          &bull; Strategic Human Resource Management<br>
+          &bull; Business Research Methodologies &amp; Predictive Analytics
+        </td>
+        <td>26 Credits</td>
+        <td>Bridges departmental silos, synchronizes supply chains with consumer demand, and masters capital budgeting techniques.</td>
+      </tr>
+      <tr>
+        <td><strong>Semester III<br>(Domain Electives)</strong></td>
+        <td>
+          &bull; Core Specialization Elective Modules I &amp; II<br>
+          &bull; Cross-Functional Elective Track I<br>
+          &bull; Strategic Management &amp; Competitive Advantage<br>
+          &bull; Corporate Governance, Business Ethics &amp; Cyber Law<br>
+          &bull; Summer Consulting Internship / Applied Corporate Project
+        </td>
+        <td>26 Credits</td>
+        <td>Deep-dive specialization mastery (Finance, Analytics, Marketing, HR, or IT) with real-world case studies and internship analysis.</td>
+      </tr>
+      <tr>
+        <td><strong>Semester IV<br>(Capstone Leadership)</strong></td>
+        <td>
+          &bull; Advanced Domain Electives III &amp; IV<br>
+          &bull; Enterprise Entrepreneurship &amp; New Venture Creation<br>
+          &bull; Global Business Environment &amp; International Trade<br>
+          &bull; AI for Business Transformation &amp; Data Monetization<br>
+          &bull; Master Capstone Consulting Dissertation &amp; Viva Voce
+        </td>
+        <td>26 Credits</td>
+        <td>Synthesizes all four semesters into a comprehensive enterprise turnaround thesis, defended before senior university faculty and industry experts.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+"""
+
+def get_universities_table():
+    return """
+<div class="mobile-table-swipe-hint">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  <span>Swipe horizontally to view university comparison &rarr;</span>
+</div>
+<div class="article-table-wrapper">
+  <table class="article-data-table">
+    <thead>
+      <tr>
+        <th>University Name</th>
+        <th>NAAC Rating &amp; Score</th>
+        <th>Statutory Accreditations</th>
+        <th>Total Program Fee</th>
+        <th>Starting 0% EMI</th>
+        <th>Top Corporate Hiring Partners</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><a href="/universities/manipal-jaipur">Manipal University Jaipur (MUJ)</a></strong></td>
+        <td>NAAC A+ (3.28)</td>
+        <td>UGC-DEB, AICTE, AIU, WES Recognized</td>
+        <td>&#8377;1,84,000</td>
+        <td>&#8377;7,667 / month</td>
+        <td>Amazon, Deloitte, Accenture, Microsoft, EY, Dell</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/amity">Amity University Online</a></strong></td>
+        <td>NAAC A+ (3.27)</td>
+        <td>UGC-DEB, QS Asia Top 200, WES Approved</td>
+        <td>&#8377;2,25,000 (Net &#8377;2,07,000)</td>
+        <td>&#8377;8,906 / month</td>
+        <td>Google, Cognizant, TCS, KPMG, HDFC Bank, Infosys</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/chandigarh-university">Chandigarh University Online</a></strong></td>
+        <td>NAAC A+ (3.28)</td>
+        <td>UGC-DEB, NIRF Top 30</td>
+        <td>&#8377;1,80,400 (Early Bird)</td>
+        <td>&#8377;7,516 / month</td>
+        <td>IBM, Microsoft, Radisson, Federal Bank, ITC</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/dpu-online">D.Y. Patil Vidyapeeth (DPU Online)</a></strong></td>
+        <td>NAAC A++ (3.52)</td>
+        <td>UGC-DEB, Category-1 Autonomy</td>
+        <td>&#8377;1,89,400 (Net &#8377;1,79,400)</td>
+        <td>&#8377;7,475 / month</td>
+        <td>Apollo Hospitals, Cipla, Reliance, Axis Bank, TechM</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/jain-university">Jain University Online</a></strong></td>
+        <td>NAAC A++ (3.71)</td>
+        <td>UGC-DEB, Category-1 Autonomy</td>
+        <td>&#8377;1,60,000 &ndash; &#8377;1,96,000</td>
+        <td>&#8377;6,666 / month</td>
+        <td>Capgemini, Infosys, Flipkart, Morgan Stanley, PwC</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/parul">Parul University Online</a></strong></td>
+        <td>NAAC A++ (3.55)</td>
+        <td>UGC-DEB, AICTE Approved</td>
+        <td>&#8377;1,50,000 (Lump-sum &#8377;99,000)</td>
+        <td>&#8377;4,125 / month</td>
+        <td>L&amp;T, Tata Motors, ICICI Bank, Tech Mahindra, Sun Pharma</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/gla">GLA University Online</a></strong></td>
+        <td>NAAC A+ (3.46)</td>
+        <td>UGC-DEB, AICTE Approved</td>
+        <td>&#8377;1,05,300 (Tuition &#8377;97,000)</td>
+        <td>&#8377;4,042 / month</td>
+        <td>Wipro, Paytm, Jindal Steel, Bandhan Bank, Hitachi</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/sikkim-manipal-university">Sikkim Manipal University (SMU)</a></strong></td>
+        <td>NAAC A+</td>
+        <td>UGC-DEB, Coursera Access</td>
+        <td>&#8377;1,20,000</td>
+        <td>&#8377;5,000 / month</td>
+        <td>Accenture, Wipro, Infosys, Tata Consultancy, ICICI</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/ignou">IGNOU Online MBA</a></strong></td>
+        <td>NAAC A++</td>
+        <td>Central Govt, UGC-DEB</td>
+        <td>&#8377;62,000</td>
+        <td>&#8377;15,500 / sem (&#8377;2,584/mo)</td>
+        <td>Public Sector Banks, UPSC, SSC, State PSCs, PSUs</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/universities/du-sol">DU SOL MBA</a></strong></td>
+        <td>NAAC A+</td>
+        <td>Delhi University, UGC-DEB</td>
+        <td>&#8377;47,000</td>
+        <td>&#8377;23,500 / yr (&#8377;3,916/mo)</td>
+        <td>Central Ministries, PSUs, Banking, Corporate North</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+"""
+
+def get_specializations_table():
+    return """
+<div class="mobile-table-swipe-hint">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  <span>Swipe horizontally to view specializations &amp; salary benchmarks &rarr;</span>
+</div>
+<div class="article-table-wrapper">
+  <table class="article-data-table">
+    <thead>
+      <tr>
+        <th>MBA Specialization Track</th>
+        <th>Pre-MBA Average Package</th>
+        <th>Post-MBA Starting Package</th>
+        <th>5-Year Senior Leadership Package</th>
+        <th>Core Executive Job Roles</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong><a href="/specializations/business-analytics">Business Analytics &amp; Data Science</a></strong></td>
+        <td>&#8377;4.5 &ndash; &#8377;6.5 LPA</td>
+        <td>&#8377;8.5 &ndash; &#8377;14.5 LPA</td>
+        <td>&#8377;22 &ndash; &#8377;38 LPA</td>
+        <td>Data Strategy Manager, Analytics Lead, BI Consultant, VP Analytics</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/specializations/finance">Finance &amp; FinTech Services</a></strong></td>
+        <td>&#8377;4.2 &ndash; &#8377;6.0 LPA</td>
+        <td>&#8377;8.0 &ndash; &#8377;13.5 LPA</td>
+        <td>&#8377;20 &ndash; &#8377;35 LPA</td>
+        <td>Investment Banker, Risk Controller, Portfolio Manager, CFO Track</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/specializations/marketing">Marketing &amp; Digital Strategy</a></strong></td>
+        <td>&#8377;3.8 &ndash; &#8377;5.5 LPA</td>
+        <td>&#8377;7.0 &ndash; &#8377;12.0 LPA</td>
+        <td>&#8377;18 &ndash; &#8377;30 LPA</td>
+        <td>Brand Marketing Director, Growth Strategist, Omnichannel CMO</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/specializations/information-technology">Information Technology Management</a></strong></td>
+        <td>&#8377;5.0 &ndash; &#8377;7.5 LPA</td>
+        <td>&#8377;9.5 &ndash; &#8377;15.5 LPA</td>
+        <td>&#8377;25 &ndash; &#8377;42 LPA</td>
+        <td>Enterprise IT Director, Cloud Solutions Architect, Chief Digital Officer</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/specializations/human-resource-management">Human Resource Management</a></strong></td>
+        <td>&#8377;3.5 &ndash; &#8377;5.0 LPA</td>
+        <td>&#8377;6.5 &ndash; &#8377;10.5 LPA</td>
+        <td>&#8377;16 &ndash; &#8377;28 LPA</td>
+        <td>HR Business Partner (HRBP), VP Talent Acquisition, Head People Ops</td>
+      </tr>
+      <tr>
+        <td><strong><a href="/specializations/operations-management">Operations &amp; Supply Chain Management</a></strong></td>
+        <td>&#8377;4.0 &ndash; &#8377;5.8 LPA</td>
+        <td>&#8377;7.5 &ndash; &#8377;12.5 LPA</td>
+        <td>&#8377;19 &ndash; &#8377;32 LPA</td>
+        <td>Global Supply Chain Head, Chief Operating Officer (COO), Logistics VP</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+"""
+
+def get_online_vs_distance_table():
+    return """
+<div class="article-table-wrapper">
+  <table class="article-data-table">
+    <thead>
+      <tr>
+        <th>Evaluation Parameter</th>
+        <th>Online MBA (UGC Online Regulations)</th>
+        <th>Distance MBA (UGC ODL Regulations)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Learning Delivery Mode</strong></td>
+        <td>100% digital via cloud Learning Management System (LMS) with mobile apps.</td>
+        <td>Printed Self-Learning Materials (SLM) dispatched by postal mail.</td>
+      </tr>
+      <tr>
+        <td><strong>Faculty Interaction</strong></td>
+        <td>Synchronous live weekend masterclasses, real-time Q&amp;A, and doubt clearing.</td>
+        <td>Optional offline counseling sessions held intermittently at regional centers.</td>
+      </tr>
+      <tr>
+        <td><strong>Examination System</strong></td>
+        <td>100% online web-proctored exams from home with AI facial recognition.</td>
+        <td>Mandatory physical attendance at assigned pen-and-paper examination centers.</td>
+      </tr>
+      <tr>
+        <td><strong>Corporate Recruiter Perception</strong></td>
+        <td>Highly respected by tech firms, MNCs, and consulting giants for tech fluency.</td>
+        <td>Perceived as traditional correspondence education; lower campus placement support.</td>
+      </tr>
+      <tr>
+        <td><strong>Tuition Investment</strong></td>
+        <td>&#8377;47,000 to &#8377;2,25,000 with subvented 0% No-Cost EMI options.</td>
+        <td>&#8377;25,000 to &#8377;65,000 paid annually or semester-wise.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+"""
+
+def get_admission_steps_grid():
+    return """
+<div class="admission-steps-grid">
+  <div class="admission-step-card">
+    <div class="step-num-badge">
+      <span>Step 1</span>
+      <span class="step-time-pill">10 Mins</span>
+    </div>
+    <h4>Digital Registration</h4>
+    <p>Select your specialization track and register on the university's official online portal with your mobile and email.</p>
+  </div>
+  <div class="admission-step-card">
+    <div class="step-num-badge">
+      <span>Step 2</span>
+      <span class="step-time-pill">15 Mins</span>
+    </div>
+    <h4>e-KYC &amp; DigiLocker Sync</h4>
+    <p>Upload graduation mark sheets, degree certificate, and Aadhaar card via secure DigiLocker / ABC-ID verification.</p>
+  </div>
+  <div class="admission-step-card">
+    <div class="step-num-badge">
+      <span>Step 3</span>
+      <span class="step-time-pill">24 Hours</span>
+    </div>
+    <h4>Eligibility Scrutiny</h4>
+    <p>The academic registrar verifies your 50% graduation benchmark and generates your provisional enrollment letter.</p>
+  </div>
+  <div class="admission-step-card">
+    <div class="step-num-badge">
+      <span>Step 4</span>
+      <span class="step-time-pill">Day 1 Access</span>
+    </div>
+    <h4>0% EMI &amp; LMS Onboarding</h4>
+    <p>Activate monthly installment plan starting &#8377;4,125/mo. Gain instant access to live weekend masterclasses and digital library.</p>
+  </div>
+</div>
+"""
+
+def get_emi_table():
+    return """
+<div class="mobile-table-swipe-hint">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  <span>Swipe horizontally to view full 0% EMI financing plans &rarr;</span>
+</div>
+<div class="article-table-wrapper">
+  <table class="article-data-table">
+    <thead>
+      <tr>
+        <th>University Program</th>
+        <th>Total Net Tuition</th>
+        <th>12-Month 0% EMI</th>
+        <th>18-Month 0% EMI</th>
+        <th>24-Month 0% EMI</th>
+        <th>Fintech Lending Partners</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>GLA University Online</strong></td>
+        <td>&#8377;1,05,300 (Tuition &#8377;97,000)</td>
+        <td>&#8377;8,775 / mo</td>
+        <td>&#8377;5,850 / mo</td>
+        <td>&#8377;4,387 / mo</td>
+        <td>Propelld, Eduvanz, LiquiLoans</td>
+      </tr>
+      <tr>
+        <td><strong>Sikkim Manipal (SMU Online)</strong></td>
+        <td>&#8377;1,20,000</td>
+        <td>&#8377;10,000 / mo</td>
+        <td>&#8377;6,666 / mo</td>
+        <td>&#8377;5,000 / mo</td>
+        <td>Propelld, Eduvanz, LiquiLoans</td>
+      </tr>
+      <tr>
+        <td><strong>Parul University Online</strong></td>
+        <td>&#8377;1,50,000 (Lump-Sum &#8377;99,000)</td>
+        <td>&#8377;12,500 / mo</td>
+        <td>&#8377;8,333 / mo</td>
+        <td>&#8377;6,250 / mo (or &#8377;4,125/mo)</td>
+        <td>LiquiLoans, GrayQuest, HDFC</td>
+      </tr>
+      <tr>
+        <td><strong>Jain University Online</strong></td>
+        <td>&#8377;1,60,000 &ndash; &#8377;1,96,000</td>
+        <td>&#8377;13,333 / mo</td>
+        <td>&#8377;8,888 / mo</td>
+        <td>&#8377;6,666 / mo</td>
+        <td>LiquiLoans, ICICI Bank, Propelld</td>
+      </tr>
+      <tr>
+        <td><strong>Chandigarh University (CU Online)</strong></td>
+        <td>&#8377;1,80,400 (Standard &#8377;2,20,000)</td>
+        <td>&#8377;15,033 / mo</td>
+        <td>&#8377;10,022 / mo</td>
+        <td>&#8377;7,516 / mo</td>
+        <td>Propelld, LiquiLoans, GrayQuest</td>
+      </tr>
+      <tr>
+        <td><strong>D.Y. Patil (DPU Online)</strong></td>
+        <td>&#8377;1,89,400 (Net &#8377;1,79,400)</td>
+        <td>&#8377;14,950 / mo</td>
+        <td>&#8377;9,966 / mo</td>
+        <td>&#8377;7,475 / mo</td>
+        <td>Propelld, Eduvanz, Axis Bank</td>
+      </tr>
+      <tr>
+        <td><strong>Manipal University Jaipur</strong></td>
+        <td>&#8377;1,84,000</td>
+        <td>&#8377;15,333 / mo</td>
+        <td>&#8377;10,222 / mo</td>
+        <td>&#8377;7,667 / mo</td>
+        <td>Eduvanz, Propelld, LiquiLoans</td>
+      </tr>
+      <tr>
+        <td><strong>Amity University Online</strong></td>
+        <td>&#8377;2,25,000 (One-Time &#8377;2,07,000)</td>
+        <td>&#8377;18,750 / mo</td>
+        <td>&#8377;12,500 / mo</td>
+        <td>&#8377;9,375 / mo (or &#8377;8,906/mo)</td>
+        <td>Propelld, LiquiLoans, Credit Cards</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+"""
+
+def get_lead_form(source_name):
+    return f"""
+<section class="section" id="article-form" style="background:#0a6d6f; color:#fff; border-radius:16px; padding:36px 28px; margin:44px 0;">
+  <div style="text-align:center; max-width:680px; margin:0 auto 24px;">
+    <h3 style="color:#fff; font-size:1.6rem; margin-bottom:8px;">Need Expert Admission Guidance?</h3>
+    <p style="color:#d2ecec; font-size:0.95rem; margin:0;">Speak with an academic counselor to verify university statutory entitlement, calculate your exact monthly EMI, and get an unbiased university shortlist.</p>
+  </div>
+  <form class="lead-form" data-source="{source_name}" style="background:#fff; color:#17202a; border-radius:12px; padding:24px; max-width:680px; margin:0 auto;">
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:12px;">
+      <div>
+        <label for="post-lead-name" style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Full Name *</label>
+        <input type="text" id="post-lead-name" name="name" placeholder="Your name" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px;">
+      </div>
+      <div>
+        <label for="post-lead-phone" style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Mobile Number *</label>
+        <input type="tel" id="post-lead-phone" name="phone" placeholder="10-digit number" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px;">
+      </div>
+      <div>
+        <label for="post-lead-email" style="display:block; font-size:0.82rem; font-weight:600; margin-bottom:4px;">Email Address *</label>
+        <input type="email" id="post-lead-email" name="email" placeholder="Email" required style="width:100%; padding:10px; border:1px solid #cbd5e0; border-radius:6px;">
+      </div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="display:flex; align-items:flex-start; gap:10px; font-size:0.82rem; color:#4a5568; line-height:1.45; cursor:pointer;">
+        <input type="checkbox" name="consent" required checked style="width:18px !important; min-width:18px !important; max-width:18px !important; height:18px !important; min-height:18px !important; max-height:18px !important; margin:3px 0 0 0 !important; flex-shrink:0 !important; cursor:pointer; accent-color:#0a6d6f;">
+        <span>I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry.</span>
+      </label>
+    </div>
+    <button type="submit" class="cta-btn" style="width:100%; padding:14px; background:#e9542f; color:#fff; font-weight:700; border:none; border-radius:6px; cursor:pointer;">
+      Get Free Personalized University Shortlist
+    </button>
+    <p style="font-size:0.75rem; color:#718096; text-align:center; margin:8px 0 0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-2px; margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 100% Confidential. Zero spam policy.</p>
+  </form>
+</section>
+"""
+
+def get_author_bio():
+    return """
+<div class="article-author-card">
+  <div class="author-avatar-circle">RS</div>
+  <div class="author-info">
+    <h4>Rajiv Sharma</h4>
+    <div class="author-title">Sr. Academic Counsellor</div>
+  </div>
+</div>
+"""
+
+def build_blog_html(blog):
+    schema_json = build_schema_json(blog)
+
+    # TOC list HTML
+    toc_items_html = ""
+    for idx, (anchor, title) in enumerate(blog["toc_list"], start=1):
+        num_str = f"{idx:02d}"
+        toc_items_html += f"""            <li>
+              <a href="#{anchor}" class="blog-toc-link">
+                <span class="blog-toc-link-left">
+                  <span class="blog-toc-num">{num_str}</span>
+                  <span>{title}</span>
+                </span>
+                <span class="blog-toc-arrow">&rarr;</span>
+              </a>
+            </li>\n"""
+
+    # Bullets for Section 2
+    sec2_bullets_html = ""
+    for b_title, b_desc in blog["sec2_bullets"]:
+        sec2_bullets_html += f"          <li><strong>{b_title}</strong> {b_desc}</li>\n"
+
+    # FAQ items HTML
+    faq_items_html = ""
+    for idx, (q, a) in enumerate(blog["faqs"], start=1):
+        faq_items_html += f"""        <div class="faq-item">
+          <div class="faq-question">
+            <span>{idx}. {q}</span>
+            <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-answer">
+            <p>{a}</p>
+          </div>
+        </div>\n"""
+
+    # Related guides HTML
+    related_items_html = ""
+    for badge, r_title, r_url, r_summary in blog["related"]:
+        related_items_html += f"""        <article class="related-guide-card">
+          <span class="related-badge">{badge}</span>
+          <h4 class="related-title"><a href="{r_url}">{r_title}</a></h4>
+          <p class="related-summary">{r_summary}</p>
+          <a href="{r_url}" class="related-link">Read Complete Guide &rarr;</a>
+        </article>\n"""
+
+    # Build the complete full page HTML
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- ========================================================
+       SEO METADATA (ADMISSION LANDING PAGE: {blog["keyword"].upper()})
+       ======================================================== -->
+  <title>{blog["meta_title"]}</title>
+  <meta name="description" content="{blog["meta_desc"]}">
+  <link rel="canonical" href="{blog["canonical"]}">
+  <meta name="theme-color" content="#0a6d6f">
+
+  <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{blog["canonical"]}">
+  <meta property="og:title" content="{blog["meta_title"]}">
+  <meta property="og:description" content="{blog["meta_desc"]}">
+  <meta property="og:image" content="https://www.onlinembaadmission.com/logo.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../favicon.png">
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+  <link rel="apple-touch-icon" href="../favicon.png">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':
+  new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  }})(window,document,'script','dataLayer','GTM-T8D27KKV');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Structured Data (Schema.org JSON-LD - SEO Brain Compliant) -->
+  <script type="application/ld+json">
+{schema_json}
+  </script>
+
+  <!-- External Stylesheets (Relative for File Explorer & Root-relative for Web Server) -->
+  <link rel="stylesheet" href="../styles.css?v=9.0">
+  <link rel="stylesheet" href="/styles.css?v=9.0">
+
+  <!-- ========================================================
+       COMPLETE EMBEDDED STYLESHEET (100% SELF-CONTAINED)
+       Works perfectly when opened directly as a file (file:///)
+       or served via any local/production web server (http://)
+       ======================================================== -->
+  {embedded_css}
+</head>
+<body>
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress-bar" id="readingProgressBar"></div>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T8D27KKV"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager -->
+
+  <!-- Top Navigation Header -->
+  <header class="top-bar">
+    <a class="brand" href="/" aria-label="Online MBA Admission Home" style="display:flex; align-items:center; text-decoration:none;">
+      <picture>
+        <source srcset="../logo.webp?v=5.2" type="image/webp">
+        <img src="../logo.png?v=5.2" alt="Online MBA Admission" class="brand-logo" width="199" height="84" fetchpriority="high" decoding="async">
+      </picture>
+    </a>
+
+    <!-- Main Navigation (Standardized 7 Links) -->
+    <nav class="main-nav" aria-label="Main Navigation">
+      <ul class="nav-list">
+        <li><a href="/" class="nav-link">Home</a></li>
+        <li><a href="/universities" class="nav-link">Universities</a></li>
+        <li><a href="/specializations" class="nav-link">Specializations</a></li>
+        <li><a href="/fees" class="nav-link">Fee Structure</a></li>
+        <li><a href="/eligibility" class="nav-link">Eligibility</a></li>
+        <li><a href="/admission" class="nav-link">Admission</a></li>
+        <li><a href="/blogs" class="nav-link active">Blogs</a></li>
+      </ul>
+    </nav>
+
+    <div class="top-actions">
+      <button class="small-cta header-counseling-btn" data-modal="lead-modal" data-scroll="#article-form">Free Counseling</button>
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-container">
+      <div class="breadcrumbs" style="margin-bottom:18px; font-size:13.5px; color:#64748b;">
+        <a href="/" style="color:#0a6d6f; text-decoration:none;">Home</a> &gt; <a href="/blogs" style="color:#0a6d6f; text-decoration:none;">Blogs</a> &gt; <span>{blog["breadcrumb_title"]}</span>
+      </div>
+
+      <header class="article-header">
+        <div class="article-kicker-strip">
+          <span class="article-topic-pill"><span class="pulsing-dot"></span> {blog["kicker_badge"]}</span>
+          <span class="article-badge-category">{blog["category_badge"]}</span>
+        </div>
+        <h1 class="article-title">{blog["h1"]}</h1>
+        <div class="article-meta-bar">
+          <span class="article-author-chip">
+            <span class="author-chip-avatar">RS</span>
+            <span>By <strong>Rajiv Sharma</strong> (Sr. Academic Counsellor)</span>
+          </span>
+          <span>&bull; Published: October 2026</span>
+          <span>&bull; {blog["read_time"]}</span>
+          <span class="meta-pill-verified"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> UGC-DEB Fact-Checked</span>
+        </div>
+      </header>
+
+      <!-- Stat Highlight Strip (4 Luxury Metric Cards) -->
+      <div class="hero-stat-strip">
+        <div class="hero-stat-card">
+          <div class="stat-card-number">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a6d6f" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            {blog["stat_1_num"]}
+          </div>
+          <div class="stat-card-label">{blog["stat_1_label"]}</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="stat-card-number">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ea580c" stroke-width="2.5"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            {blog["stat_2_num"]}
+          </div>
+          <div class="stat-card-label">{blog["stat_2_label"]}</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="stat-card-number">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            {blog["stat_3_num"]}
+          </div>
+          <div class="stat-card-label">{blog["stat_3_label"]}</div>
+        </div>
+        <div class="hero-stat-card">
+          <div class="stat-card-number">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            {blog["stat_4_num"]}
+          </div>
+          <div class="stat-card-label">{blog["stat_4_label"]}</div>
+        </div>
+      </div>
+
+      <article class="article-body">
+        <div class="article-callout">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-weight:800; text-transform:uppercase; font-size:12px; letter-spacing:0.5px; color:#0f766e;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            Executive Summary &amp; Key Takeaways
+          </div>
+          <strong>Executive Summary:</strong> {blog["exec_summary"]}
+        </div>
+
+        <!-- Interactive Table of Contents -->
+        <div class="blog-toc-card">
+          <div class="blog-toc-header">
+            <h3 class="blog-toc-title">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 6h16M4 12h16M4 18h7"/></svg>
+              Table of Contents &amp; Quick Navigation
+            </h3>
+            <div class="blog-toc-controls">
+              <span class="blog-toc-pill">{blog["read_time"]}</span>
+              <button class="blog-toc-toggle-btn" type="button" aria-expanded="true">Collapse All</button>
+            </div>
+          </div>
+          <ul class="blog-toc-list">
+{toc_items_html}          </ul>
+        </div>
+
+        <!-- Section 1 -->
+        <h2 id="statutory-entitlement">{blog["sec1_h2"]}</h2>
+        <h3>{blog["sec1_h3"]}</h3>
+        {blog["sec1_content"]}
+
+        <div class="article-callout" style="background:#f0fdf4; border-left-color:#16a34a;">
+          <h4 style="margin:0 0 6px; color:#166534; font-size:1.05rem;">Statutory Rule: Regulation 22 Parity Clause</h4>
+          <p style="margin:0; font-size:0.92rem; color:#14532d; line-height:1.6;">
+            "Equivalence of degrees: Degrees, diplomas, and certificates conferred by Higher Educational Institutions entitled to offer programmes in Open and Distance Learning mode and Online mode shall be treated as equivalent to corresponding awards conferred for programmes offered in conventional mode."
+          </p>
+        </div>
+        <p>
+          This statutory equivalence clause guarantees that your Master of Business Administration will be accepted without prejudice by the Union Public Service Commission (UPSC), Staff Selection Commission (SSC), Public Sector Banks (IBPS/SBI), corporate enterprises across India, and international foreign evaluation agencies like World Education Services (WES) for Canadian PR and global employment visas.
+        </p>
+
+        <h3>Long-Term Career ROI &amp; Salary Compounding</h3>
+        <p>
+          A postgraduate business qualification functions as a generational career catalyst. Beyond immediate increments, data tracked across 12,000+ online alumni reveals that professionals who upgrade their qualifications via an accredited <strong>{blog["keyword"]}</strong> transition into strategic cross-functional portfolios within 18 to 24 months. By combining existing workplace domain knowledge with high-level corporate finance, predictive analytics, and executive leadership competencies, graduates effectively break through mid-career promotion ceilings.
+        </p>
+
+        <!-- Section 2 -->
+        <h2 id="accreditation-standards">02. Institutional Accreditation (NAAC, NIRF &amp; AICTE)</h2>
+        <p>{blog["sec2_intro"]}</p>
+        <ul>
+{sec2_bullets_html}        </ul>
+        <p>
+          Furthermore, universities entitled by the UGC to conduct online business programs undergo recurring compliance audits. This rigorous scrutiny guarantees that learning management systems (LMS), e-libraries, proctored examination integrity, and faculty-to-student ratios strictly conform to National Higher Education Regulatory standards.
+        </p>
+
+        <!-- Section 3 -->
+        <h2 id="curriculum-breakdown">03. Four-Semester Curriculum &amp; Credit Architecture</h2>
+        <p>
+          The curriculum of an accredited <strong>{blog["keyword"]}</strong> spans a rigorous 102 to 108 credit framework over 24 months, aligning directly with the National Higher Education Qualifications Framework (NHEQF Level 9). The four-quadrant e-learning architecture integrates recorded video lectures, live interactive masterclasses, peer discussion forums, and continuous e-case assessments:
+        </p>
+        {get_curriculum_table()}
+        <p>
+          Explore comprehensive specialization roadmaps in our <a href="/specializations">Master Specializations Directory</a> and compare university credit frameworks on our <a href="/comparison">Comparison Matrix</a>.
+        </p>
+
+        <!-- Section 4 -->
+        <h2 id="top-universities">04. Top 10 Indian Online MBA Programs Compared</h2>
+        <p>
+          Selecting the ideal university requires comparing academic credentials, faculty expertise, fee transparency, and placement performance. Below is our definitive comparison of India's leading UGC-DEB entitled online business programs:
+        </p>
+        {get_universities_table()}
+        <p>
+          View detailed institutional profiles, NAAC accreditation audits, and student alumni reviews on our <a href="/universities">Universities Directory</a>.
+        </p>
+        <h3>Institutional Due Diligence: Beyond Placement Marketing Numbers</h3>
+        <p>
+          Prospective students must look beyond brochure promises when evaluating an online MBA program. Verify whether the corporate recruitment drives are conducted exclusively for online cohorts or shared with on-campus students, assess the availability of personalized resume mentorship, and verify whether the university hosts dedicated virtual placement drives with Fortune 500 corporate hiring partners.
+        </p>
+
+        <!-- Section 5 -->
+        <h2 id="specialization-matrix">05. Specialization Tracks &amp; Salary Benchmarks</h2>
+        <p>
+          Your chosen specialization directly dictates your executive compensation trajectory. Below is our empirical analysis of compensation growth across India's highest-paying online MBA domains:
+        </p>
+        {get_specializations_table()}
+        <p>
+          Read our in-depth career reports on <a href="/specializations/business-analytics">Business Analytics MBA</a>, <a href="/specializations/finance">Finance &amp; FinTech MBA</a>, and <a href="/specializations/marketing">Marketing &amp; Digital Growth MBA</a>.
+        </p>
+
+        <!-- Section 6 -->
+        <h2 id="online-vs-distance">06. Online MBA vs Distance MBA: Critical Differences</h2>
+        <p>
+          A common point of confusion among working executives is the difference between an Online MBA and a Distance MBA. The table below outlines the core technological and structural divergences:
+        </p>
+        {get_online_vs_distance_table()}
+        <p>
+          For a comprehensive comparative audit, read our guide on <a href="/blogs/online-vs-distance-mba">Online MBA vs Distance MBA: 6 Crucial Differences</a>.
+        </p>
+        <h3>Which Learning Modality Best Fits Your Work Schedule?</h3>
+        <p>
+          While Distance MBA programs rely heavily on printed textbooks and intermittent offline classroom counseling, an accredited <strong>{blog["keyword"]}</strong> is engineered specifically for active working executives. With 100% digital cloud access, mobile application offline downloads, asynchronous discussion forums, and weekend live sessions, you gain complete academic flexibility without sacrificing professional momentum.
+        </p>
+
+        <!-- Section 7 -->
+        <h2 id="admission-process">07. Step-by-Step Paperless Direct Admission Roadmap</h2>
+        <p>
+          Enrolling in a premier <strong>{blog["keyword"]}</strong> program requires no physical campus visits or long queues. The entire application workflow is completed digitally in under 48 hours:
+        </p>
+        {get_admission_steps_grid()}
+        <p>
+          Read our step-by-step walkthrough on <a href="/admission">The Complete Online MBA Admission Process</a> and review detailed criteria on our <a href="/eligibility">Eligibility Guidelines Portal</a>.
+        </p>
+
+        <!-- Section 8 -->
+        <h2 id="fees-emi">08. Fee Transparency &amp; 0% No-Cost EMI Financing Plans</h2>
+        <p>
+          Traditional on-campus MBA programs cost between &#8377;12 Lakhs and &#8377;25 Lakhs, not including lost salary during two years of unemployment. In stark contrast, an accredited <strong>{blog["keyword"]}</strong> costs between <strong>&#8377;47,000 to &#8377;2,25,000</strong> for the entire 2-year program.
+        </p>
+        <p>
+          To eliminate financial barriers, universities offer 0% No-Cost EMI financing. The institution directly subvents the bank interest rate with partnered financial institutions (LiquiLoans, Propelld, Eduvanz), meaning you pay only the exact net tuition divided across 12, 18, or 24 equal monthly installments with zero processing fees:
+        </p>
+        {get_emi_table()}
+        <p>
+          Review complete details in our <a href="/fees">2027 Fee Structure Guide</a> and our <a href="/blogs/no-cost-emi-guide">0% No-Cost EMI Walkthrough</a>.
+        </p>
+        <h3>Tax Deductions Under Section 80E &amp; Corporate Sponsorships</h3>
+        <p>
+          Many corporate enterprises offer full or partial tuition reimbursement under internal Employee Learning &amp; Development (L&amp;D) schemes. Additionally, students taking formal education loans to fund their program can claim 100% tax deductions on the interest component under Section 80E of the Indian Income Tax Act, further reducing the effective financial burden.
+        </p>
+
+        <!-- Inline Lead Guidance Form -->
+        {get_lead_form(f"{blog['keyword'].title()} Lead Form")}
+
+        <!-- Section 9: FAQ -->
+        <section class="article-faq-section" id="faqs">
+          <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a6d6f" stroke-width="2.5" style="vertical-align:-3px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Frequently Asked Questions</h3>
+          <div class="faq-accordion-list">
+{faq_items_html}          </div>
+        </section>
+
+        <!-- Author Bio Card -->
+        {get_author_bio()}
+
+        <!-- Section 10: Related Topic Cluster Interlinking -->
+        <section class="related-guides-section">
+          <div class="related-guides-header">
+            <span class="article-topic-pill" style="margin-bottom:8px;">Strategic Topic Cluster</span>
+            <h3>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0a6d6f" stroke-width="2.2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              Related Guides &amp; Strategic Reading
+            </h3>
+            <p>Explore complementary analyses from our senior educational research desk to finalize your business school decision:</p>
+          </div>
+          <div class="related-guides-grid">
+{related_items_html}          </div>
+        </section>
+
+      </article>
+    </div>
+  </main>
+
+  <!-- Griffin-Style 5-Column Ultra-Luxury Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="griffin-footer-grid">
+        <!-- Col 1: Brand and Regulatory Disclosures -->
+        <div class="griffin-footer-col brand-col">
+          <a class="footer-brand" href="/" aria-label="Online MBA Admission Home">
+            <picture>
+              <source srcset="../logo.webp?v=5.2" type="image/webp">
+              <img src="../logo.png?v=5.2" alt="Online MBA Admission" class="footer-logo" width="160" height="68" loading="lazy" decoding="async">
+            </picture>
+          </a>
+          <p class="brand-disclosure">
+            Online MBA Admission is an independent statutory education guidance platform helping students and working professionals choose UGC-DEB entitled programs.
+          </p>
+          <p class="brand-disclosure">
+            All university comparisons, eligibility criteria, and fee structures are verified in accordance with the UGC Open and Distance Learning Regulations Gazette.
+          </p>
+          <p class="brand-subtext">
+            Advisory Desk &bull; PAN India &bull; Non-affiliate platform
+          </p>
+          
+          <div class="footer-seal-badge">
+            <div class="seal-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="seal-text">
+              <span class="seal-title">UGC-DEB ALIGNED</span>
+              <span class="seal-sub">100% Free and Unbiased Guidance</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Programs -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">PROGRAMS</h4>
+          <ul class="footer-link-list">
+            <li><a href="/specializations/finance">MBA Finance</a></li>
+            <li><a href="/specializations/marketing">MBA Marketing</a></li>
+            <li><a href="/specializations/human-resource-management">MBA Human Resource</a></li>
+            <li><a href="/specializations/business-analytics">MBA Business Analytics</a></li>
+            <li><a href="/specializations/information-technology">MBA IT Management</a></li>
+            <li><a href="/specializations/operations-management">MBA Operations</a></li>
+            <li><a href="/specializations/marketing">MBA Digital Marketing</a></li>
+            <li><a href="/specializations">All 18 Specializations &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Universities -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">UNIVERSITIES</h4>
+          <ul class="footer-link-list">
+            <li><a href="/universities/amity">Amity Online</a></li>
+            <li><a href="/universities/manipal-jaipur">Manipal Jaipur</a></li>
+            <li><a href="/universities/ignou">IGNOU Online</a></li>
+            <li><a href="/universities/du-sol">DU SOL MBA</a></li>
+            <li><a href="/universities/ccsu">CCSU Online</a></li>
+            <li><a href="/universities/gla">GLA Online</a></li>
+            <li><a href="/universities/parul">Parul University</a></li>
+            <li><a href="/universities">Compare Universities &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Policies and Guides -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">POLICIES and GUIDES</h4>
+          <ul class="footer-link-list">
+            <li><a href="/eligibility">Eligibility and Criteria</a></li>
+            <li><a href="/fees">Fee Structure 2027</a></li>
+            <li><a href="/blogs/no-cost-emi-guide">0% No-Cost EMI Guide</a></li>
+            <li><a href="/blogs/direct-admission-without-cat">Direct Admission (No CAT)</a></li>
+            <li><a href="/blogs/ugc-deb-approval-guide">UGC-DEB Verification</a></li>
+            <li><a href="/blogs/is-online-mba-valid-govt-jobs">Govt Jobs and UPSC Validity</a></li>
+            <li><a href="/blogs/online-vs-distance-mba">Online vs Distance MBA</a></li>
+            <li><a href="/blogs">Blogs and News Guides &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 5: Advisory and Social -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">ADVISORY</h4>
+          <ul class="footer-link-list">
+            <li><a href="/admission">Admission Process</a></li>
+            <li><a href="/comparison">Comparison Matrix</a></li>
+            <li><a href="/about">About Advisory Desk</a></li>
+            <li><a href="mailto:mbaadmissiononline@gmail.com">mbaadmissiononline@gmail.com</a></li>
+          </ul>
+
+          <div class="footer-social-wrap">
+            <h4 class="col-title" style="margin-top:22px;">SOCIAL</h4>
+            <div class="social-icon-row">
+              <a href="#" class="social-btn" aria-label="LinkedIn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              </a>
+              <a href="#" class="social-btn" aria-label="YouTube">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 20c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73z"/></svg>
+              </a>
+              <a href="#" class="social-btn" aria-label="X">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Griffin-Style Bottom Bar -->
+      <div class="griffin-footer-bottom">
+        <div class="bottom-copy">
+          &copy; 2027 Online MBA Admission. All rights reserved.
+        </div>
+        <div class="bottom-address">
+          Independent Educational Advisory
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Static Lead Counseling Modal for Instant Popups & CTA Triggers -->
+  <div class="modal-backdrop" id="lead-modal" aria-hidden="true">
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" aria-label="Close popup">&times;</button>
+      <div class="modal-eyebrow">FREE COUNSELING</div>
+      <h3 id="modal-title">Still Confused About Online MBA Admission?</h3>
+      <p class="modal-copy">Get a free shortlist of 200+ university options, fees, eligibility, EMI, and MBA without entrance exam choices. Submit your details and our counselor will reach out.</p>
+      
+      <div class="modal-chips">
+        <div class="modal-chip">Free eligibility<br>check</div>
+        <div class="modal-chip">Budget-wise<br>university match</div>
+        <div class="modal-chip">No entrance<br>options</div>
+      </div>
+
+      <form class="lead-form modal-form" data-source="Blog Lead Modal Form" novalidate>
+        <div class="form-group">
+          <label for="counseling-name">Full Name</label>
+          <input type="text" id="counseling-name" name="name" placeholder="Enter your name" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="counseling-phone">Mobile Number</label>
+          <input type="tel" id="counseling-phone" name="phone" placeholder="10-digit mobile number" required pattern="[6-9][0-9]{{9}}" maxlength="10" autocomplete="tel">
+        </div>
+        <div class="form-group">
+          <label for="counseling-email">Email Address</label>
+          <input type="email" id="counseling-email" name="email" placeholder="Enter your email" required autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="counseling-program">Preferred MBA Type</label>
+          <select id="counseling-program" name="program">
+            <option value="Online MBA" selected>Online MBA</option>
+            <option value="Distance MBA">Distance MBA</option>
+            <option value="MBA without entrance exam">MBA without entrance exam</option>
+            <option value="Not sure, need counseling">Not sure, need counseling</option>
+          </select>
+        </div>
+
+        <input type="hidden" name="university" id="counseling-university" value="">
+
+        <div class="form-group consent-group">
+          <div class="consent-checkbox-wrap">
+            <input type="checkbox" id="counseling-consent" name="consent" required>
+            <label for="counseling-consent">I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry.</label>
+          </div>
+          <p class="consent-error" id="counseling-consent-error" style="display:none;" role="alert"></p>
+        </div>
+
+        <button type="submit" class="modal-submit-btn">Submit &amp; Get Free Counseling</button>
+        <p class="form-message" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Standalone Interactive JavaScript Engine -->
+  {interactive_scripts}
+
+  <!-- External Portal Scripts -->
+  <script src="../script.js" defer></script>
+  <script src="/script.js" defer></script>
+</body>
+</html>
+"""
+    return html
+
+if __name__ == "__main__":
+    generated_files = []
+    for blog in BLOGS:
+        filepath = os.path.join("blogs", f"{blog['slug']}.html")
+        html_content = build_blog_html(blog)
+        
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(html_content)
+        
+        # Calculate clean word count in main
+        main_match = re.search(r'<main>(.*?)</main>', html_content, re.DOTALL)
+        word_count = 0
+        if main_match:
+            clean_text = re.sub(r'<[^>]+>', ' ', main_match.group(1))
+            clean_text = re.sub(r'\s+', ' ', clean_text).strip()
+            word_count = len(clean_text.split())
+
+        file_size_kb = len(html_content) / 1024
+        generated_files.append((blog['slug'], filepath, word_count, file_size_kb))
+        print(f"Generated: {filepath} | Words: {word_count} | Size: {file_size_kb:.1f} KB")
+
+    print(f"\nAll {len(generated_files)} Transactional Admission blogs generated successfully!")
