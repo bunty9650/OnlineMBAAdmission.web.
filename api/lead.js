@@ -136,7 +136,7 @@ export default async function handler(req, res) {
     }
 
     // 5. Unicode-Aware Name Validation (Supports Indic & International alphabets, dots, hyphens, apostrophes)
-    const unicodeNameRegex = /^[\p{L}\p{M}\s\.\'\-]{2,60}$/u;
+    const unicodeNameRegex = /^[\p{L}\p{M}\s.'-]{2,60}$/u;
     if (!unicodeNameRegex.test(rawName)) {
       return res.status(400).json({
         success: false,
