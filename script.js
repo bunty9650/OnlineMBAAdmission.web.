@@ -95,7 +95,7 @@ function ensureCounselingModal() {
         <div class="form-group consent-group">
           <div class="consent-checkbox-wrap">
             <input type="checkbox" id="counseling-consent" name="consent" required>
-            <label for="counseling-consent">I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry.</label>
+            <label for="counseling-consent">I agree to the <a href="/privacy" target="_blank" rel="noopener" style="color:#0a6d6f; text-decoration:underline;">Privacy Policy</a> &amp; authorize OnlineMBAAdmission counsellors to contact me regarding my enquiry.</label>
           </div>
           <p class="consent-error" id="counseling-consent-error" style="display:none;" role="alert"></p>
         </div>
@@ -1295,7 +1295,7 @@ function ensureFormConsent(form, idx) {
     <div class="consent-checkbox-wrap" style="display:flex; align-items:flex-start; gap:8px;">
       <input type="checkbox" id="consent-inline-${idx}" name="consent" required style="margin-top:3px; accent-color:#ea580c; cursor:pointer;">
       <label for="consent-inline-${idx}" style="font-size:11.5px; line-height:1.4; color:#475569; font-weight:normal; cursor:pointer;">
-        I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry.
+        I agree to the <a href="/privacy" target="_blank" rel="noopener" style="color:#0a6d6f; text-decoration:underline;">Privacy Policy</a> &amp; authorize OnlineMBAAdmission counsellors to contact me regarding my enquiry.
       </label>
     </div>
     <p class="consent-error" style="display:none; color:#dc2626; font-size:11.5px; margin:4px 0 0;" role="alert"></p>

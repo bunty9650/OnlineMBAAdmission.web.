@@ -202,9 +202,9 @@
           <h2>Get Online MBA Guidance</h2>
           <p>Fill the form and our counselor will call you shortly.</p>
           <form class="lead-form" data-source="Hero Form">
-            <label>Full Name<input type="text" name="name" placeholder="Enter your name" autocomplete="name" required></label>
-            <label>Mobile Number<input type="tel" name="phone" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" required></label>
-            <label>Email Address<input type="email" name="email" placeholder="Enter your email" autocomplete="email" required></label>
+            <label for="hero-name">Full Name<input type="text" id="hero-name" name="name" placeholder="Enter your name" autocomplete="name" required></label>
+            <label for="hero-phone">Mobile Number<input type="tel" id="hero-phone" name="phone" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" required></label>
+            <label for="hero-email">Email Address<input type="email" id="hero-email" name="email" placeholder="Enter your email" autocomplete="email" required></label>
             <button type="submit" class="form-btn">Submit and Get Free Counseling</button>
                        <p class="form-message" aria-live="polite"></p>
           </form>
@@ -1215,10 +1215,10 @@
           
         </div>
         <form class="lead-form wide-form" data-source="University Comparison Form">
-          <label class="full-width">Full Name<input type="text" name="name" placeholder="Enter your name" autocomplete="name" required></label>
-          <label>Mobile Number<input type="tel" name="phone" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" required></label>
-          <label>Email Address<input type="email" name="email" placeholder="Enter your email" autocomplete="email" required></label>
-          <label class="full-width">Preferred MBA Type<select name="program"><option>Online MBA</option><option>Distance MBA</option><option>MBA without entrance exam</option><option>Not sure, need counseling</option></select></label>
+          <label class="full-width" for="comp-name">Full Name<input type="text" id="comp-name" name="name" placeholder="Enter your name" autocomplete="name" required></label>
+          <label for="comp-phone">Mobile Number<input type="tel" id="comp-phone" name="phone" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" required></label>
+          <label for="comp-email">Email Address<input type="email" id="comp-email" name="email" placeholder="Enter your email" autocomplete="email" required></label>
+          <label class="full-width" for="comp-program">Preferred MBA Type<select id="comp-program" name="program"><option>Online MBA</option><option>Distance MBA</option><option>MBA without entrance exam</option><option>Not sure, need counseling</option></select></label>
           <input type="hidden" name="university" value="">
           <button type="submit" class="form-btn">Get Free Counseling Now</button>
           <div class="form-privacy" style="font-size:0.75rem; color:#718096; margin-top:8px; display:flex; align-items:center; justify-content:center; gap:4px;">
@@ -1287,10 +1287,10 @@
         <div><p class="eyebrow">Start Today</p><h2>Start Your Online MBA Admission Today</h2><p>Whether you want a promotion, salary growth, job switch, or management career upgrade, an Online MBA can help you move forward.</p><ul><li>Free eligibility check</li><li>University and fee comparison</li><li>Admission support on call</li></ul></div>
         <form class="lead-form final-form" data-source="Final CTA Form">
           <h3>Apply for Online MBA Admission 2027</h3>
-          <label>Full Name<input type="text" name="name" placeholder="Enter your name" autocomplete="name" required></label>
-          <label>Mobile Number<input type="tel" name="phone" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" required></label>
-          <label>Email Address<input type="email" name="email" placeholder="Enter your email" autocomplete="email" required></label>
-          <label>Current Qualification<input type="text" name="qualification" placeholder="Example: Graduate / Final year" autocomplete="off"></label>
+          <label for="cta-name">Full Name<input type="text" id="cta-name" name="name" placeholder="Enter your name" autocomplete="name" required></label>
+          <label for="cta-phone">Mobile Number<input type="tel" id="cta-phone" name="phone" placeholder="10-digit mobile number" autocomplete="tel" inputmode="numeric" required></label>
+          <label for="cta-email">Email Address<input type="email" id="cta-email" name="email" placeholder="Enter your email" autocomplete="email" required></label>
+          <label for="cta-qual">Current Qualification<input type="text" id="cta-qual" name="qualification" placeholder="Example: Graduate / Final year" autocomplete="off"></label>
           <button type="submit" class="form-btn">Apply Now</button>
          
           <p class="form-message" aria-live="polite"></p>
@@ -1368,14 +1368,15 @@
         <div class="griffin-footer-col">
           <h4 class="col-title">POLICIES and GUIDES</h4>
           <ul class="footer-link-list">
+            <li><a href="/privacy" style="color:#0a6d6f; font-weight:700;">Privacy Policy</a></li>
+            <li><a href="/terms" style="color:#0a6d6f; font-weight:700;">Terms of Service</a></li>
             <li><a href="/eligibility">Eligibility and Criteria</a></li>
             <li><a href="/fees">Fee Structure 2027</a></li>
             <li><a href="/blogs/no-cost-emi-guide">0% No-Cost EMI Guide</a></li>
             <li><a href="/blogs/direct-admission-without-cat">Direct Admission (No CAT)</a></li>
             <li><a href="/blogs/ugc-deb-approval-guide">UGC-DEB Verification</a></li>
             <li><a href="/blogs/is-online-mba-valid-govt-jobs">Govt Jobs and UPSC Validity</a></li>
-            <li><a href="/blogs/online-vs-distance-mba">Online vs Distance MBA</a></li>
-            <li><a href="/blogs">Blogs and News Guides &rarr;</a></li>
+            <li><a href="/blogs">Blogs and Guides &rarr;</a></li>
           </ul>
         </div>
 
@@ -1386,19 +1387,20 @@
             <li><a href="/admission">Admission Process</a></li>
             <li><a href="/comparison">Comparison Matrix</a></li>
             <li><a href="/about">About Advisory Desk</a></li>
-            <li><a href="mailto:mbaadmissiononline@gmail.com">mbaadmissiononline@gmail.com</a></li>
+            <li><a href="mailto:admissions@onlinembaadmission.com" style="color:#0a6d6f; font-weight:700;">admissions@onlinembaadmission.com</a></li>
+            <li style="font-size:12px; color:#64748b; line-height:1.4; margin-top:4px;">Educational Advisory Desk, Connaught Place, New Delhi - 110001, India</li>
           </ul>
 
           <div class="footer-social-wrap">
-            <h4 class="col-title" style="margin-top:22px;">SOCIAL</h4>
+            <h4 class="col-title" style="margin-top:22px;">CHANNELS</h4>
             <div class="social-icon-row">
-              <a href="#" class="social-btn" aria-label="LinkedIn">
+              <a href="https://www.linkedin.com/company/onlinembaadmission" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Official LinkedIn Profile" title="LinkedIn">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
               </a>
-              <a href="#" class="social-btn" aria-label="YouTube">
+              <a href="https://www.youtube.com/@OnlineMBAAdmission" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Official YouTube Channel" title="YouTube">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 20c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73z"/></svg>
               </a>
-              <a href="#" class="social-btn" aria-label="X">
+              <a href="https://twitter.com/onlinembaadmiss" target="_blank" rel="noopener noreferrer" class="social-btn" aria-label="Official X Profile" title="X (Twitter)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
             </div>
@@ -1409,10 +1411,10 @@
       <!-- Griffin-Style Bottom Bar -->
       <div class="griffin-footer-bottom">
         <div class="bottom-copy">
-          &copy; 2027 Online MBA Admission. All rights reserved.
+          &copy; 2027 Online MBA Admission. All rights reserved. &bull; <a href="/privacy" style="color:inherit; text-decoration:underline;">Privacy Policy</a> &bull; <a href="/terms" style="color:inherit; text-decoration:underline;">Terms of Service</a>
         </div>
         <div class="bottom-address">
-          Independent Educational Advisory
+          Independent Higher Education Advisory &bull; New Delhi, India
         </div>
       </div>
     </div>
@@ -1462,7 +1464,7 @@
         <div class="form-group consent-group">
           <div class="consent-checkbox-wrap">
             <input type="checkbox" id="counseling-consent" name="consent" required>
-            <label for="counseling-consent">I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry.</label>
+            <label for="counseling-consent">I agree to the <a href="/privacy" target="_blank" rel="noopener" style="color:#0a6d6f; text-decoration:underline;">Privacy Policy</a> &amp; authorize OnlineMBAAdmission counsellors to contact me.</label>
           </div>
           <p class="consent-error" id="counseling-consent-error" style="display:none;" role="alert"></p>
         </div>
