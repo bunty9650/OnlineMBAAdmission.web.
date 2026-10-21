@@ -1,3 +1,23 @@
+// In-memory sliding window rate limiter (per serverless instance)
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000; // 10 minutes window
+const MAX_REQUESTS_PER_WINDOW = 5; // max 5 leads per IP per window
+const ipRequestCounts = new Map();
+
+function checkRateLimit(ip) {
+  if (!ip) return false;
+  const now = Date.now();
+  const record = ipRequestCounts.get(ip);
+  if (!record || now > record.resetTime) {
+    ipRequestCounts.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+  if (record.count >= MAX_REQUESTS_PER_WINDOW) {
+    return true; // Rate limited
+  }
+  record.count += 1;
+  return false;
+}
+
 export default async function handler(req, res) {
   // 1. Strict Security & CORS Headers
   const allowedOrigins = [
@@ -9,16 +29,22 @@ export default async function handler(req, res) {
   ];
 
   const origin = req.headers.origin;
-  if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
-    res.setHeader("Access-Control-Allow-Origin", origin || "*");
+  if (origin) {
+    if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+      res.setHeader("Access-Control-Allow-Origin", origin);
+      res.setHeader("Vary", "Origin");
+    } else {
+      return res.status(403).json({ success: false, error: "Origin not allowed by CORS policy" });
+    }
   } else {
-    return res.status(403).json({ success: false, error: "Origin not allowed" });
+    // Non-browser or same-origin direct request
+    res.setHeader("Access-Control-Allow-Origin", "https://www.onlinembaadmission.com");
   }
 
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("X-Content-Type-Options", "nosniff");
-  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
 
   if (req.method === "OPTIONS") {
@@ -26,18 +52,28 @@ export default async function handler(req, res) {
   }
 
   if (req.method !== "POST") {
-    return res.status(405).json({ success: false, error: "Method not allowed" });
+    return res.status(405).json({ success: false, error: "Method not allowed. Use POST." });
+  }
+
+  // 2. IP Rate Limiting
+  const forwarded = req.headers["x-forwarded-for"];
+  const clientIp = forwarded ? forwarded.split(",")[0].trim() : req.socket?.remoteAddress || "unknown";
+  if (checkRateLimit(clientIp)) {
+    return res.status(429).json({
+      success: false,
+      error: "Too many lead submissions from your network. Please wait a few minutes before trying again or contact admissions@onlinembaadmission.com."
+    });
   }
 
   try {
     const data = req.body || {};
 
-    // 2. Anti-Spam Honeypot Check (Invisible to real users, bots fill it)
+    // 3. Anti-Spam Honeypot Check (Invisible to real users, bots fill it)
     if (data.website || data.honeypot || data.company_url || data.fax) {
       return res.status(200).json({ success: true, message: "Lead processed" });
     }
 
-    // Helper: Strip HTML, angle brackets, scripts, and control characters to prevent XSS in CRM
+    // Helper: Strip HTML, angle brackets, scripts, and control characters (API level sanitization)
     const sanitizeText = (str, maxLen = 100) => {
       return String(str || "")
         .replace(/<[^>]*>/g, "")
@@ -47,14 +83,14 @@ export default async function handler(req, res) {
         .slice(0, maxLen);
     };
 
-    const name = sanitizeText(data.name, 100);
+    const rawName = String(data.name || "").trim();
     const mobileRaw = String(data.mobile || data.phone || "").trim();
     const email = String(data.email || "").trim().toLowerCase();
     const detail1 = sanitizeText(data.detail1 || data.program || "Online MBA", 200);
     let detail2 = sanitizeText(data.detail2, 500);
     const consent = data.consent;
 
-    // 3. Mandatory Consent Check (India DPDP Act 2023 compliance)
+    // 4. Mandatory Consent Check (India DPDP framework)
     if (consent !== true && String(consent).toLowerCase() !== "true" && consent !== 1) {
       return res.status(400).json({
         success: false,
@@ -62,10 +98,16 @@ export default async function handler(req, res) {
       });
     }
 
-    // 4. Strict Field Validations
-    if (name.length < 2) {
-      return res.status(400).json({ success: false, error: "Name must be at least 2 characters" });
+    // 5. Unicode-Aware Name Validation (Supports Indic scripts, Devanagari, Gurmukhi, Tamil, Latin, etc.)
+    // Allows Unicode letters (\p{L}), combining marks (\p{M}), spaces, dots, apostrophes, and hyphens. Length: 2-60 chars.
+    const unicodeNameRegex = /^[\p{L}\p{M}\s\.\'\-]{2,60}$/u;
+    if (!unicodeNameRegex.test(rawName)) {
+      return res.status(400).json({
+        success: false,
+        error: "Please provide a valid full name (2 to 60 characters, letters only)."
+      });
     }
+    const name = sanitizeText(rawName, 60);
 
     // Normalize phone (strip non-digits, leading 91 or 0)
     let mobileDigits = mobileRaw.replace(/\D/g, "");
@@ -83,11 +125,12 @@ export default async function handler(req, res) {
       return res.status(400).json({ success: false, error: "Please provide a valid email address" });
     }
 
+    // Explicit Consent Record: Purpose, Version, and Timestamp
     if (!detail2) {
-      detail2 = `Consent: "I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry." | Submitted: ${new Date().toISOString()}`;
+      detail2 = `Consent: Granted for University Admission Counselling | Version: 2026.1 | Timestamp: ${new Date().toISOString()}`;
     }
 
-    // 5. Forward to NeoDove CRM
+    // 6. Forward to NeoDove CRM
     const crmUrl = process.env.NEODOVE_LEADS_URL || "https://3092a01d-31a6-46a0-a092-11aa63948adc.neodove.com/integration/custom/fa17b06f-23c3-4928-8dc3-0ae7fedcd09f/leads";
     let crmForwarded = false;
     let crmStatusCode = null;

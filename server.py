@@ -20,6 +20,58 @@ import gzip
 
 import io
 
+import unicodedata
+
+# Strict CORS allowed origins
+ALLOWED_ORIGINS = {
+    "https://www.onlinembaadmission.com",
+    "https://onlinembaadmission.com",
+    "https://onlinembaadweb.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+}
+
+def resolve_cors_origin(origin_header):
+    if not origin_header:
+        return "https://www.onlinembaadmission.com"
+    if origin_header in ALLOWED_ORIGINS or origin_header.endswith(".vercel.app"):
+        return origin_header
+    return None
+
+# IP-based sliding window rate limiter
+LEAD_RATE_LIMIT_WINDOW = 600  # 10 minutes
+LEAD_MAX_PER_WINDOW = 5
+lead_ip_tracking = {}
+
+def is_ip_rate_limited(ip):
+    if not ip:
+        return False
+    now = datetime.datetime.now().timestamp()
+    rec = lead_ip_tracking.get(ip)
+    if not rec or now > rec["reset"]:
+        lead_ip_tracking[ip] = {"count": 1, "reset": now + LEAD_RATE_LIMIT_WINDOW}
+        return False
+    if rec["count"] >= LEAD_MAX_PER_WINDOW:
+        return True
+    rec["count"] += 1
+    return False
+
+def validate_unicode_name(name_str):
+    if not name_str or len(name_str) < 2 or len(name_str) > 60:
+        return False
+    allowed_punct = {" ", ".", "'", "-", "’"}
+    has_letter = False
+    for ch in name_str:
+        cat = unicodedata.category(ch)
+        if cat.startswith("L"):
+            has_letter = True
+        elif cat.startswith("M") or ch in allowed_punct:
+            continue
+        else:
+            return False
+    return has_letter
+
+
 
 
 PORT = 3000
@@ -401,6 +453,20 @@ class CleanUrlHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Referrer-Policy", "strict-origin-when-cross-origin")
 
         self.send_header("Permissions-Policy", "camera=(), microphone=(), geolocation=()")
+        self.send_header(
+            "Content-Security-Policy",
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' data: https://fonts.gstatic.com; "
+            "img-src 'self' data: https:; "
+            "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://*.neodove.com; "
+            "frame-src 'self' https://www.youtube.com https://www.google.com; "
+            "frame-ancestors 'self'; "
+            "base-uri 'self'; "
+            "form-action 'self';"
+        )
+
 
         super().end_headers()
 
@@ -413,92 +479,82 @@ class CleanUrlHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 
     def do_OPTIONS(self):
-
+        origin = self.headers.get("Origin", "")
+        cors_origin = resolve_cors_origin(origin)
         self.send_response(204)
-
-        self.send_header("Access-Control-Allow-Origin", "*")
-
+        if cors_origin:
+            self.send_header("Access-Control-Allow-Origin", cors_origin)
+            self.send_header("Vary", "Origin")
         self.send_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
-
         self.end_headers()
 
-
-
     def do_POST(self):
-
         parsed = urllib.parse.urlparse(self.path)
-
         if parsed.path == "/api/lead":
-
             self.handle_lead_api()
-
             return
-
         self.send_error(404, "Endpoint not found")
 
-
-
     def handle_lead_api(self):
+        origin = self.headers.get("Origin", "")
+        cors_origin = resolve_cors_origin(origin)
+        if origin and not cors_origin:
+            self.send_response(403)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"success": False, "error": "Origin not allowed by CORS policy"}).encode("utf-8"))
+            return
+
+        client_ip = self.headers.get("X-Forwarded-For", "").split(",")[0].strip() or self.client_address[0]
+        if is_ip_rate_limited(client_ip):
+            self.send_response(429)
+            self.send_header("Content-Type", "application/json")
+            if cors_origin:
+                self.send_header("Access-Control-Allow-Origin", cors_origin)
+                self.send_header("Vary", "Origin")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "success": False,
+                "error": "Too many lead submissions from your network. Please wait a few minutes before trying again or contact admissions@onlinembaadmission.com."
+            }).encode("utf-8"))
+            return
 
         try:
-
             content_length = int(self.headers.get("Content-Length", 0))
-
             if content_length <= 0 or content_length > 65536:
-
                 self.send_response(400)
-
                 self.send_header("Content-Type", "application/json")
-
-                self.send_header("Access-Control-Allow-Origin", "*")
-
+                if cors_origin:
+                    self.send_header("Access-Control-Allow-Origin", cors_origin)
+                    self.send_header("Vary", "Origin")
                 self.end_headers()
-
                 self.wfile.write(json.dumps({"success": False, "error": "Invalid payload size"}).encode("utf-8"))
-
                 return
-
-
 
             raw_body = self.rfile.read(content_length)
-
             try:
-
                 data = json.loads(raw_body.decode("utf-8"))
-
             except Exception:
-
                 self.send_response(400)
-
                 self.send_header("Content-Type", "application/json")
-
-                self.send_header("Access-Control-Allow-Origin", "*")
-
+                if cors_origin:
+                    self.send_header("Access-Control-Allow-Origin", cors_origin)
+                    self.send_header("Vary", "Origin")
                 self.end_headers()
-
                 self.wfile.write(json.dumps({"success": False, "error": "Invalid JSON format"}).encode("utf-8"))
-
                 return
-
-
 
             # Anti-Spam Honeypot Check
-
             if data.get("website") or data.get("honeypot") or data.get("company_url") or data.get("fax"):
-
                 self.send_response(200)
-
                 self.send_header("Content-Type", "application/json")
-
+                if cors_origin:
+                    self.send_header("Access-Control-Allow-Origin", cors_origin)
+                    self.send_header("Vary", "Origin")
                 self.end_headers()
-
                 self.wfile.write(json.dumps({"success": True, "message": "Lead processed"}).encode("utf-8"))
-
                 return
-
-
 
             def sanitize_text(val, max_len=100):
                 s = str(val or "")
@@ -508,245 +564,139 @@ class CleanUrlHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 s = " ".join(s.split())
                 return s.strip()[:max_len]
 
-
-
-            name = sanitize_text(data.get("name"), 100)
-
+            raw_name = str(data.get("name") or "").strip()
             mobile_raw = str(data.get("mobile") or data.get("phone") or "").strip()
-
             email = str(data.get("email") or "").strip().lower()
-
             detail1 = sanitize_text(data.get("detail1") or data.get("program") or "Online MBA", 200)
-
             detail2 = sanitize_text(data.get("detail2") or "", 500)
-
             consent = data.get("consent")
 
-
-
-            # 1. Mandatory Consent Check
-
+            # 1. Mandatory Consent Check (DPDP Act)
             if consent is not True and str(consent).lower() not in ("true", "1"):
-
                 self.send_response(400)
-
                 self.send_header("Content-Type", "application/json")
-
-                self.send_header("Access-Control-Allow-Origin", "*")
-
+                if cors_origin:
+                    self.send_header("Access-Control-Allow-Origin", cors_origin)
+                    self.send_header("Vary", "Origin")
                 self.end_headers()
-
                 self.wfile.write(json.dumps({
-
                     "success": False,
-
                     "error": "Consent is mandatory. User must agree to be contacted by OnlineMBAAdmission counsellors."
-
                 }).encode("utf-8"))
-
                 return
 
-
-
-            # 2. Validation
-
-            if len(name) < 2:
-
+            # 2. Unicode-Aware Name Validation
+            if not validate_unicode_name(raw_name):
                 self.send_response(400)
-
                 self.send_header("Content-Type", "application/json")
-
-                self.send_header("Access-Control-Allow-Origin", "*")
-
+                if cors_origin:
+                    self.send_header("Access-Control-Allow-Origin", cors_origin)
+                    self.send_header("Vary", "Origin")
                 self.end_headers()
-
-                self.wfile.write(json.dumps({"success": False, "error": "Name must be at least 2 characters"}).encode("utf-8"))
-
+                self.wfile.write(json.dumps({
+                    "success": False,
+                    "error": "Please provide a valid full name (2 to 60 characters, letters only)."
+                }).encode("utf-8"))
                 return
-
-
+            name = sanitize_text(raw_name, 60)
 
             # Normalize phone (digits only, strip +91 or 0 prefix if 12/11 digits)
-
             mobile_digits = re.sub(r"\D", "", mobile_raw)
-
             if len(mobile_digits) == 12 and mobile_digits.startswith("91"):
-
                 mobile_digits = mobile_digits[2:]
-
             elif len(mobile_digits) == 11 and mobile_digits.startswith("0"):
-
                 mobile_digits = mobile_digits[1:]
 
-
-
             if not re.match(r"^[6-9]\d{9}$", mobile_digits):
-
                 self.send_response(400)
-
                 self.send_header("Content-Type", "application/json")
-
-                self.send_header("Access-Control-Allow-Origin", "*")
-
+                if cors_origin:
+                    self.send_header("Access-Control-Allow-Origin", cors_origin)
+                    self.send_header("Vary", "Origin")
                 self.end_headers()
-
                 self.wfile.write(json.dumps({"success": False, "error": "Please provide a valid 10-digit Indian mobile number"}).encode("utf-8"))
-
                 return
-
-
 
             if not re.match(r"^[^@\s]+@[^@\s]+\.[^@\s]+$", email):
-
                 self.send_response(400)
-
                 self.send_header("Content-Type", "application/json")
-
-                self.send_header("Access-Control-Allow-Origin", "*")
-
+                if cors_origin:
+                    self.send_header("Access-Control-Allow-Origin", cors_origin)
+                    self.send_header("Vary", "Origin")
                 self.end_headers()
-
                 self.wfile.write(json.dumps({"success": False, "error": "Please provide a valid email address"}).encode("utf-8"))
-
                 return
 
-
-
-            # Truncate and sanitize fields
-
-            name = name[:100]
-
             email = email[:100]
-
             detail1 = detail1[:200]
-
             if not detail2:
-
-                detail2 = f'Consent: "I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry." | Submitted: {datetime.datetime.utcnow().isoformat()}Z'
-
+                detail2 = f'Consent: Granted for University Admission Counselling | Version: 2026.1 | Timestamp: {datetime.datetime.utcnow().isoformat()}Z'
             else:
-
                 detail2 = detail2[:500]
 
-
-
-            # Safe Server Logging (Mask PII and never log secret tokens/URLs)
-
+            # Safe Server Logging (Mask PII)
             masked_mobile = mobile_digits[:2] + "******" + mobile_digits[-2:]
-
             masked_email = (email[0] + "***@" + email.split("@")[-1]) if "@" in email else "***"
-
             print(f"[Lead Proxy] Received lead: source={detail1[:30]}, mobile={masked_mobile}, email={masked_email}, consent=VERIFIED")
 
-
-
             # Forward to Neodove CRM if NEODOVE_LEADS_URL is configured
-
             crm_url = os.environ.get("NEODOVE_LEADS_URL", "").strip()
-
             crm_forwarded = False
-
             crm_status_code = None
 
-
-
             if crm_url:
-
                 crm_payload = {
-
                     "name": name,
-
                     "mobile": int(mobile_digits),
-
                     "email": email,
-
                     "detail1": detail1,
-
                     "detail2": detail2
-
                 }
-
                 try:
-
                     req = urllib.request.Request(
-
                         crm_url,
-
                         data=json.dumps(crm_payload).encode("utf-8"),
-
                         headers={
-
                             "Content-Type": "application/json",
-
                             "User-Agent": "OnlineMBAAdmission-Proxy/1.0"
-
                         },
-
                         method="POST"
-
                     )
-
                     with urllib.request.urlopen(req, timeout=10) as crm_resp:
-
                         crm_status_code = crm_resp.getcode()
-
                         crm_forwarded = (200 <= crm_status_code < 300)
-
                 except urllib.error.HTTPError as he:
-
                     crm_status_code = he.code
-
                     crm_forwarded = False
-
                     print(f"[Lead Proxy] CRM HTTP Error {he.code}")
-
                 except Exception as ex:
-
                     crm_forwarded = False
-
                     print(f"[Lead Proxy] CRM Connection Error: {type(ex).__name__}")
 
-
-
             self.send_response(200)
-
             self.send_header("Content-Type", "application/json")
-
-            self.send_header("Access-Control-Allow-Origin", "*")
-
+            if cors_origin:
+                self.send_header("Access-Control-Allow-Origin", cors_origin)
+                self.send_header("Vary", "Origin")
             self.end_headers()
-
             self.wfile.write(json.dumps({
-
                 "success": True,
-
                 "message": "Lead received successfully",
-
                 "forwarded_to_crm": crm_forwarded,
-
                 "crm_status_code": crm_status_code
-
             }).encode("utf-8"))
 
-
-
-        except Exception:
-
+        except Exception as ex:
             self.send_response(500)
-
             self.send_header("Content-Type", "application/json")
-
-            self.send_header("Access-Control-Allow-Origin", "*")
-
+            if cors_origin:
+                self.send_header("Access-Control-Allow-Origin", cors_origin)
+                self.send_header("Vary", "Origin")
             self.end_headers()
-
-            self.wfile.write(json.dumps({"success": False, "error": "Internal server error processing lead"}).encode("utf-8"))
-
+            self.wfile.write(json.dumps({"success": False, "error": "Internal server error"}).encode("utf-8"))
 
 
-
-
-    def do_GET(self):
+def do_GET(self):
 
         parsed = urllib.parse.urlparse(self.path)
 

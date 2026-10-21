@@ -339,20 +339,20 @@
 
         <form class="lead-form" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
           <div style="grid-column:1/-1;">
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Full Name *</label>
-            <input type="text" name="name" required placeholder="Enter your full name" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
+            <label for="adm-name" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Full Name *</label>
+            <input type="text" id="adm-name" name="name" required placeholder="Enter your full name" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Mobile Number *</label>
-            <input type="tel" name="phone" required placeholder="10-digit mobile number" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
+            <label for="adm-phone" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Mobile Number *</label>
+            <input type="tel" id="adm-phone" name="phone" required placeholder="10-digit mobile number" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Email Address *</label>
-            <input type="email" name="email" required placeholder="Enter your email address" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
+            <label for="adm-email" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Email Address *</label>
+            <input type="email" id="adm-email" name="email" required placeholder="Enter your email address" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Graduation Score (%) *</label>
-            <select name="qualification" required style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
+            <label for="adm-qualification" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Graduation Score (%) *</label>
+            <select id="adm-qualification" name="qualification" required style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
               <option value="">Select graduation status</option>
               <option value="Above 60%">Above 60% (First Class)</option>
               <option value="50% - 60%">50% - 60% (Eligible)</option>
@@ -361,8 +361,8 @@
             </select>
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Preferred Specialization</label>
-            <select name="program" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
+            <label for="adm-program" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Preferred Specialization</label>
+            <select id="adm-program" name="program" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
               <option value="Finance">Finance Management</option>
               <option value="Marketing">Marketing Management</option>
               <option value="Business Analytics">Business Analytics</option>

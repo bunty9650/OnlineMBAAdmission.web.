@@ -330,11 +330,11 @@
           <p>Receive an itemized fee breakdown for your shortlisted university, including available scholarship concessions and monthly installment options.</p>
         </div>
         <form class="lead-form wide-form" data-source="Fees Page Form">
-          <label class="full-width">Full Name<input type="text" name="name" placeholder="Enter your full name" required></label>
-          <label>Mobile Number<input type="tel" name="phone" placeholder="10-digit mobile number" required></label>
-          <label>Email Address<input type="email" name="email" placeholder="Enter your email" required></label>
-          <label class="full-width">Preferred Fee Budget
-            <select name="program">
+          <label for="fees-name" class="full-width">Full Name</label><input type="text" id="fees-name" name="name" placeholder="Enter your full name" required>
+          <label for="fees-phone">Mobile Number</label><input type="tel" id="fees-phone" name="phone" placeholder="10-digit mobile number" required>
+          <label for="fees-email">Email Address</label><input type="email" id="fees-email" name="email" placeholder="Enter your email" required>
+          <label for="fees-program" class="full-width">Preferred Fee Budget</label>
+            <select id="fees-program" name="program">
               <option>Under ₹60,000 (Budget Government)</option>
               <option>₹60,000 - ₹1,20,000 (Value Private)</option>
               <option>₹1,20,000 - ₹2,00,000 (Top NAAC A+)</option>

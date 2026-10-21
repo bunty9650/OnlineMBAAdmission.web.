@@ -207,14 +207,13 @@
           <p>Submit your qualification details. Our senior admission advisor will evaluate your profile and confirm which universities offer direct admission without entrance exams.</p>
         </div>
         <form class="lead-form wide-form" data-source="Eligibility Page Form">
-          <label class="full-width">Full Name<input type="text" name="name" placeholder="Enter your full name" required></label>
-          <label>Mobile Number<input type="tel" name="phone" placeholder="10-digit mobile number" required></label>
-          <label>Email Address<input type="email" name="email" placeholder="Enter your email" required></label>
-          <label>Graduation Degree and Percentage
-            <input type="text" name="qualification" placeholder="e.g. B.Com 56% or B.Tech 62%" required>
-          </label>
-          <label>Work Experience Status
-            <select name="program">
+          <label for="elig-name" class="full-width">Full Name</label><input type="text" id="elig-name" name="name" placeholder="Enter your full name" required>
+          <label for="elig-phone">Mobile Number</label><input type="tel" id="elig-phone" name="phone" placeholder="10-digit mobile number" required>
+          <label for="elig-email">Email Address</label><input type="email" id="elig-email" name="email" placeholder="Enter your email" required>
+          <label for="elig-qualification">Graduation Degree and Percentage</label>
+          <input type="text" id="elig-qualification" name="qualification" placeholder="e.g. B.Com 56% or B.Tech 62%" required>
+          <label for="elig-program">Work Experience Status</label>
+            <select id="elig-program" name="program">
               <option>Working Professional (1 to 3 Years)</option>
               <option>Working Professional (3+ Years)</option>
               <option>Fresher / Final Year Student</option>

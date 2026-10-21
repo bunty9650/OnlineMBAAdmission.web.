@@ -381,20 +381,20 @@
 
         <form class="lead-form" style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
           <div style="grid-column:1/-1;">
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Full Name *</label>
-            <input type="text" name="name" required placeholder="Enter your full name" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
+            <label for="comp-page-name" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Full Name *</label>
+            <input type="text" id="comp-page-name" name="name" required placeholder="Enter your full name" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Mobile Number *</label>
-            <input type="tel" name="phone" required placeholder="10-digit mobile number" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
+            <label for="comp-page-phone" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Mobile Number *</label>
+            <input type="tel" id="comp-page-phone" name="phone" required placeholder="10-digit mobile number" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Email Address *</label>
-            <input type="email" name="email" required placeholder="Enter your email address" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
+            <label for="comp-page-email" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Email Address *</label>
+            <input type="email" id="comp-page-email" name="email" required placeholder="Enter your email address" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Target Budget (2 Years)</label>
-            <select name="program" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
+            <label for="comp-page-program" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Target Budget (2 Years)</label>
+            <select id="comp-page-program" name="program" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
               <option value="Under 50k">Under ₹50,000 (Govt/Budget)</option>
               <option value="50k to 1 Lakh">₹50,000 – ₹1,00,000</option>
               <option value="1 Lakh to 2 Lakh">₹1,00,000 – ₹2,00,000 (Top Private)</option>
@@ -402,8 +402,8 @@
             </select>
           </div>
           <div>
-            <label style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Target Specialization</label>
-            <select name="qualification" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
+            <label for="comp-page-spec" style="display:block; font-size:13px; font-weight:700; color:#17202a; margin-bottom:6px;">Target Specialization</label>
+            <select id="comp-page-spec" name="qualification" style="width:100%; padding:12px; border:1px solid #cbd5e0; border-radius:8px; font-size:16px; box-sizing:border-box; background:#fff;">
               <option value="Finance">Finance Management</option>
               <option value="Marketing">Marketing Management</option>
               <option value="Business Analytics">Business Analytics</option>
