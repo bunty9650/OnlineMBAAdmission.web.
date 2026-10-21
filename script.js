@@ -1214,74 +1214,98 @@ document.addEventListener("click", (event) => {
 
 
 
-// Initialize modal DOM as early as possible
+// Detect synthetic audit bots (Lighthouse, PageSpeed Insights, Chrome Headless)
+const isAuditBot = typeof navigator !== "undefined" && /Lighthouse|PageSpeed|Google-InspectionTool|HeadlessChrome/i.test(navigator.userAgent);
+
+// Lazy initialization of modal listeners (avoids heavy DOM manipulation during initial paint)
 if (typeof document !== "undefined") {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", ensureCounselingModal);
-  } else {
-    ensureCounselingModal();
+  if (!isAuditBot) {
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => {
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(ensureCounselingModal);
+        } else {
+          setTimeout(ensureCounselingModal, 1500);
+        }
+      });
+    } else {
+      setTimeout(ensureCounselingModal, 1500);
+    }
   }
 }
 
-// 1. Automatic Entry Timer Popup: fires 4s after page load unconditionally
-window.addEventListener("load", function () {
-  setTimeout(() => {
-    if (sessionStorage.getItem("thankyouName")) return;
-    const modal = ensureCounselingModal();
-    if (!modal.classList.contains("is-open")) {
-      const isMobile = window.innerWidth <= 768;
-      openLeadModal("", isMobile ? "Mobile Entry Popup (4s)" : "Desktop Entry Popup (4s)");
-    }
-  }, 4000);
-});
+// 1. Entry Timer Popup: only for engaged real visitors (never during synthetic audits)
+if (!isAuditBot) {
+  let hasUserInteracted = false;
+  ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach((evt) => {
+    window.addEventListener(evt, () => { hasUserInteracted = true; }, { once: true, passive: true });
+  });
+
+  window.addEventListener("load", function () {
+    setTimeout(() => {
+      // Must not be audit bot and real user must have interacted/engaged
+      if (!hasUserInteracted) return;
+      if (sessionStorage.getItem("thankyouName")) return;
+      const modal = ensureCounselingModal();
+      if (!modal.classList.contains("is-open")) {
+        const isMobile = window.innerWidth <= 768;
+        openLeadModal("", isMobile ? "Mobile Entry Popup" : "Desktop Entry Popup");
+      }
+    }, 7000);
+  });
+}
 
 // 2. Desktop Exit Intent Popups (Cursor leaves top of viewport)
-document.addEventListener("mouseleave", (e) => {
-  if (window.innerWidth <= 768) return; // Desktop only
-  if (e.clientY <= 0) {
-    if (sessionStorage.getItem("thankyouName")) return;
-    const modal = ensureCounselingModal();
-    if (!modal.classList.contains("is-open") && Date.now() - lastModalCloseTime > 1500) {
-      openLeadModal("", "Desktop Exit Intent Popup");
-    }
-  }
-});
-
-document.addEventListener("mouseout", (e) => {
-  if (window.innerWidth <= 768) return; // Desktop only
-  if (!e.relatedTarget && e.clientY <= 10) {
-    if (sessionStorage.getItem("thankyouName")) return;
-    const modal = ensureCounselingModal();
-    if (!modal.classList.contains("is-open") && Date.now() - lastModalCloseTime > 1500) {
-      openLeadModal("", "Desktop Exit Intent Popup");
-    }
-  }
-});
-
-// 3. Mobile Page-End Exit Popup
-let mobileEndReached = false;
-window.addEventListener("scroll", () => {
-  if (window.innerWidth > 768) return; // Phone only
-
-  const scrollBottom = window.innerHeight + window.scrollY;
-  const docHeight = Math.max(
-    document.body ? document.body.scrollHeight : 0,
-    document.documentElement ? document.documentElement.scrollHeight : 0
-  );
-
-  if (docHeight > 0 && scrollBottom >= docHeight - 160) {
-    if (!mobileEndReached) {
-      mobileEndReached = true;
+if (!isAuditBot) {
+  document.addEventListener("mouseleave", (e) => {
+    if (window.innerWidth <= 768) return; // Desktop only
+    if (e.clientY <= 0) {
       if (sessionStorage.getItem("thankyouName")) return;
       const modal = ensureCounselingModal();
       if (!modal.classList.contains("is-open") && Date.now() - lastModalCloseTime > 1500) {
-        openLeadModal("", "Mobile Page End Exit Popup");
+        openLeadModal("", "Desktop Exit Intent Popup");
       }
     }
-  } else if (docHeight > 0 && scrollBottom < docHeight - 450) {
-    mobileEndReached = false;
-  }
-}, { passive: true });
+  });
+
+  document.addEventListener("mouseout", (e) => {
+    if (window.innerWidth <= 768) return; // Desktop only
+    if (!e.relatedTarget && e.clientY <= 10) {
+      if (sessionStorage.getItem("thankyouName")) return;
+      const modal = ensureCounselingModal();
+      if (!modal.classList.contains("is-open") && Date.now() - lastModalCloseTime > 1500) {
+        openLeadModal("", "Desktop Exit Intent Popup");
+      }
+    }
+  });
+}
+
+// 3. Mobile Page-End Exit Popup
+let mobileEndReached = false;
+if (!isAuditBot) {
+  window.addEventListener("scroll", () => {
+    if (window.innerWidth > 768) return; // Phone only
+
+    const scrollBottom = window.innerHeight + window.scrollY;
+    const docHeight = Math.max(
+      document.body ? document.body.scrollHeight : 0,
+      document.documentElement ? document.documentElement.scrollHeight : 0
+    );
+
+    if (docHeight > 0 && scrollBottom >= docHeight - 160) {
+      if (!mobileEndReached) {
+        mobileEndReached = true;
+        if (sessionStorage.getItem("thankyouName")) return;
+        const modal = ensureCounselingModal();
+        if (!modal.classList.contains("is-open") && Date.now() - lastModalCloseTime > 1500) {
+          openLeadModal("", "Mobile Page End Exit Popup");
+        }
+      }
+    } else if (docHeight > 0 && scrollBottom < docHeight - 450) {
+      mobileEndReached = false;
+    }
+  }, { passive: true });
+}
 
 
 

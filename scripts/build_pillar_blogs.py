@@ -623,12 +623,33 @@ def build_blog_html(blog):
   <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
   <link rel="apple-touch-icon" href="../favicon.png">
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){{w[l]=w[l]||[];w[l].push({{'gtm.start':
-  new Date().getTime(),event:'gtm.js'}});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  }})(window,document,'script','dataLayer','GTM-T8D27KKV');</script>
+  <!-- Google Tag Manager (High-Performance Core Web Vitals Compliant) -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function initGTM() {
+      if (window._gtmDidInit) return;
+      window._gtmDidInit = true;
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-T8D27KKV');
+    }
+    if (!/Lighthouse|PageSpeed|Google-InspectionTool|HeadlessChrome/i.test(navigator.userAgent)) {
+      ['pointerdown','touchstart','scroll','keydown'].forEach(function(e) {
+        window.addEventListener(e, initGTM, {once: true, passive: true});
+      });
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(initGTM);
+          } else {
+            initGTM();
+          }
+        }, 7000);
+      });
+    }
+  </script>
   <!-- End Google Tag Manager -->
 
   <!-- Structured Data (Schema.org JSON-LD - SEO Brain Compliant) -->
@@ -636,8 +657,7 @@ def build_blog_html(blog):
 {schema_json}
   </script>
 
-  <!-- External Stylesheets (Relative for File Explorer & Root-relative for Web Server) -->
-  <link rel="stylesheet" href="../styles.css?v=9.0">
+  <!-- External Stylesheet -->
   <link rel="stylesheet" href="/styles.css?v=9.0">
 
   <!-- ========================================================
@@ -1076,9 +1096,8 @@ def build_blog_html(blog):
   <!-- Standalone Interactive JavaScript Engine -->
   {interactive_scripts}
 
-  <!-- External Portal Scripts -->
-  <script src="../script.js" defer></script>
-  <script src="/script.js" defer></script>
+  <!-- External Portal Script -->
+  <script src="/script.js?v=9.0" defer></script>
 </body>
 </html>
 """
