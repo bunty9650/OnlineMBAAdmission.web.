@@ -696,179 +696,179 @@ class CleanUrlHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps({"success": False, "error": "Internal server error"}).encode("utf-8"))
 
 
-def do_GET(self):
+    def do_GET(self):
 
-        parsed = urllib.parse.urlparse(self.path)
+            parsed = urllib.parse.urlparse(self.path)
 
-        path = parsed.path
+            path = parsed.path
 
-        query = f"?{parsed.query}" if parsed.query else ""
+            query = f"?{parsed.query}" if parsed.query else ""
 
 
 
-        # Remove trailing slash if not root
+            # Remove trailing slash if not root
 
-        clean_slug = path.rstrip("/") if len(path) > 1 else path
+            clean_slug = path.rstrip("/") if len(path) > 1 else path
 
-        if clean_slug.endswith(".html"):
+            if clean_slug.endswith(".html"):
 
-            clean_slug = clean_slug[:-5]
+                clean_slug = clean_slug[:-5]
 
 
 
-        # 1. Automatic redirect from /blog or /blog/ to /blogs
+            # 1. Automatic redirect from /blog or /blog/ to /blogs
 
-        if clean_slug == "/blog":
+            if clean_slug == "/blog":
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", "/blogs" + query)
+                self.send_header("Location", "/blogs" + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
-        if clean_slug.startswith("/blog/"):
+            if clean_slug.startswith("/blog/"):
 
-            dest = "/blogs/" + clean_slug[6:]
+                dest = "/blogs/" + clean_slug[6:]
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", dest + query)
+                self.send_header("Location", dest + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
 
 
-        # 2. Check legacy 301 redirects
+            # 2. Check legacy 301 redirects
 
-        if clean_slug in LEGACY_301_MAP:
+            if clean_slug in LEGACY_301_MAP:
 
-            dest = LEGACY_301_MAP[clean_slug]
+                dest = LEGACY_301_MAP[clean_slug]
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", dest + query)
+                self.send_header("Location", dest + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
 
 
-        # Redirect /universities/[slug]/mba-in-* to /university/[slug]/mba-in-*
+            # Redirect /universities/[slug]/mba-in-* to /university/[slug]/mba-in-*
 
-        if clean_slug.startswith("/universities/") and "/mba-in-" in clean_slug:
+            if clean_slug.startswith("/universities/") and "/mba-in-" in clean_slug:
 
-            dest = "/university/" + clean_slug[len("/universities/"):]
+                dest = "/university/" + clean_slug[len("/universities/"):]
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", dest + query)
+                self.send_header("Location", dest + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
 
 
-        # Redirect /university/[slug] (parent page) to /universities/[slug]
+            # Redirect /university/[slug] (parent page) to /universities/[slug]
 
-        parts = clean_slug.strip("/").split("/")
+            parts = clean_slug.strip("/").split("/")
 
-        if len(parts) == 2 and parts[0] == "university":
+            if len(parts) == 2 and parts[0] == "university":
 
-            dest = "/universities/" + parts[1]
+                dest = "/universities/" + parts[1]
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", dest + query)
+                self.send_header("Location", dest + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
 
 
-        # 3. Redirect explicit .html to clean URL
+            # 3. Redirect explicit .html to clean URL
 
-        if path.endswith("/index.html") and path != "/index.html":
+            if path.endswith("/index.html") and path != "/index.html":
 
-            dest_dir = path[:-11]
+                dest_dir = path[:-11]
 
-            dest_dir = dest_dir if dest_dir else "/"
+                dest_dir = dest_dir if dest_dir else "/"
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", dest_dir + query)
+                self.send_header("Location", dest_dir + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
-        elif path == "/index.html":
+            elif path == "/index.html":
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", "/" + query)
+                self.send_header("Location", "/" + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
-        elif path.endswith(".html"):
+            elif path.endswith(".html"):
 
-            self.send_response(301)
+                self.send_response(301)
 
-            self.send_header("Location", clean_slug + query)
+                self.send_header("Location", clean_slug + query)
 
-            self.end_headers()
+                self.end_headers()
 
-            return
+                return
 
 
 
-        # 4. Check exact file or directory index
+            # 4. Check exact file or directory index
 
-        local_path = self.translate_path(path)
+            local_path = self.translate_path(path)
 
         
 
-        # If path is a directory (e.g. /universities, /specializations, or /blogs), look for index.html
+            # If path is a directory (e.g. /universities, /specializations, or /blogs), look for index.html
 
-        if os.path.isdir(local_path):
+            if os.path.isdir(local_path):
 
-            index_path = os.path.join(local_path, "index.html")
+                index_path = os.path.join(local_path, "index.html")
 
-            if os.path.exists(index_path):
+                if os.path.exists(index_path):
 
-                self.path = os.path.join(path, "index.html").replace("\\", "/") + query
+                    self.path = os.path.join(path, "index.html").replace("\\", "/") + query
 
-                return super().do_GET()
-
-
-
-        # If extensionless matches .html
-
-        if not os.path.exists(local_path):
-
-            # Check local_path + .html
-
-            if os.path.exists(local_path + ".html"):
-
-                self.path = path.rstrip("/") + ".html" + query
-
-            # Or if path is /universities or /blogs without trailing slash, check {path}/index.html
-
-            elif os.path.exists(os.path.join(local_path, "index.html")):
-
-                self.path = path.rstrip("/") + "/index.html" + query
+                    return super().do_GET()
 
 
 
-        return super().do_GET()
+            # If extensionless matches .html
+
+            if not os.path.exists(local_path):
+
+                # Check local_path + .html
+
+                if os.path.exists(local_path + ".html"):
+
+                    self.path = path.rstrip("/") + ".html" + query
+
+                # Or if path is /universities or /blogs without trailing slash, check {path}/index.html
+
+                elif os.path.exists(os.path.join(local_path, "index.html")):
+
+                    self.path = path.rstrip("/") + "/index.html" + query
+
+
+
+            return super().do_GET()
 
 
 

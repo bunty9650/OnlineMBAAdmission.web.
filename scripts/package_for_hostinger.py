@@ -25,6 +25,8 @@ PRODUCTION_ROOT_FILES = {
     "eligibility.html",
     "comparison.html",
     "contact.html",
+    "privacy.html",
+    "terms.html",
     "thankyou.html",
     "styles.css",
     "script.js",

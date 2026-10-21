@@ -1,6 +1,9 @@
 # Environment & Secrets (Crucial: never push credentials to GitHub)
 .env
-.env.*
+.env.local
+.env.development
+.env.production
+!.env.example
 
 # Python bytecode & server logs
 __pycache__/

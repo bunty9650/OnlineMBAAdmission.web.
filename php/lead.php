@@ -1,11 +1,36 @@
 <?php
-// api/lead.php - Hostinger Production Lead Capture & CRM Forwarder
+// php/lead.php - Secure Hostinger Production Lead Capture & CRM Forwarder
 declare(strict_types=1);
 
-// Set CORS & Content-Type
-header("Access-Control-Allow-Origin: *");
+// 1. Strict CORS & Security Headers
+$allowedOrigins = [
+    "https://www.onlinembaadmission.com",
+    "https://onlinembaadmission.com",
+    "https://onlinembaadweb.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+];
+
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if ($origin !== '') {
+    if (in_array($origin, $allowedOrigins, true) || str_ends_with($origin, '.vercel.app')) {
+        header("Access-Control-Allow-Origin: " . $origin);
+        header("Vary: Origin");
+    } else {
+        http_response_code(403);
+        header("Content-Type: application/json; charset=UTF-8");
+        echo json_encode(['success' => false, 'error' => 'Origin not allowed by CORS policy']);
+        exit;
+    }
+} else {
+    header("Access-Control-Allow-Origin: https://www.onlinembaadmission.com");
+}
+
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
+header("X-Content-Type-Options: nosniff");
+header("X-Frame-Options: SAMEORIGIN");
+header("Referrer-Policy: strict-origin-when-cross-origin");
 header("Content-Type: application/json; charset=UTF-8");
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -15,13 +40,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo json_encode(['success' => false, 'error' => 'Method not allowed']);
+    echo json_encode(['success' => false, 'error' => 'Method not allowed. Use POST.']);
+    exit;
+}
+
+// 2. IP Rate Limiting (5 requests per 10 minutes per IP)
+$clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+if (strpos($clientIp, ',') !== false) {
+    $clientIp = trim(explode(',', $clientIp)[0]);
+}
+
+$rateLimitWindow = 600; // 10 minutes
+$maxRequests = 5;
+$cacheDir = sys_get_temp_dir();
+$rateFile = $cacheDir . '/rate_lead_' . md5($clientIp) . '.json';
+
+$isLimited = false;
+$now = time();
+if (file_exists($rateFile)) {
+    $rateData = json_decode((string)file_get_contents($rateFile), true);
+    if (is_array($rateData) && isset($rateData['reset'], $rateData['count'])) {
+        if ($now < $rateData['reset']) {
+            if ($rateData['count'] >= $maxRequests) {
+                $isLimited = true;
+            } else {
+                $rateData['count']++;
+                @file_put_contents($rateFile, json_encode($rateData), LOCK_EX);
+            }
+        } else {
+            @file_put_contents($rateFile, json_encode(['count' => 1, 'reset' => $now + $rateLimitWindow]), LOCK_EX);
+        }
+    } else {
+        @file_put_contents($rateFile, json_encode(['count' => 1, 'reset' => $now + $rateLimitWindow]), LOCK_EX);
+    }
+} else {
+    @file_put_contents($rateFile, json_encode(['count' => 1, 'reset' => $now + $rateLimitWindow]), LOCK_EX);
+}
+
+if ($isLimited) {
+    http_response_code(429);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Too many lead submissions from your network. Please wait a few minutes before trying again or contact admissions@onlinembaadmission.com.'
+    ]);
     exit;
 }
 
 try {
     $rawInput = file_get_contents('php://input');
-    $data = json_decode($rawInput, true);
+    $data = json_decode((string)$rawInput, true);
 
     if (!is_array($data)) {
         http_response_code(400);
@@ -29,14 +96,29 @@ try {
         exit;
     }
 
+    // 3. Honeypot Check
+    if (!empty($data['website']) || !empty($data['honeypot']) || !empty($data['company_url']) || !empty($data['fax'])) {
+        http_response_code(200);
+        echo json_encode(['success' => true, 'message' => 'Lead processed']);
+        exit;
+    }
+
+    // Sanitization Helper
+    $sanitize = function($val, $maxLen = 100) {
+        $s = strip_tags((string)($val ?? ''));
+        $s = str_replace(['<', '>', '{', '}', '\\', '/'], '', $s);
+        $s = preg_replace('/\s+/', ' ', $s);
+        return mb_substr(trim($s), 0, $maxLen);
+    };
+
     $name = trim((string)($data['name'] ?? ''));
     $mobileRaw = trim((string)($data['mobile'] ?? $data['phone'] ?? ''));
-    $email = trim((string)($data['email'] ?? ''));
-    $detail1 = trim((string)($data['detail1'] ?? $data['program'] ?? 'Online MBA'));
-    $detail2 = trim((string)($data['detail2'] ?? ''));
+    $email = strtolower(trim((string)($data['email'] ?? '')));
+    $detail1 = $sanitize($data['detail1'] ?? $data['program'] ?? 'Online MBA', 200);
+    $detail2 = $sanitize($data['detail2'] ?? '', 500);
     $consent = $data['consent'] ?? false;
 
-    // 1. Mandatory Consent Check
+    // 4. Mandatory Consent Check
     if ($consent !== true && strtolower((string)$consent) !== 'true' && $consent !== 1 && $consent !== '1') {
         http_response_code(400);
         echo json_encode([
@@ -46,14 +128,18 @@ try {
         exit;
     }
 
-    // 2. Name Validation
-    if (mb_strlen($name) < 2) {
+    // 5. Unicode-Aware Name Validation
+    if (!preg_match('/^[\p{L}\p{M}\s\.\'\-]{2,60}$/u', $name)) {
         http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Name must be at least 2 characters']);
+        echo json_encode([
+            'success' => false,
+            'error' => 'Please provide a valid full name (2 to 60 characters, letters only).'
+        ]);
         exit;
     }
+    $name = $sanitize($name, 60);
 
-    // 3. Normalize Phone
+    // 6. Normalize Mobile Phone
     $mobileDigits = preg_replace('/\D/', '', $mobileRaw);
     if (strlen($mobileDigits) === 12 && substr($mobileDigits, 0, 2) === '91') {
         $mobileDigits = substr($mobileDigits, 2);
@@ -67,58 +153,60 @@ try {
         exit;
     }
 
-    // 4. Email Validation
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    // 7. Email Validation
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || strlen($email) > 100) {
         http_response_code(400);
         echo json_encode(['success' => false, 'error' => 'Please provide a valid email address']);
         exit;
     }
 
     if (empty($detail2)) {
-        $detail2 = 'Consent: "I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry." | Submitted: ' . gmdate('Y-m-d\TH:i:s\Z');
+        $detail2 = 'Consent: Granted for University Admission Counselling | Version: 2026.1 | Timestamp: ' . gmdate('Y-m-d\TH:i:s\Z');
     }
 
-    // 5. Forward to NeoDove CRM
-    $crmUrl = getenv('NEODOVE_LEADS_URL') ?: 'https://3092a01d-31a6-46a0-a092-11aa63948adc.neodove.com/integration/custom/fa17b06f-23c3-4928-8dc3-0ae7fedcd09f/leads';
+    // 8. Forward to CRM strictly via Environment Variable (No hardcoded secrets)
+    $crmUrl = trim((string)(getenv('NEODOVE_LEADS_URL') ?: ''));
     $crmForwarded = false;
     $crmStatusCode = null;
 
-    $crmPayload = json_encode([
-        'name'    => mb_substr($name, 0, 100),
-        'mobile'  => (int)$mobileDigits,
-        'email'   => mb_substr($email, 0, 100),
-        'detail1' => mb_substr($detail1, 0, 200),
-        'detail2' => mb_substr($detail2, 0, 500)
-    ]);
-
-    if (function_exists('curl_init')) {
-        $ch = curl_init($crmUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $crmPayload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'User-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0'
+    if (!empty($crmUrl)) {
+        $crmPayload = json_encode([
+            'name'    => $name,
+            'mobile'  => (int)$mobileDigits,
+            'email'   => $email,
+            'detail1' => $detail1,
+            'detail2' => $detail2
         ]);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-        $response = curl_exec($ch);
-        $crmStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        $crmForwarded = ($crmStatusCode >= 200 && $crmStatusCode < 300);
-        curl_close($ch);
-    } else {
-        $options = [
-            'http' => [
-                'method'  => 'POST',
-                'header'  => "Content-Type: application/json\r\nUser-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0\r\n",
-                'content' => $crmPayload,
-                'timeout' => 10
-            ]
-        ];
-        $context = stream_context_create($options);
-        $result = @file_get_contents($crmUrl, false, $context);
-        if ($result !== false) {
-            $crmForwarded = true;
-            $crmStatusCode = 200;
+
+        if (function_exists('curl_init')) {
+            $ch = curl_init($crmUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $crmPayload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'User-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0'
+            ]);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+            $response = curl_exec($ch);
+            $crmStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $crmForwarded = ($crmStatusCode >= 200 && $crmStatusCode < 300);
+            curl_close($ch);
+        } else {
+            $options = [
+                'http' => [
+                    'method'  => 'POST',
+                    'header'  => "Content-Type: application/json\r\nUser-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0\r\n",
+                    'content' => $crmPayload,
+                    'timeout' => 10
+                ]
+            ];
+            $context = stream_context_create($options);
+            $result = @file_get_contents($crmUrl, false, $context);
+            if ($result !== false) {
+                $crmForwarded = true;
+                $crmStatusCode = 200;
+            }
         }
     }
 
