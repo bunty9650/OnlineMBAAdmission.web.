@@ -1,20 +1,21 @@
 """
 Script: scripts/build_blog_index_and_sitemap.py
-1. Collects all 56 articles in blogs/*.html
+1. Collects all 66 articles in blogs/*.html
 2. Rebuilds blogs/index.html (Page 1: Articles 1-9)
 3. Rebuilds blogs/page-2.html (Page 2: Articles 10-18)
 4. Rebuilds blogs/page-3.html (Page 3: Articles 19-27)
 5. Rebuilds blogs/page-4.html (Page 4: Articles 28-36)
 6. Rebuilds blogs/page-5.html (Page 5: Articles 37-46)
-7. Creates blogs/page-6.html (Page 6: Articles 47-56)
-8. Updates sitemap.xml with all 56 articles and 6 pagination pages (total 62 blog URLs)
+7. Rebuilds blogs/page-6.html (Page 6: Articles 47-56)
+8. Creates blogs/page-7.html (Page 7: Articles 57-66)
+9. Updates sitemap.xml with all 66 articles and 7 pagination pages (total 349 URLs)
 """
 
 import os
 import re
 import xml.etree.ElementTree as ET
 
-# Ordered list of all 56 articles
+# Ordered list of all 66 articles
 ORDERED_SLUGS = [
     # Page 1: Top Core Pillar & Admission Blueprints (9 articles)
     "online-mba",
@@ -82,7 +83,19 @@ ORDERED_SLUGS = [
     "online-mba-fees-structure",
     "online-mba-semester-fees",
     "online-mba-total-fees",
-    "online-mba-fee-structure"
+    "online-mba-fee-structure",
+
+    # Page 7: Affordable, Low Fee & Budget Online MBA Guides (10 articles)
+    "online-mba-admission-fees",
+    "online-mba-affordable-fees",
+    "affordable-online-mba",
+    "affordable-online-mba-in-india",
+    "low-fee-online-mba",
+    "cheapest-online-mba-in-india",
+    "cheap-online-mba",
+    "online-mba-under-50000",
+    "online-mba-under-75000",
+    "online-mba-under-1-lakh"
 ]
 
 print(f"Total articles to index: {len(ORDERED_SLUGS)}")
@@ -191,7 +204,17 @@ BADGE_COLORS = {
     "Fee Structure": "background:#e0f2f1; color:#00695c;",
     "Semester Fees": "background:#ede9fe; color:#6d28d9;",
     "Total Fees": "background:#fbe9e7; color:#d84315;",
-    "Fee Architecture": "background:#e0f7fa; color:#00838f;"
+    "Fee Architecture": "background:#e0f7fa; color:#00838f;",
+    "Admission Fees": "background:#e0f2fe; color:#0369a1;",
+    "Affordable Fees": "background:#ecfdf5; color:#047857;",
+    "Affordable MBA": "background:#e8f5e9; color:#1b5e20;",
+    "Budget MBA India": "background:#fff3e0; color:#e65100;",
+    "Low Fee MBA": "background:#ede7f6; color:#512da8;",
+    "Lowest Cost India": "background:#fef3c7; color:#92400e;",
+    "Budget Guide": "background:#fce4ec; color:#c2185b;",
+    "Under ₹50,000": "background:#e0f2f1; color:#00695c;",
+    "Under ₹75,000": "background:#ede9fe; color:#6d28d9;",
+    "Under ₹1 Lakh": "background:#e8f5e9; color:#2e7d32;"
 }
 
 def render_card(slug):
@@ -226,228 +249,72 @@ head_part = index_html[:index_html.find('<div class="blog-grid">') + len('<div c
 after_grid = index_html[index_html.find('<!-- Executive Blog Articles Pagination'):]
 lead_form_part = after_grid[after_grid.find('\n\n    <!-- Lead Form Magnet -->'):]
 
-# -------------------------------------------------------------
-# 1. BUILD blogs/index.html (Page 1: items 0-9)
-# -------------------------------------------------------------
-p1_slugs = ORDERED_SLUGS[0:9]
-p1_cards = "\n".join([render_card(s) for s in p1_slugs])
+TOTAL_ARTICLES = len(ORDERED_SLUGS) # 66
+TOTAL_PAGES = 7
 
-p1_pagination = """        <!-- Executive Blog Articles Pagination (9 per page) -->
+# Helper to generate pagination bar
+def render_pagination(current_page, start_idx, end_idx):
+    prev_html = '<span class="blog-page-btn disabled" aria-disabled="true">&larr; Prev</span>' if current_page == 1 else f'<a href="{get_page_url(current_page - 1)}" class="blog-page-btn" aria-label="Go to Previous Page">&larr; Prev</a>'
+    next_html = '<span class="blog-page-btn disabled" aria-disabled="true">Next &rarr;</span>' if current_page == TOTAL_PAGES else f'<a href="{get_page_url(current_page + 1)}" class="blog-page-btn" aria-label="Go to Next Page">Next &rarr;</a>'
+    
+    page_links = []
+    for p in range(1, TOTAL_PAGES + 1):
+        if p == current_page:
+            page_links.append(f'<span class="blog-page-btn active" aria-current="page">{p}</span>')
+        else:
+            page_links.append(f'<a href="{get_page_url(p)}" class="blog-page-btn" aria-label="Go to Page {p}">{p}</a>')
+    
+    pages_str = "\n            ".join(page_links)
+    
+    return f"""        <!-- Executive Blog Articles Pagination ({end_idx - start_idx} per page) -->
         <div id="blog-pagination" class="blog-pagination-wrapper" aria-label="Blog Articles Pagination">
           <nav class="blog-pagination-nav" aria-label="Blog pages navigation">
-            <span class="blog-page-btn disabled" aria-disabled="true">&larr; Prev</span>
-            <span class="blog-page-btn active" aria-current="page">1</span>
-            <a href="/blogs/page-2" class="blog-page-btn" aria-label="Go to Page 2">2</a>
-            <a href="/blogs/page-3" class="blog-page-btn" aria-label="Go to Page 3">3</a>
-            <a href="/blogs/page-4" class="blog-page-btn" aria-label="Go to Page 4">4</a>
-            <a href="/blogs/page-5" class="blog-page-btn" aria-label="Go to Page 5">5</a>
-            <a href="/blogs/page-6" class="blog-page-btn" aria-label="Go to Page 6">6</a>
-            <a href="/blogs/page-2" class="blog-page-btn" aria-label="Go to Next Page">Next &rarr;</a>
+            {prev_html}
+            {pages_str}
+            {next_html}
           </nav>
-          <div class="blog-pagination-info" id="blog-pagination-info">Showing 1 &ndash; 9 of 56 expert articles (Page 1 of 6)</div>
+          <div class="blog-pagination-info" id="blog-pagination-info">Showing {start_idx + 1} &ndash; {end_idx} of {TOTAL_ARTICLES} expert articles (Page {current_page} of {TOTAL_PAGES})</div>
         </div>
       </div>
       </div>
     </section>"""
 
-p1_content = head_part + p1_cards + "\n        </div>\n\n" + p1_pagination + lead_form_part
+def get_page_url(page_num):
+    if page_num == 1:
+        return "/blogs"
+    return f"/blogs/page-{page_num}"
 
-with open("blogs/index.html", "w", encoding="utf-8") as fp:
-    fp.write(p1_content)
-print("Updated: blogs/index.html (Page 1: 9 articles, pagination 1 of 6)")
+# Page slices definition
+PAGE_CONFIGS = [
+    (1, 0, 9, "blogs/index.html", "Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI", "https://www.onlinembaadmission.com/blogs"),
+    (2, 9, 18, "blogs/page-2.html", "Online MBA Admission Blogs and Guides (Page 2) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-2"),
+    (3, 18, 27, "blogs/page-3.html", "Online MBA Admission Blogs and Guides (Page 3) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-3"),
+    (4, 27, 36, "blogs/page-4.html", "Online MBA Admission Blogs and Guides (Page 4) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-4"),
+    (5, 36, 46, "blogs/page-5.html", "Online MBA Admission Blogs and Guides (Page 5) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-5"),
+    (6, 46, 56, "blogs/page-6.html", "Online MBA Admission Blogs and Guides (Page 6) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-6"),
+    (7, 56, 66, "blogs/page-7.html", "Online MBA Admission Blogs and Guides (Page 7) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-7"),
+]
 
-# -------------------------------------------------------------
-# 2. BUILD blogs/page-2.html (Page 2: items 9-18)
-# -------------------------------------------------------------
-p2_slugs = ORDERED_SLUGS[9:18]
-p2_cards = "\n".join([render_card(s) for s in p2_slugs])
-
-p2_pagination = """        <!-- Executive Blog Articles Pagination (9 per page) -->
-        <div id="blog-pagination" class="blog-pagination-wrapper" aria-label="Blog Articles Pagination">
-          <nav class="blog-pagination-nav" aria-label="Blog pages navigation">
-            <a href="/blogs" class="blog-page-btn" aria-label="Go to Previous Page">&larr; Prev</a>
-            <a href="/blogs" class="blog-page-btn" aria-label="Go to Page 1">1</a>
-            <span class="blog-page-btn active" aria-current="page">2</span>
-            <a href="/blogs/page-3" class="blog-page-btn" aria-label="Go to Page 3">3</a>
-            <a href="/blogs/page-4" class="blog-page-btn" aria-label="Go to Page 4">4</a>
-            <a href="/blogs/page-5" class="blog-page-btn" aria-label="Go to Page 5">5</a>
-            <a href="/blogs/page-6" class="blog-page-btn" aria-label="Go to Page 6">6</a>
-            <a href="/blogs/page-3" class="blog-page-btn" aria-label="Go to Next Page">Next &rarr;</a>
-          </nav>
-          <div class="blog-pagination-info" id="blog-pagination-info">Showing 10 &ndash; 18 of 56 expert articles (Page 2 of 6)</div>
-        </div>
-      </div>
-      </div>
-    </section>"""
-
-p2_head = head_part.replace(
-    '<title>Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI</title>',
-    '<title>Online MBA Admission Blogs and Guides (Page 2) | Online MBA Admission</title>'
-).replace(
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs">',
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs/page-2">'
-)
-
-p2_content = p2_head + p2_cards + "\n        </div>\n\n" + p2_pagination + lead_form_part
-
-with open("blogs/page-2.html", "w", encoding="utf-8") as fp:
-    fp.write(p2_content)
-print("Updated: blogs/page-2.html (Page 2: 9 articles, pagination 2 of 6)")
+for p_num, s_idx, e_idx, filepath, title_text, canonical_url in PAGE_CONFIGS:
+    p_slugs = ORDERED_SLUGS[s_idx:e_idx]
+    p_cards = "\n".join([render_card(s) for s in p_slugs])
+    p_pagination = render_pagination(p_num, s_idx, e_idx)
+    
+    # Custom head replacement for title and canonical
+    custom_head = head_part
+    # Replace title
+    custom_head = re.sub(r'<title>.*?</title>', f'<title>{title_text}</title>', custom_head, count=1)
+    # Replace canonical
+    custom_head = re.sub(r'<link rel="canonical" href=".*?"', f'<link rel="canonical" href="{canonical_url}"', custom_head, count=1)
+    
+    p_content = custom_head + p_cards + "\n        </div>\n\n" + p_pagination + lead_form_part
+    
+    with open(filepath, "w", encoding="utf-8") as fp:
+        fp.write(p_content)
+    print(f"Updated: {filepath} (Page {p_num}: {len(p_slugs)} articles, pagination {p_num} of {TOTAL_PAGES})")
 
 # -------------------------------------------------------------
-# 3. BUILD blogs/page-3.html (Page 3: items 18-27)
-# -------------------------------------------------------------
-p3_slugs = ORDERED_SLUGS[18:27]
-p3_cards = "\n".join([render_card(s) for s in p3_slugs])
-
-p3_pagination = """        <!-- Executive Blog Articles Pagination (9 per page) -->
-        <div id="blog-pagination" class="blog-pagination-wrapper" aria-label="Blog Articles Pagination">
-          <nav class="blog-pagination-nav" aria-label="Blog pages navigation">
-            <a href="/blogs/page-2" class="blog-page-btn" aria-label="Go to Previous Page">&larr; Prev</a>
-            <a href="/blogs" class="blog-page-btn" aria-label="Go to Page 1">1</a>
-            <a href="/blogs/page-2" class="blog-page-btn" aria-label="Go to Page 2">2</a>
-            <span class="blog-page-btn active" aria-current="page">3</span>
-            <a href="/blogs/page-4" class="blog-page-btn" aria-label="Go to Page 4">4</a>
-            <a href="/blogs/page-5" class="blog-page-btn" aria-label="Go to Page 5">5</a>
-            <a href="/blogs/page-6" class="blog-page-btn" aria-label="Go to Page 6">6</a>
-            <a href="/blogs/page-4" class="blog-page-btn" aria-label="Go to Next Page">Next &rarr;</a>
-          </nav>
-          <div class="blog-pagination-info" id="blog-pagination-info">Showing 19 &ndash; 27 of 56 expert articles (Page 3 of 6)</div>
-        </div>
-      </div>
-      </div>
-    </section>"""
-
-p3_head = head_part.replace(
-    '<title>Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI</title>',
-    '<title>Online MBA Admission Blogs and Guides (Page 3) | Online MBA Admission</title>'
-).replace(
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs">',
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs/page-3">'
-)
-
-p3_content = p3_head + p3_cards + "\n        </div>\n\n" + p3_pagination + lead_form_part
-
-with open("blogs/page-3.html", "w", encoding="utf-8") as fp:
-    fp.write(p3_content)
-print("Updated: blogs/page-3.html (Page 3: 9 articles, pagination 3 of 6)")
-
-# -------------------------------------------------------------
-# 4. BUILD blogs/page-4.html (Page 4: items 27-36)
-# -------------------------------------------------------------
-p4_slugs = ORDERED_SLUGS[27:36]
-p4_cards = "\n".join([render_card(s) for s in p4_slugs])
-
-p4_pagination = """        <!-- Executive Blog Articles Pagination (9 per page) -->
-        <div id="blog-pagination" class="blog-pagination-wrapper" aria-label="Blog Articles Pagination">
-          <nav class="blog-pagination-nav" aria-label="Blog pages navigation">
-            <a href="/blogs/page-3" class="blog-page-btn" aria-label="Go to Previous Page">&larr; Prev</a>
-            <a href="/blogs" class="blog-page-btn" aria-label="Go to Page 1">1</a>
-            <a href="/blogs/page-2" class="blog-page-btn" aria-label="Go to Page 2">2</a>
-            <a href="/blogs/page-3" class="blog-page-btn" aria-label="Go to Page 3">3</a>
-            <span class="blog-page-btn active" aria-current="page">4</span>
-            <a href="/blogs/page-5" class="blog-page-btn" aria-label="Go to Page 5">5</a>
-            <a href="/blogs/page-6" class="blog-page-btn" aria-label="Go to Page 6">6</a>
-            <a href="/blogs/page-5" class="blog-page-btn" aria-label="Go to Next Page">Next &rarr;</a>
-          </nav>
-          <div class="blog-pagination-info" id="blog-pagination-info">Showing 28 &ndash; 36 of 56 expert articles (Page 4 of 6)</div>
-        </div>
-      </div>
-      </div>
-    </section>"""
-
-p4_head = head_part.replace(
-    '<title>Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI</title>',
-    '<title>Online MBA Admission Blogs and Guides (Page 4) | Online MBA Admission</title>'
-).replace(
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs">',
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs/page-4">'
-)
-
-p4_content = p4_head + p4_cards + "\n        </div>\n\n" + p4_pagination + lead_form_part
-
-with open("blogs/page-4.html", "w", encoding="utf-8") as fp:
-    fp.write(p4_content)
-print("Updated: blogs/page-4.html (Page 4: 9 articles, pagination 4 of 6)")
-
-# -------------------------------------------------------------
-# 5. BUILD blogs/page-5.html (Page 5: items 36-46)
-# -------------------------------------------------------------
-p5_slugs = ORDERED_SLUGS[36:46]
-p5_cards = "\n".join([render_card(s) for s in p5_slugs])
-
-p5_pagination = """        <!-- Executive Blog Articles Pagination (10 per page) -->
-        <div id="blog-pagination" class="blog-pagination-wrapper" aria-label="Blog Articles Pagination">
-          <nav class="blog-pagination-nav" aria-label="Blog pages navigation">
-            <a href="/blogs/page-4" class="blog-page-btn" aria-label="Go to Previous Page">&larr; Prev</a>
-            <a href="/blogs" class="blog-page-btn" aria-label="Go to Page 1">1</a>
-            <a href="/blogs/page-2" class="blog-page-btn" aria-label="Go to Page 2">2</a>
-            <a href="/blogs/page-3" class="blog-page-btn" aria-label="Go to Page 3">3</a>
-            <a href="/blogs/page-4" class="blog-page-btn" aria-label="Go to Page 4">4</a>
-            <span class="blog-page-btn active" aria-current="page">5</span>
-            <a href="/blogs/page-6" class="blog-page-btn" aria-label="Go to Page 6">6</a>
-            <a href="/blogs/page-6" class="blog-page-btn" aria-label="Go to Next Page">Next &rarr;</a>
-          </nav>
-          <div class="blog-pagination-info" id="blog-pagination-info">Showing 37 &ndash; 46 of 56 expert articles (Page 5 of 6)</div>
-        </div>
-      </div>
-      </div>
-    </section>"""
-
-p5_head = head_part.replace(
-    '<title>Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI</title>',
-    '<title>Online MBA Admission Blogs and Guides (Page 5) | Online MBA Admission</title>'
-).replace(
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs">',
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs/page-5">'
-)
-
-p5_content = p5_head + p5_cards + "\n        </div>\n\n" + p5_pagination + lead_form_part
-
-with open("blogs/page-5.html", "w", encoding="utf-8") as fp:
-    fp.write(p5_content)
-print("Updated: blogs/page-5.html (Page 5: 10 articles, pagination 5 of 6)")
-
-# -------------------------------------------------------------
-# 6. BUILD blogs/page-6.html (Page 6: items 46-56)
-# -------------------------------------------------------------
-p6_slugs = ORDERED_SLUGS[46:56]
-p6_cards = "\n".join([render_card(s) for s in p6_slugs])
-
-p6_pagination = """        <!-- Executive Blog Articles Pagination (10 per page) -->
-        <div id="blog-pagination" class="blog-pagination-wrapper" aria-label="Blog Articles Pagination">
-          <nav class="blog-pagination-nav" aria-label="Blog pages navigation">
-            <a href="/blogs/page-5" class="blog-page-btn" aria-label="Go to Previous Page">&larr; Prev</a>
-            <a href="/blogs" class="blog-page-btn" aria-label="Go to Page 1">1</a>
-            <a href="/blogs/page-2" class="blog-page-btn" aria-label="Go to Page 2">2</a>
-            <a href="/blogs/page-3" class="blog-page-btn" aria-label="Go to Page 3">3</a>
-            <a href="/blogs/page-4" class="blog-page-btn" aria-label="Go to Page 4">4</a>
-            <a href="/blogs/page-5" class="blog-page-btn" aria-label="Go to Page 5">5</a>
-            <span class="blog-page-btn active" aria-current="page">6</span>
-            <span class="blog-page-btn disabled" aria-disabled="true">Next &rarr;</span>
-          </nav>
-          <div class="blog-pagination-info" id="blog-pagination-info">Showing 47 &ndash; 56 of 56 expert articles (Page 6 of 6)</div>
-        </div>
-      </div>
-      </div>
-    </section>"""
-
-p6_head = head_part.replace(
-    '<title>Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI</title>',
-    '<title>Online MBA Admission Blogs and Guides (Page 6) | Online MBA Admission</title>'
-).replace(
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs">',
-    '<link rel="canonical" href="https://www.onlinembaadmission.com/blogs/page-6">'
-)
-
-p6_content = p6_head + p6_cards + "\n        </div>\n\n" + p6_pagination + lead_form_part
-
-with open("blogs/page-6.html", "w", encoding="utf-8") as fp:
-    fp.write(p6_content)
-print("Created: blogs/page-6.html (Page 6: 10 articles, pagination 6 of 6)")
-
-# -------------------------------------------------------------
-# 7. UPDATE sitemap.xml
+# UPDATE sitemap.xml
 # -------------------------------------------------------------
 with open("sitemap.xml", "r", encoding="utf-8") as fp:
     sitemap_xml = fp.read()
@@ -491,6 +358,12 @@ blog_xml_nodes = """
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
+  <url>
+    <loc>https://www.onlinembaadmission.com/blogs/page-7</loc>
+    <lastmod>2026-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
 """
 
 for slug in ORDERED_SLUGS:
@@ -528,6 +401,6 @@ with open("sitemap.xml", "w", encoding="utf-8") as fp:
 try:
     tree = ET.fromstring(sitemap_xml)
     urls = tree.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url')
-    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected ~338)")
+    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected 349: 276 core/universities/specializations + 66 blogs + 7 pagination)")
 except Exception as e:
     print(f"ERROR validating sitemap XML: {e}")
