@@ -255,10 +255,10 @@ def optimize_html_file(filepath):
     # 4. Standardize script.js with version and defer
     # If <script src="/script.js"></script> without defer, add defer
     if '<script src="/script.js"></script>' in html:
-        html = html.replace('<script src="/script.js"></script>', '<script src="/script.js?v=9.0" defer></script>')
+        html = html.replace('<script src="/script.js"></script>', '<script src="/script.js?v=9.1" defer></script>')
         modified = True
     elif '<script src="/script.js" defer></script>' in html:
-        html = html.replace('<script src="/script.js" defer></script>', '<script src="/script.js?v=9.0" defer></script>')
+        html = html.replace('<script src="/script.js" defer></script>', '<script src="/script.js?v=9.1" defer></script>')
         modified = True
 
     if modified:
@@ -299,7 +299,7 @@ def optimize_generator_scripts():
   <script src="../script.js" defer></script>
   <script src="/script.js" defer></script>"""
         new_bottom_scripts = """  <!-- External Portal Script -->
-  <script src="/script.js?v=9.0" defer></script>"""
+  <script src="/script.js?v=9.1" defer></script>"""
 
         # Replace synchronous GTM with HIGH_PERF_GTM
         old_gen_gtm = """  <!-- Google Tag Manager -->

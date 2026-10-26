@@ -1443,7 +1443,7 @@ def build_blog_html(blog):
   {interactive_scripts}
 
   <!-- External Portal Script -->
-  <script src="/script.js?v=9.0" defer></script>
+  <script src="/script.js?v=9.1" defer></script>
 </body>
 </html>
 """
