@@ -1610,7 +1610,7 @@ def build_full_article(blog):
 {interactive_scripts}
 
   <!-- External Portal Script -->
-  <script src="/script.js?v=9.1" defer></script>
+  <script src="/script.js?v=9.2" defer></script>
 </body>
 </html>
 """
