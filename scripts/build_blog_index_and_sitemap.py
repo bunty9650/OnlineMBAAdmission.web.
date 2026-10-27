@@ -1,15 +1,16 @@
 """
 Script: scripts/build_blog_index_and_sitemap.py
 1. Collects all 76 articles in blogs/*.html
-2. Rebuilds blogs/index.html (Page 1: Articles 1-9)
-3. Rebuilds blogs/page-2.html (Page 2: Articles 10-18)
-4. Rebuilds blogs/page-3.html (Page 3: Articles 19-27)
-5. Rebuilds blogs/page-4.html (Page 4: Articles 28-36)
-6. Rebuilds blogs/page-5.html (Page 5: Articles 37-46)
-7. Rebuilds blogs/page-6.html (Page 6: Articles 47-56)
-8. Rebuilds blogs/page-7.html (Page 7: Articles 57-66)
-9. Creates blogs/page-8.html (Page 8: Articles 67-76)
-10. Updates sitemap.xml with all 76 articles and 8 pagination pages (total 360 URLs)
+2. Rebuilds blogs/index.html (Page 1: Articles 1-9, 3-3-3)
+3. Rebuilds blogs/page-2.html (Page 2: Articles 10-18, 3-3-3)
+4. Rebuilds blogs/page-3.html (Page 3: Articles 19-27, 3-3-3)
+5. Rebuilds blogs/page-4.html (Page 4: Articles 28-36, 3-3-3)
+6. Rebuilds blogs/page-5.html (Page 5: Articles 37-45, 3-3-3)
+7. Rebuilds blogs/page-6.html (Page 6: Articles 46-54, 3-3-3)
+8. Rebuilds blogs/page-7.html (Page 7: Articles 55-63, 3-3-3)
+9. Rebuilds blogs/page-8.html (Page 8: Articles 64-72, 3-3-3)
+10. Creates blogs/page-9.html (Page 9: Articles 73-76)
+11. Updates sitemap.xml with all 76 articles and 9 pagination pages (total 361 URLs)
 """
 
 import os
@@ -18,7 +19,7 @@ import xml.etree.ElementTree as ET
 
 # Ordered list of all 76 articles
 ORDERED_SLUGS = [
-    # Page 1: Top Core Pillar & Admission Blueprints (9 articles)
+    # Page 1: Top Core Pillar & Admission Blueprints (9 articles: 1-9)
     "online-mba",
     "online-mba-admission",
     "online-mba-admission-2026",
@@ -29,7 +30,7 @@ ORDERED_SLUGS = [
     "online-mba-admission-process",
     "online-mba-in-india",
 
-    # Page 2: Application, Enrollment & Degree Guides (9 articles)
+    # Page 2: Application, Enrollment & Degree Guides (9 articles: 10-18)
     "online-mba-application",
     "online-mba-enrollment",
     "online-mba-admissions",
@@ -40,7 +41,7 @@ ORDERED_SLUGS = [
     "online-mba-universities-in-india",
     "online-mba-colleges",
 
-    # Page 3: Curriculum, Programs & Rankings (9 articles)
+    # Page 3: Curriculum, Programs & Rankings (9 articles: 19-27)
     "online-mba-programs",
     "online-mba-courses",
     "online-mba-degree",
@@ -51,7 +52,7 @@ ORDERED_SLUGS = [
     "best-online-mba-colleges-in-india",
     "best-online-mba-university",
 
-    # Page 4: Regulations, Careers, Fees & ROI Guides (9 articles)
+    # Page 4: Regulations, Careers, Fees & ROI Guides (9 articles: 28-36)
     "best-online-mba-universities-in-india",
     "top-online-mba-colleges",
     "top-online-mba-colleges-in-india",
@@ -62,7 +63,7 @@ ORDERED_SLUGS = [
     "no-cost-emi-guide",
     "is-online-mba-valid-govt-jobs",
 
-    # Page 5: Admission Requirements, Eligibility & Direct Enrollment (10 articles)
+    # Page 5: Requirements, Eligibility & Direct Enrollment (9 articles: 37-45, 3-3-3)
     "online-mba-admission-eligibility",
     "online-mba-admission-requirements",
     "online-mba-documents-required",
@@ -72,9 +73,9 @@ ORDERED_SLUGS = [
     "online-mba-university-admission",
     "online-mba-college-admission",
     "online-mba-enrollment-2027",
-    "online-mba-application-form",
 
-    # Page 6: Admission Forms, Counselling & Fee Structure Intelligence (10 articles)
+    # Page 6: Application Form, Counselling & Fee Structure (9 articles: 46-54, 3-3-3)
+    "online-mba-application-form",
     "online-mba-admission-form",
     "online-mba-counselling",
     "online-mba-admission-counselling",
@@ -83,10 +84,10 @@ ORDERED_SLUGS = [
     "online-mba-course-fees",
     "online-mba-fees-structure",
     "online-mba-semester-fees",
+
+    # Page 7: Fees, Affordable & Low Fee Guides (9 articles: 55-63, 3-3-3)
     "online-mba-total-fees",
     "online-mba-fee-structure",
-
-    # Page 7: Affordable, Low Fee & Budget Online MBA Guides (10 articles)
     "online-mba-admission-fees",
     "online-mba-affordable-fees",
     "affordable-online-mba",
@@ -94,17 +95,19 @@ ORDERED_SLUGS = [
     "low-fee-online-mba",
     "cheapest-online-mba-in-india",
     "cheap-online-mba",
+
+    # Page 8: Budget Under 1 Lakh & Financial Aid Guides (9 articles: 64-72, 3-3-3)
     "online-mba-under-50000",
     "online-mba-under-75000",
     "online-mba-under-1-lakh",
-
-    # Page 8: Financial Aid, EMI, Scholarships & Eligibility / Duration Intelligence (10 articles)
     "online-mba-under-1-5-lakh",
     "online-mba-emi",
     "online-mba-fees-emi",
     "online-mba-education-loan",
     "online-mba-scholarship",
     "online-mba-scholarship-in-india",
+
+    # Page 9: Statutory Eligibility & Program Duration Blueprints (4 articles: 73-76)
     "online-mba-eligibility",
     "online-mba-eligibility-criteria",
     "online-mba-qualification",
@@ -271,7 +274,7 @@ after_grid = index_html[index_html.find('<!-- Executive Blog Articles Pagination
 lead_form_part = after_grid[after_grid.find('\n\n    <!-- Lead Form Magnet -->'):]
 
 TOTAL_ARTICLES = len(ORDERED_SLUGS) # 76
-TOTAL_PAGES = 8
+TOTAL_PAGES = 9
 
 def get_page_url(page_num):
     if page_num == 1:
@@ -305,16 +308,17 @@ def render_pagination(current_page, start_idx, end_idx):
       </div>
     </section>"""
 
-# Page slices definition
+# Page slices definition: STRICT 3-3-3 sequence (9 per page on all full pages!)
 PAGE_CONFIGS = [
     (1, 0, 9, "blogs/index.html", "Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI", "https://www.onlinembaadmission.com/blogs"),
     (2, 9, 18, "blogs/page-2.html", "Online MBA Admission Blogs and Guides (Page 2) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-2"),
     (3, 18, 27, "blogs/page-3.html", "Online MBA Admission Blogs and Guides (Page 3) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-3"),
     (4, 27, 36, "blogs/page-4.html", "Online MBA Admission Blogs and Guides (Page 4) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-4"),
-    (5, 36, 46, "blogs/page-5.html", "Online MBA Admission Blogs and Guides (Page 5) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-5"),
-    (6, 46, 56, "blogs/page-6.html", "Online MBA Admission Blogs and Guides (Page 6) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-6"),
-    (7, 56, 66, "blogs/page-7.html", "Online MBA Admission Blogs and Guides (Page 7) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-7"),
-    (8, 66, 76, "blogs/page-8.html", "Online MBA Admission Blogs and Guides (Page 8) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-8"),
+    (5, 36, 45, "blogs/page-5.html", "Online MBA Admission Blogs and Guides (Page 5) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-5"),
+    (6, 45, 54, "blogs/page-6.html", "Online MBA Admission Blogs and Guides (Page 6) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-6"),
+    (7, 54, 63, "blogs/page-7.html", "Online MBA Admission Blogs and Guides (Page 7) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-7"),
+    (8, 63, 72, "blogs/page-8.html", "Online MBA Admission Blogs and Guides (Page 8) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-8"),
+    (9, 72, 76, "blogs/page-9.html", "Online MBA Admission Blogs and Guides (Page 9) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-9"),
 ]
 
 for p_num, s_idx, e_idx, filepath, title_text, canonical_url in PAGE_CONFIGS:
@@ -333,7 +337,7 @@ for p_num, s_idx, e_idx, filepath, title_text, canonical_url in PAGE_CONFIGS:
     
     with open(filepath, "w", encoding="utf-8") as fp:
         fp.write(p_content)
-    print(f"Updated: {filepath} (Page {p_num}: {len(p_slugs)} articles, pagination {p_num} of {TOTAL_PAGES})")
+    print(f"Updated: {filepath} (Page {p_num}: {len(p_slugs)} articles [3-3-3 sequence], pagination {p_num} of {TOTAL_PAGES})")
 
 # -------------------------------------------------------------
 # UPDATE sitemap.xml
@@ -392,6 +396,12 @@ blog_xml_nodes = """
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
+  <url>
+    <loc>https://www.onlinembaadmission.com/blogs/page-9</loc>
+    <lastmod>2026-10-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
 """
 
 for slug in ORDERED_SLUGS:
@@ -429,6 +439,6 @@ with open("sitemap.xml", "w", encoding="utf-8") as fp:
 try:
     tree = ET.fromstring(sitemap_xml)
     urls = tree.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url')
-    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected 360: 276 core/universities/specializations + 76 blogs + 8 pagination)")
+    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected 361: 276 core/universities/specializations + 76 blogs + 9 pagination)")
 except Exception as e:
     print(f"ERROR validating sitemap XML: {e}")
