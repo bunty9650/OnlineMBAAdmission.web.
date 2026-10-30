@@ -1,6 +1,6 @@
 """
 Script: scripts/build_blog_index_and_sitemap.py
-1. Collects all 76 articles in blogs/*.html
+1. Collects all 86 articles in blogs/*.html
 2. Rebuilds blogs/index.html (Page 1: Articles 1-9, 3-3-3)
 3. Rebuilds blogs/page-2.html (Page 2: Articles 10-18, 3-3-3)
 4. Rebuilds blogs/page-3.html (Page 3: Articles 19-27, 3-3-3)
@@ -9,15 +9,16 @@ Script: scripts/build_blog_index_and_sitemap.py
 7. Rebuilds blogs/page-6.html (Page 6: Articles 46-54, 3-3-3)
 8. Rebuilds blogs/page-7.html (Page 7: Articles 55-63, 3-3-3)
 9. Rebuilds blogs/page-8.html (Page 8: Articles 64-72, 3-3-3)
-10. Creates blogs/page-9.html (Page 9: Articles 73-76)
-11. Updates sitemap.xml with all 76 articles and 9 pagination pages (total 361 URLs)
+10. Rebuilds blogs/page-9.html (Page 9: Articles 73-81, 3-3-3)
+11. Creates blogs/page-10.html (Page 10: Articles 82-86)
+12. Updates sitemap.xml with all 86 articles and 10 pagination pages (total 372 URLs)
 """
 
 import os
 import re
 import xml.etree.ElementTree as ET
 
-# Ordered list of all 76 articles
+# Ordered list of all 86 articles
 ORDERED_SLUGS = [
     # Page 1: Top Core Pillar & Admission Blueprints (9 articles: 1-9)
     "online-mba",
@@ -107,11 +108,23 @@ ORDERED_SLUGS = [
     "online-mba-scholarship",
     "online-mba-scholarship-in-india",
 
-    # Page 9: Statutory Eligibility & Program Duration Blueprints (4 articles: 73-76)
+    # Page 9: Statutory Duration, Academic Subjects & Exams (9 articles: 73-81, 3-3-3)
     "online-mba-eligibility",
     "online-mba-eligibility-criteria",
     "online-mba-qualification",
-    "online-mba-duration"
+    "online-mba-duration",
+    "online-mba-2-years",
+    "online-mba-syllabus",
+    "online-mba-subjects",
+    "online-mba-exams",
+    "how-long-is-online-mba",
+
+    # Page 10: Executive Profiles, Operations & Application Guides (5 articles: 82-86)
+    "who-can-do-online-mba",
+    "who-is-eligible-for-online-mba",
+    "how-to-do-online-mba",
+    "how-to-apply-for-online-mba",
+    "online-mba-assignments"
 ]
 
 print(f"Total articles to index: {len(ORDERED_SLUGS)}")
@@ -146,15 +159,22 @@ for slug in ORDERED_SLUGS:
     read_time = read_m.group(1).strip() if read_m else '8 Min Read'
 
     # Highlight box text
-    highlight_m = re.search(r'<div class="article-callout".*?<strong>(.*?)</strong>(.*?)</div>', html, re.DOTALL)
-    if highlight_m:
-        hl_label = re.sub(r'<[^>]+>', '', highlight_m.group(1)).replace(":", "").strip()
-        hl_text = re.sub(r'<[^>]+>', '', highlight_m.group(2)).strip()
+    highlight_p = re.search(r'<div class="article-callout"[^>]*>.*?<p>(.*?)</p>', html, re.DOTALL)
+    if highlight_p and len(re.sub(r'<[^>]+>', '', highlight_p.group(1)).strip()) > 20:
+        hl_label = "Key Takeaway"
+        hl_text = re.sub(r'<[^>]+>', '', highlight_p.group(1)).strip()
         if len(hl_text) > 120:
             hl_text = hl_text[:117] + "..."
     else:
-        hl_label = "Key Highlight"
-        hl_text = "100% legal equivalence with on-campus MBA under UGC Gazette 2020 Regulation 22."
+        highlight_m = re.search(r'<div class="article-callout".*?<strong>(.*?)</strong>(.*?)</div>', html, re.DOTALL)
+        if highlight_m and len(re.sub(r'<[^>]+>', '', highlight_m.group(2)).strip()) > 10:
+            hl_label = re.sub(r'<[^>]+>', '', highlight_m.group(1)).replace(":", "").strip()
+            hl_text = re.sub(r'<[^>]+>', '', highlight_m.group(2)).strip()
+            if len(hl_text) > 120:
+                hl_text = hl_text[:117] + "..."
+        else:
+            hl_label = "Key Highlight"
+            hl_text = "100% legal equivalence with on-campus MBA under UGC Gazette 2020 Regulation 22."
 
     ARTICLE_META[slug] = {
         "slug": slug,
@@ -238,7 +258,16 @@ BADGE_COLORS = {
     "India Scholarships": "background:#fff3e0; color:#e65100;",
     "Eligibility Criteria": "background:#e0f2f1; color:#00695c;",
     "Qualifications": "background:#fce4ec; color:#c2185b;",
-    "Program Duration": "background:#ede9fe; color:#6d28d9;"
+    "Program Duration": "background:#ede9fe; color:#6d28d9;",
+    "2-Year Degree": "background:#e0f2f1; color:#00695c;",
+    "Syllabus & Curriculum": "background:#ecfdf5; color:#047857;",
+    "MBA Subjects": "background:#ede9fe; color:#6d28d9;",
+    "Examination Guide": "background:#fef3c7; color:#92400e;",
+    "Program Length": "background:#e0f2fe; color:#0369a1;",
+    "Who Can Enroll": "background:#fff3e0; color:#e65100;",
+    "Eligibility Norms": "background:#e8f5e9; color:#1b5e20;",
+    "Student Roadmap": "background:#fce4ec; color:#c2185b;",
+    "Academic Assignments": "background:#f3e5f5; color:#7b1fa2;"
 }
 
 def render_card(slug):
@@ -273,8 +302,8 @@ head_part = index_html[:index_html.find('<div class="blog-grid">') + len('<div c
 after_grid = index_html[index_html.find('<!-- Executive Blog Articles Pagination'):]
 lead_form_part = after_grid[after_grid.find('\n\n    <!-- Lead Form Magnet -->'):]
 
-TOTAL_ARTICLES = len(ORDERED_SLUGS) # 76
-TOTAL_PAGES = 9
+TOTAL_ARTICLES = len(ORDERED_SLUGS) # 86
+TOTAL_PAGES = 10
 
 def get_page_url(page_num):
     if page_num == 1:
@@ -318,7 +347,8 @@ PAGE_CONFIGS = [
     (6, 45, 54, "blogs/page-6.html", "Online MBA Admission Blogs and Guides (Page 6) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-6"),
     (7, 54, 63, "blogs/page-7.html", "Online MBA Admission Blogs and Guides (Page 7) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-7"),
     (8, 63, 72, "blogs/page-8.html", "Online MBA Admission Blogs and Guides (Page 8) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-8"),
-    (9, 72, 76, "blogs/page-9.html", "Online MBA Admission Blogs and Guides (Page 9) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-9"),
+    (9, 72, 81, "blogs/page-9.html", "Online MBA Admission Blogs and Guides (Page 9) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-9"),
+    (10, 81, 86, "blogs/page-10.html", "Online MBA Admission Blogs and Guides (Page 10) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-10"),
 ]
 
 for p_num, s_idx, e_idx, filepath, title_text, canonical_url in PAGE_CONFIGS:
@@ -350,55 +380,61 @@ blog_xml_nodes = """
   <!-- Online MBA Blogs & Comprehensive Regulatory Guides -->
   <url>
     <loc>https://www.onlinembaadmission.com/blogs</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.90</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-2</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-3</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-4</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-5</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-6</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-7</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-8</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
   <url>
     <loc>https://www.onlinembaadmission.com/blogs/page-9</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://www.onlinembaadmission.com/blogs/page-10</loc>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
@@ -407,7 +443,7 @@ blog_xml_nodes = """
 for slug in ORDERED_SLUGS:
     blog_xml_nodes += f"""  <url>
     <loc>https://www.onlinembaadmission.com/blogs/{slug}</loc>
-    <lastmod>2026-10-27</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.80</priority>
   </url>\n"""
@@ -439,6 +475,6 @@ with open("sitemap.xml", "w", encoding="utf-8") as fp:
 try:
     tree = ET.fromstring(sitemap_xml)
     urls = tree.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url')
-    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected 361: 276 core/universities/specializations + 76 blogs + 9 pagination)")
+    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected 372: 276 core/universities/specializations + 86 blogs + 10 pagination)")
 except Exception as e:
     print(f"ERROR validating sitemap XML: {e}")
