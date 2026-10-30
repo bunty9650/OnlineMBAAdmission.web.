@@ -1,17 +1,17 @@
 """
 Script: scripts/build_blog_index_and_sitemap.py
 1. Collects all 96 articles in blogs/*.html
-2. Rebuilds blogs/index.html (Page 1: Articles 1-9, 3-3-3)
-3. Rebuilds blogs/page-2.html (Page 2: Articles 10-18, 3-3-3)
-4. Rebuilds blogs/page-3.html (Page 3: Articles 19-27, 3-3-3)
-5. Rebuilds blogs/page-4.html (Page 4: Articles 28-36, 3-3-3)
-6. Rebuilds blogs/page-5.html (Page 5: Articles 37-45, 3-3-3)
-7. Rebuilds blogs/page-6.html (Page 6: Articles 46-54, 3-3-3)
-8. Rebuilds blogs/page-7.html (Page 7: Articles 55-63, 3-3-3)
-9. Rebuilds blogs/page-8.html (Page 8: Articles 64-72, 3-3-3)
-10. Rebuilds blogs/page-9.html (Page 9: Articles 73-81, 3-3-3)
-11. Rebuilds blogs/page-10.html (Page 10: Articles 82-90, 3-3-3)
-12. Creates blogs/page-11.html (Page 11: Articles 91-96, 3-3)
+2. Rebuilds blogs/index.html (Page 1: Articles 1-9, 3-3-3) with unique H1 and unique description
+3. Rebuilds blogs/page-2.html (Page 2: Articles 10-18, 3-3-3) with unique H1 and unique description
+4. Rebuilds blogs/page-3.html (Page 3: Articles 19-27, 3-3-3) with unique H1 and unique description
+5. Rebuilds blogs/page-4.html (Page 4: Articles 28-36, 3-3-3) with unique H1 and unique description
+6. Rebuilds blogs/page-5.html (Page 5: Articles 37-45, 3-3-3) with unique H1 and unique description
+7. Rebuilds blogs/page-6.html (Page 6: Articles 46-54, 3-3-3) with unique H1 and unique description
+8. Rebuilds blogs/page-7.html (Page 7: Articles 55-63, 3-3-3) with unique H1 and unique description
+9. Rebuilds blogs/page-8.html (Page 8: Articles 64-72, 3-3-3) with unique H1 and unique description
+10. Rebuilds blogs/page-9.html (Page 9: Articles 73-81, 3-3-3) with unique H1 and unique description
+11. Rebuilds blogs/page-10.html (Page 10: Articles 82-90, 3-3-3) with unique H1 and unique description
+12. Creates blogs/page-11.html (Page 11: Articles 91-96, 3-3) with unique H1 and unique description
 13. Updates sitemap.xml with all 96 articles and 11 pagination pages (total 383 URLs)
 """
 
@@ -358,36 +358,84 @@ def render_pagination(current_page, start_idx, end_idx):
 
 # Page slices definition: STRICT 3-3-3 sequence (9 per page on all full pages!)
 PAGE_CONFIGS = [
-    (1, 0, 9, "blogs/index.html", "Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI", "https://www.onlinembaadmission.com/blogs"),
-    (2, 9, 18, "blogs/page-2.html", "Online MBA Admission Blogs and Guides (Page 2) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-2"),
-    (3, 18, 27, "blogs/page-3.html", "Online MBA Admission Blogs and Guides (Page 3) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-3"),
-    (4, 27, 36, "blogs/page-4.html", "Online MBA Admission Blogs and Guides (Page 4) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-4"),
-    (5, 36, 45, "blogs/page-5.html", "Online MBA Admission Blogs and Guides (Page 5) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-5"),
-    (6, 45, 54, "blogs/page-6.html", "Online MBA Admission Blogs and Guides (Page 6) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-6"),
-    (7, 54, 63, "blogs/page-7.html", "Online MBA Admission Blogs and Guides (Page 7) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-7"),
-    (8, 63, 72, "blogs/page-8.html", "Online MBA Admission Blogs and Guides (Page 8) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-8"),
-    (9, 72, 81, "blogs/page-9.html", "Online MBA Admission Blogs and Guides (Page 9) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-9"),
-    (10, 81, 90, "blogs/page-10.html", "Online MBA Admission Blogs and Guides (Page 10) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-10"),
-    (11, 90, 96, "blogs/page-11.html", "Online MBA Admission Blogs and Guides (Page 11) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-11"),
+    (1, 0, 9, "blogs/index.html", 
+     "Online MBA Admission Blogs and Guides 2026: Approvals, Fees and ROI", 
+     "https://www.onlinembaadmission.com/blogs",
+     "Online MBA Admission Insights, Regulatory News & Top Guides",
+     "Explore expert Online MBA blogs and regulatory guides for 2026-2027. Compare UGC approvals, fee structures, no-cost EMI options, syllabus details and career scope."),
+    (2, 9, 18, "blogs/page-2.html", 
+     "Online MBA Admission Blogs and Guides (Page 2) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-2",
+     "Online MBA Applications, Deadlines & University Selection Guides",
+     "Complete guide to online MBA application deadlines, admission portals, last dates, and comparing top accredited universities across India for 2026-2027."),
+    (3, 18, 27, "blogs/page-3.html", 
+     "Online MBA Admission Blogs and Guides (Page 3) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-3",
+     "Online MBA Programs, Curricula & College Rankings",
+     "Explore top online MBA programs, university rankings, course comparisons, and degree accreditations across leading management institutions in India."),
+    (4, 27, 36, "blogs/page-4.html", 
+     "Online MBA Admission Blogs and Guides (Page 4) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-4",
+     "Online MBA Regulations, Career ROI & Specialization Guides",
+     "In-depth guides to UGC-DEB regulations, direct admission without CAT, salary growth, no-cost EMI financing, and government job validity for online MBAs."),
+    (5, 36, 45, "blogs/page-5.html", 
+     "Online MBA Admission Blogs and Guides (Page 5) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-5",
+     "Online MBA Admission Requirements, Direct Entry & Eligibility",
+     "Understand online MBA eligibility criteria, mandatory document checklists, non-CAT admissions, direct university enrollment, and admission requirements."),
+    (6, 45, 54, "blogs/page-6.html", 
+     "Online MBA Admission Blogs and Guides (Page 6) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-6",
+     "Online MBA Application Forms, Counselling & Fee Structures",
+     "Step-by-step application form guides, free admission counseling, university fee breakdowns, semester costs, and financial planning for online MBA aspirants."),
+    (7, 54, 63, "blogs/page-7.html", 
+     "Online MBA Admission Blogs and Guides (Page 7) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-7",
+     "Affordable Online MBA, Low Fees & Budget Comparison",
+     "Compare affordable and low fee online MBA programs in India. Detailed tuition comparisons, cheapest accredited universities, and transparent cost breakdowns."),
+    (8, 63, 72, "blogs/page-8.html", 
+     "Online MBA Admission Blogs and Guides (Page 8) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-8",
+     "Online MBA Under 1 Lakh, 0% EMI & Scholarships",
+     "Explore budget-friendly online MBA programs under ₹50k, ₹75k, and ₹1 Lakh. Learn about 0% interest EMI schemes, education loans, and scholarship options."),
+    (9, 72, 81, "blogs/page-9.html", 
+     "Online MBA Admission Blogs and Guides (Page 9) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-9",
+     "Online MBA Duration, Syllabus, Subjects & Remote Exams",
+     "Authoritative blueprints on 2-year statutory duration, Choice Based Credit System (CBCS), 4-semester syllabus breakdown, core subjects, and remote proctored exams."),
+    (10, 81, 90, "blogs/page-10.html", 
+     "Online MBA Admission Blogs and Guides (Page 10) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-10",
+     "Online MBA Executive Eligibility, Admissions & Top Indian Colleges",
+     "Comprehensive guide to executive qualifications, application portals, continuous internal assignments, exam conduction, and top 10 universities for executives."),
+    (11, 90, 96, "blogs/page-11.html", 
+     "Online MBA Admission Blogs and Guides (Page 11) | Online MBA Admission", 
+     "https://www.onlinembaadmission.com/blogs/page-11",
+     "Online MBA for Working Professionals, Executive Degrees & Career Growth",
+     "Master the blueprint of pursuing an online MBA while working full time. Explore employer sponsorships, 168-hour study frameworks, Sec 80E tax deductions, and ROI."),
 ]
 
-for p_num, s_idx, e_idx, filepath, title_text, canonical_url in PAGE_CONFIGS:
+for p_num, s_idx, e_idx, filepath, title_text, canonical_url, h1_text, desc_text in PAGE_CONFIGS:
     p_slugs = ORDERED_SLUGS[s_idx:e_idx]
     p_cards = "\n".join([render_card(s) for s in p_slugs])
     p_pagination = render_pagination(p_num, s_idx, e_idx)
     
-    # Custom head replacement for title and canonical
+    # Custom head replacement for title, canonical, description, and H1
     custom_head = head_part
     # Replace title
     custom_head = re.sub(r'<title>.*?</title>', f'<title>{title_text}</title>', custom_head, count=1)
     # Replace canonical
     custom_head = re.sub(r'<link rel="canonical" href=".*?"', f'<link rel="canonical" href="{canonical_url}"', custom_head, count=1)
+    # Replace meta description
+    custom_head = re.sub(r'<meta name="description" content=".*?"', f'<meta name="description" content="{desc_text}"', custom_head, count=1)
+    # Replace H1
+    custom_head = re.sub(r'<h1[^>]*>.*?</h1>', f'<h1>{h1_text}</h1>', custom_head, count=1)
     
     p_content = custom_head + p_cards + "\n        </div>\n\n" + p_pagination + lead_form_part
     
     with open(filepath, "w", encoding="utf-8") as fp:
         fp.write(p_content)
-    print(f"Updated: {filepath} (Page {p_num}: {len(p_slugs)} articles [3-3-3 sequence], pagination {p_num} of {TOTAL_PAGES})")
+    print(f"Updated: {filepath} (Page {p_num}: {len(p_slugs)} articles [3-3-3 sequence], H1: '{h1_text}')")
 
 # -------------------------------------------------------------
 # UPDATE sitemap.xml
