@@ -1,6 +1,6 @@
 """
 Script: scripts/build_blog_index_and_sitemap.py
-1. Collects all 86 articles in blogs/*.html
+1. Collects all 96 articles in blogs/*.html
 2. Rebuilds blogs/index.html (Page 1: Articles 1-9, 3-3-3)
 3. Rebuilds blogs/page-2.html (Page 2: Articles 10-18, 3-3-3)
 4. Rebuilds blogs/page-3.html (Page 3: Articles 19-27, 3-3-3)
@@ -10,15 +10,16 @@ Script: scripts/build_blog_index_and_sitemap.py
 8. Rebuilds blogs/page-7.html (Page 7: Articles 55-63, 3-3-3)
 9. Rebuilds blogs/page-8.html (Page 8: Articles 64-72, 3-3-3)
 10. Rebuilds blogs/page-9.html (Page 9: Articles 73-81, 3-3-3)
-11. Creates blogs/page-10.html (Page 10: Articles 82-86)
-12. Updates sitemap.xml with all 86 articles and 10 pagination pages (total 372 URLs)
+11. Rebuilds blogs/page-10.html (Page 10: Articles 82-90, 3-3-3)
+12. Creates blogs/page-11.html (Page 11: Articles 91-96, 3-3)
+13. Updates sitemap.xml with all 96 articles and 11 pagination pages (total 383 URLs)
 """
 
 import os
 import re
 import xml.etree.ElementTree as ET
 
-# Ordered list of all 86 articles
+# Ordered list of all 96 articles
 ORDERED_SLUGS = [
     # Page 1: Top Core Pillar & Admission Blueprints (9 articles: 1-9)
     "online-mba",
@@ -119,12 +120,24 @@ ORDERED_SLUGS = [
     "online-mba-exams",
     "how-long-is-online-mba",
 
-    # Page 10: Executive Profiles, Operations & Application Guides (5 articles: 82-86)
+    # Page 10: Executive Profiles, Operations & Indian Institutions (9 articles: 82-90, 3-3-3)
     "who-can-do-online-mba",
     "who-is-eligible-for-online-mba",
     "how-to-do-online-mba",
     "how-to-apply-for-online-mba",
-    "online-mba-assignments"
+    "online-mba-assignments",
+    "how-are-online-mba-exams-conducted",
+    "online-mba-for-working-professionals",
+    "online-mba-for-working-people",
+    "online-mba-for-working-professionals-in-india",
+
+    # Page 11: Working Executives, Full-Time MBAs & Degree Recognition (6 articles: 91-96, 3-3)
+    "online-mba-while-working",
+    "mba-while-working-full-time",
+    "online-degree-for-working-professionals",
+    "best-online-degree-for-working-professionals",
+    "online-mba-for-employees",
+    "online-mba-for-professionals"
 ]
 
 print(f"Total articles to index: {len(ORDERED_SLUGS)}")
@@ -142,6 +155,8 @@ for slug in ORDERED_SLUGS:
     # Title
     title_m = re.search(r'<h1[^>]*class="article-title"[^>]*>(.*?)</h1>', html, re.DOTALL)
     if not title_m:
+        title_m = re.search(r'<h1[^>]*class="article-h1"[^>]*>(.*?)</h1>', html, re.DOTALL)
+    if not title_m:
         title_m = re.search(r'<title>(.*?)</title>', html, re.DOTALL)
     title = re.sub(r'<[^>]+>', '', title_m.group(1)).strip() if title_m else slug
     title = title.split('|')[0].strip()
@@ -152,6 +167,8 @@ for slug in ORDERED_SLUGS:
 
     # Badge
     badge_m = re.search(r'class="article-badge-category">(.*?)</span>', html)
+    if not badge_m:
+        badge_m = re.search(r'class="hero-category-badge">(.*?)</span>', html)
     badge = badge_m.group(1).strip() if badge_m else 'Admissions'
 
     # Read Time
@@ -263,11 +280,13 @@ BADGE_COLORS = {
     "Syllabus & Curriculum": "background:#ecfdf5; color:#047857;",
     "MBA Subjects": "background:#ede9fe; color:#6d28d9;",
     "Examination Guide": "background:#fef3c7; color:#92400e;",
+    "Exams & Proctoring": "background:#fef3c7; color:#92400e;",
     "Program Length": "background:#e0f2fe; color:#0369a1;",
     "Who Can Enroll": "background:#fff3e0; color:#e65100;",
     "Eligibility Norms": "background:#e8f5e9; color:#1b5e20;",
     "Student Roadmap": "background:#fce4ec; color:#c2185b;",
-    "Academic Assignments": "background:#f3e5f5; color:#7b1fa2;"
+    "Academic Assignments": "background:#f3e5f5; color:#7b1fa2;",
+    "Working Professionals": "background:#e0f2f1; color:#00695c;"
 }
 
 def render_card(slug):
@@ -302,8 +321,8 @@ head_part = index_html[:index_html.find('<div class="blog-grid">') + len('<div c
 after_grid = index_html[index_html.find('<!-- Executive Blog Articles Pagination'):]
 lead_form_part = after_grid[after_grid.find('\n\n    <!-- Lead Form Magnet -->'):]
 
-TOTAL_ARTICLES = len(ORDERED_SLUGS) # 86
-TOTAL_PAGES = 10
+TOTAL_ARTICLES = len(ORDERED_SLUGS) # 96
+TOTAL_PAGES = 11
 
 def get_page_url(page_num):
     if page_num == 1:
@@ -348,7 +367,8 @@ PAGE_CONFIGS = [
     (7, 54, 63, "blogs/page-7.html", "Online MBA Admission Blogs and Guides (Page 7) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-7"),
     (8, 63, 72, "blogs/page-8.html", "Online MBA Admission Blogs and Guides (Page 8) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-8"),
     (9, 72, 81, "blogs/page-9.html", "Online MBA Admission Blogs and Guides (Page 9) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-9"),
-    (10, 81, 86, "blogs/page-10.html", "Online MBA Admission Blogs and Guides (Page 10) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-10"),
+    (10, 81, 90, "blogs/page-10.html", "Online MBA Admission Blogs and Guides (Page 10) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-10"),
+    (11, 90, 96, "blogs/page-11.html", "Online MBA Admission Blogs and Guides (Page 11) | Online MBA Admission", "https://www.onlinembaadmission.com/blogs/page-11"),
 ]
 
 for p_num, s_idx, e_idx, filepath, title_text, canonical_url in PAGE_CONFIGS:
@@ -438,6 +458,12 @@ blog_xml_nodes = """
     <changefreq>weekly</changefreq>
     <priority>0.70</priority>
   </url>
+  <url>
+    <loc>https://www.onlinembaadmission.com/blogs/page-11</loc>
+    <lastmod>2026-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.70</priority>
+  </url>
 """
 
 for slug in ORDERED_SLUGS:
@@ -475,6 +501,6 @@ with open("sitemap.xml", "w", encoding="utf-8") as fp:
 try:
     tree = ET.fromstring(sitemap_xml)
     urls = tree.findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url')
-    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected 372: 276 core/universities/specializations + 86 blogs + 10 pagination)")
+    print(f"SUCCESS: sitemap.xml is valid! Total URLs: {len(urls)} (expected 383: 276 core/universities/specializations + 96 blogs + 11 pagination)")
 except Exception as e:
     print(f"ERROR validating sitemap XML: {e}")
