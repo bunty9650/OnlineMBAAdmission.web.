@@ -1331,21 +1331,40 @@ if (!isAuditBot) {
     }
   }, { passive: true });
 
-  // C. Desktop Exit Intent (Keeps triggering when user attempts to leave the page)
-  document.addEventListener("mouseleave", (e) => {
+  // C. Desktop Exit Intent (Har baar jaise hi cursor exit karne ki koshish kare, instantly popup show hoga)
+  function triggerDesktopExit(source) {
     if (window.innerWidth <= 1024) return; // Desktop only
-    if (e.clientY <= 0) {
-      try {
-        if (sessionStorage.getItem("thankyouName")) return;
-      } catch (_) {}
+    try {
+      if (sessionStorage.getItem("thankyouName")) return;
+    } catch (_) {}
 
-      // 8-second cooldown after a close so it doesn't loop during the same cursor twitch
-      if (Date.now() - lastModalCloseTime > 8000) {
-        const modal = ensureCounselingModal();
-        if (!modal.classList.contains("is-open")) {
-          openLeadModal("", "Desktop Exit Intent Popup");
-        }
-      }
+    // Minimal 400ms buffer so clicking close ('X') does not re-open in the exact same click frame
+    if (Date.now() - lastModalCloseTime < 400) return;
+
+    const modal = ensureCounselingModal();
+    if (!modal.classList.contains("is-open")) {
+      openLeadModal("", source || "Desktop Exit Intent Popup");
+    }
+  }
+
+  // 1. Cursor leaves the top viewport boundary
+  document.addEventListener("mouseleave", (e) => {
+    if (e.clientY <= 25) {
+      triggerDesktopExit("Desktop Exit Intent (MouseLeave)");
+    }
+  });
+
+  // 2. Cursor moves outside the browser window entirely
+  document.addEventListener("mouseout", (e) => {
+    if (!e.relatedTarget && e.clientY <= 25) {
+      triggerDesktopExit("Desktop Exit Intent (MouseOut)");
+    }
+  });
+
+  // 3. Fast cursor movement directly hitting the browser top tab bar (< 8px from top)
+  document.addEventListener("mousemove", (e) => {
+    if (e.clientY <= 8) {
+      triggerDesktopExit("Desktop Exit Intent (Top Edge)");
     }
   });
 }
