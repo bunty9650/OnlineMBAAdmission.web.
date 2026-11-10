@@ -56,6 +56,7 @@ EXCLUDE_PATTERNS = {
     "__pycache__",
     "hostinger_public_html.zip",
     "blog-template.html",
+    "leads_backup.jsonl",
     ".DS_Store",
     "Thumbs.db",
 }

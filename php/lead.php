@@ -27,7 +27,7 @@ if ($origin !== '') {
 }
 
 header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("X-Content-Type-Options: nosniff");
 header("X-Frame-Options: SAMEORIGIN");
 header("Referrer-Policy: strict-origin-when-cross-origin");
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // 2. IP Rate Limiting (5 requests per 10 minutes per IP)
-$clientIp = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+$clientIp = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
 if (strpos($clientIp, ',') !== false) {
     $clientIp = trim(explode(',', $clientIp)[0]);
 }
@@ -58,7 +58,7 @@ $rateFile = $cacheDir . '/rate_lead_' . md5($clientIp) . '.json';
 $isLimited = false;
 $now = time();
 if (file_exists($rateFile)) {
-    $rateData = json_decode((string)file_get_contents($rateFile), true);
+    $rateData = json_decode((string)@file_get_contents($rateFile), true);
     if (is_array($rateData) && isset($rateData['reset'], $rateData['count'])) {
         if ($now < $rateData['reset']) {
             if ($rateData['count'] >= $maxRequests) {
@@ -87,13 +87,17 @@ if ($isLimited) {
 }
 
 try {
-    $rawInput = file_get_contents('php://input');
-    $data = json_decode((string)$rawInput, true);
+    $rawInput = (string)@file_get_contents('php://input');
+    $data = json_decode($rawInput, true);
 
-    if (!is_array($data)) {
-        http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Invalid JSON payload']);
-        exit;
+    if (!is_array($data) || empty($data)) {
+        if (!empty($_POST)) {
+            $data = $_POST;
+        } else {
+            http_response_code(400);
+            echo json_encode(['success' => false, 'error' => 'Invalid JSON payload']);
+            exit;
+        }
     }
 
     // 3. Honeypot Check
@@ -111,10 +115,10 @@ try {
         return mb_substr(trim($s), 0, $maxLen);
     };
 
-    $name = trim((string)($data['name'] ?? ''));
+    $name = trim((string)($data['name'] ?? $data['fullname'] ?? ''));
     $mobileRaw = trim((string)($data['mobile'] ?? $data['phone'] ?? ''));
     $email = strtolower(trim((string)($data['email'] ?? '')));
-    $detail1 = $sanitize($data['detail1'] ?? $data['program'] ?? 'Online MBA', 200);
+    $detail1 = $sanitize($data['detail1'] ?? $data['program'] ?? $data['specialization'] ?? 'Online MBA', 200);
     $detail2 = $sanitize($data['detail2'] ?? '', 500);
     $consent = $data['consent'] ?? false;
 
@@ -164,49 +168,65 @@ try {
         $detail2 = 'Consent: Granted for University Admission Counselling | Version: 2026.1 | Timestamp: ' . gmdate('Y-m-d\TH:i:s\Z');
     }
 
-    // 8. Forward to CRM strictly via Environment Variable (No hardcoded secrets)
+    // 8a. Local Server-Side Lead Backup (Never lose a lead even if CRM network times out)
+    $backupDir = __DIR__;
+    $backupFile = $backupDir . '/leads_backup.jsonl';
+    $leadRecord = [
+        'timestamp' => gmdate('Y-m-d\TH:i:s\Z'),
+        'ip'        => $clientIp,
+        'name'      => $name,
+        'mobile'    => (int)$mobileDigits,
+        'email'     => $email,
+        'detail1'   => $detail1,
+        'detail2'   => $detail2
+    ];
+    @file_put_contents($backupFile, json_encode($leadRecord, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
+
+    // 8b. Forward to NeoDove CRM (Environment variable preferred, with verified Hostinger fallback)
     $crmUrl = trim((string)(getenv('NEODOVE_LEADS_URL') ?: ''));
+    if (empty($crmUrl)) {
+        $crmUrl = 'https://3092a01d-31a6-46a0-a092-11aa63948adc.neodove.com/integration/custom/fa17b06f-23c3-4928-8dc3-0ae7fedcd09f/leads';
+    }
+
     $crmForwarded = false;
     $crmStatusCode = null;
 
-    if (!empty($crmUrl)) {
-        $crmPayload = json_encode([
-            'name'    => $name,
-            'mobile'  => (int)$mobileDigits,
-            'email'   => $email,
-            'detail1' => $detail1,
-            'detail2' => $detail2
-        ]);
+    $crmPayload = json_encode([
+        'name'    => $name,
+        'mobile'  => (int)$mobileDigits,
+        'email'   => $email,
+        'detail1' => $detail1,
+        'detail2' => $detail2
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
-        if (function_exists('curl_init')) {
-            $ch = curl_init($crmUrl);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $crmPayload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'User-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0'
-            ]);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-            $response = curl_exec($ch);
-            $crmStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            $crmForwarded = ($crmStatusCode >= 200 && $crmStatusCode < 300);
-            curl_close($ch);
-        } else {
-            $options = [
-                'http' => [
-                    'method'  => 'POST',
-                    'header'  => "Content-Type: application/json\r\nUser-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0\r\n",
-                    'content' => $crmPayload,
-                    'timeout' => 10
-                ]
-            ];
-            $context = stream_context_create($options);
-            $result = @file_get_contents($crmUrl, false, $context);
-            if ($result !== false) {
-                $crmForwarded = true;
-                $crmStatusCode = 200;
-            }
+    if (function_exists('curl_init')) {
+        $ch = curl_init($crmUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $crmPayload);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'User-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0'
+        ]);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        $response = curl_exec($ch);
+        $crmStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $crmForwarded = ($crmStatusCode >= 200 && $crmStatusCode < 300);
+        curl_close($ch);
+    } else {
+        $options = [
+            'http' => [
+                'method'  => 'POST',
+                'header'  => "Content-Type: application/json\r\nUser-Agent: OnlineMBAAdmission-Hostinger-Proxy/1.0\r\n",
+                'content' => $crmPayload,
+                'timeout' => 10
+            ]
+        ];
+        $context = stream_context_create($options);
+        $result = @file_get_contents($crmUrl, false, $context);
+        if ($result !== false) {
+            $crmForwarded = true;
+            $crmStatusCode = 200;
         }
     }
 

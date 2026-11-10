@@ -964,7 +964,7 @@
     </nav>
 
     <div class="top-actions">
-      <button class="small-cta header-counseling-btn" data-modal="lead-modal" data-scroll="#article-form">Free Counseling</button>
+      <button class="small-cta header-counseling-btn" data-modal="lead-modal">Free Counseling</button>
       <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
         <span></span>
         <span></span>
@@ -2086,14 +2086,6 @@
       if (modal) {
         openBtns.forEach(function(btn) {
           btn.addEventListener("click", function(e) {
-            // If button is data-scroll, check if user wanted to scroll or open modal
-            if (btn.getAttribute("data-scroll")) {
-              var target = document.querySelector(btn.getAttribute("data-scroll"));
-              if (target) {
-                target.scrollIntoView({ behavior: "smooth" });
-                return;
-              }
-            }
             e.preventDefault();
             modal.classList.add("is-open");
             modal.setAttribute("aria-hidden", "false");

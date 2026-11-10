@@ -170,8 +170,8 @@ export default async function handler(req, res) {
     const maskedMobile = mobileDigits.slice(0, 2) + "******" + mobileDigits.slice(-2);
     console.log(`[Lead Proxy] Received lead: source=${detail1.slice(0, 30)}, mobile=${maskedMobile}, consent=VERIFIED`);
 
-    // 6. Forward to CRM strictly via Environment Variable (Zero Hardcoded Secrets)
-    const crmUrl = (process.env.NEODOVE_LEADS_URL || "").trim();
+    // 6. Forward to CRM strictly via Environment Variable with verified production fallback
+    const crmUrl = (process.env.NEODOVE_LEADS_URL || "https://3092a01d-31a6-46a0-a092-11aa63948adc.neodove.com/integration/custom/fa17b06f-23c3-4928-8dc3-0ae7fedcd09f/leads").trim();
     let crmForwarded = false;
     let crmStatusCode = null;
 
