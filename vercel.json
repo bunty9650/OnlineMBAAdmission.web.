@@ -42,7 +42,10 @@
     { "source": "/universities/:univ/mba-in-:spec", "destination": "/university/:univ/mba-in-:spec", "permanent": true },
     { "source": "/university/:univ", "destination": "/universities/:univ", "permanent": true },
     { "source": "/contact", "destination": "/admission", "permanent": true },
-    { "source": "/contact.html", "destination": "/admission", "permanent": true }
+    { "source": "/contact.html", "destination": "/admission", "permanent": true },
+    { "source": "/blogs/ignou-online-mba-admission-2027", "destination": "/universities/ignou", "permanent": true },
+    { "source": "/blogs/ignou-online-mba-admission-2026", "destination": "/universities/ignou", "permanent": true },
+    { "source": "/universities", "has": [{ "type": "query", "key": "q" }], "destination": "/universities", "permanent": true }
   ],
   "headers": [
     {
