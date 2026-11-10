@@ -184,9 +184,6 @@ function closeLeadModal() {
   if (!modal || !modal.classList.contains("is-open")) return;
 
   lastModalCloseTime = Date.now();
-  try {
-    sessionStorage.setItem("leadModalDismissed", "true");
-  } catch (_) {}
   modal.classList.remove("is-open");
   modal.setAttribute("aria-hidden", "true");
   document.body.classList.remove("modal-open");
@@ -202,13 +199,18 @@ function attachModalFormListeners(modal) {
   const closeBtn = modal.querySelector(".modal-close");
   if (closeBtn && !closeBtn.dataset.bound) {
     closeBtn.dataset.bound = "true";
-    closeBtn.addEventListener("click", closeLeadModal);
+    closeBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      closeLeadModal();
+    });
   }
 
   if (!modal.dataset.boundBackdrop) {
     modal.dataset.boundBackdrop = "true";
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
+        e.preventDefault();
         closeLeadModal();
       }
     });
@@ -1259,42 +1261,49 @@ if (typeof document !== "undefined") {
   }
 }
 
-// Automated Popups Policy (Balanced & High-Converting Standard):
-// 1. Never spam or loop: Maximum 1 automatic popup per browser session.
-// 2. Direct button clicks ALWAYS open instantly.
-// 3. Gentle timed popup: Triggers after 12 seconds of reading (Mobile & Desktop).
-// 4. Scroll-depth popup: Triggers when user scrolls past 50% depth (Mobile & Desktop).
-// 5. Desktop exit-intent: Triggers when mouse leaves the top viewport.
-// 6. Respect user dismissal: If closed once, never auto-popup again in the same session.
+// Automated Popups Policy (Exact User Specified Rules):
+// 1. Entry Popup: 3 seconds after page visit (Both Mobile & Desktop).
+// 2. Mobile End-of-Page Scroll Popup: Triggers when mobile user reaches the bottom/end of the page.
+// 3. Desktop Exit-Intent: Triggers when desktop user moves cursor to leave the page (at top viewport).
+// 4. Instant Close: Closes immediately when 'X' is clicked or clicked outside.
 if (!isAuditBot) {
-  function triggerAutoModal(triggerSource) {
+  // Global document-level close delegation (guarantees close button always responds instantly)
+  document.addEventListener("click", (e) => {
+    if (e.target && (e.target.matches(".modal-close, .modal-close *") || e.target.closest(".modal-close"))) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeLeadModal();
+    }
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeLeadModal();
+    }
+  });
+
+  // A. 3-Second Entry Popup (Mobile & Desktop)
+  setTimeout(() => {
     try {
       if (sessionStorage.getItem("thankyouName")) return;
-      if (sessionStorage.getItem("leadModalDismissed")) return;
-      if (sessionStorage.getItem("autoPopupShown")) return;
-      sessionStorage.setItem("autoPopupShown", "true");
+      if (sessionStorage.getItem("entryPopupShown")) return;
+      sessionStorage.setItem("entryPopupShown", "true");
     } catch (_) {}
 
     const modal = ensureCounselingModal();
-    if (!modal.classList.contains("is-open") && Date.now() - lastModalCloseTime > 3000) {
-      openLeadModal("", triggerSource);
+    if (!modal.classList.contains("is-open")) {
+      openLeadModal("", "3-Second Entry Popup");
     }
-  }
+  }, 3000);
 
-  // A. 12-Second Gentle Reading Timer (Mobile & Desktop)
-  setTimeout(() => {
-    triggerAutoModal("12-Second Timed Popup");
-  }, 12000);
-
-  // B. 50% Scroll Depth Trigger (Mobile & Desktop)
-  let scrollTriggerFired = false;
+  // B. Mobile End-of-Page Scroll Popup
+  let mobileEndPopupFired = false;
   window.addEventListener("scroll", () => {
-    if (scrollTriggerFired) return;
+    if (window.innerWidth > 1024) return; // Mobile only
+    if (mobileEndPopupFired) return;
     try {
-      if (sessionStorage.getItem("leadModalDismissed") || sessionStorage.getItem("autoPopupShown")) {
-        scrollTriggerFired = true;
-        return;
-      }
+      if (sessionStorage.getItem("thankyouName")) return;
+      if (sessionStorage.getItem("mobileBottomPopupShown")) return;
     } catch (_) {}
 
     const docEl = document.documentElement;
@@ -1304,20 +1313,39 @@ if (!isAuditBot) {
     const clientHeight = docEl.clientHeight || window.innerHeight;
     const totalScrollable = scrollHeight - clientHeight;
 
-    if (totalScrollable > 400) {
+    if (totalScrollable > 250) {
       const scrollPercent = (scrollTop / totalScrollable) * 100;
-      if (scrollPercent >= 50) {
-        scrollTriggerFired = true;
-        triggerAutoModal("50% Scroll Depth Popup");
+      // Triggers when user scrolls to bottom 85%+ or within 220px of page bottom
+      if (scrollPercent >= 85 || (scrollHeight - (scrollTop + clientHeight) <= 220)) {
+        if (Date.now() - lastModalCloseTime > 4000) {
+          mobileEndPopupFired = true;
+          try {
+            sessionStorage.setItem("mobileBottomPopupShown", "true");
+          } catch (_) {}
+          const modal = ensureCounselingModal();
+          if (!modal.classList.contains("is-open")) {
+            openLeadModal("", "Mobile End-of-Page Popup");
+          }
+        }
       }
     }
   }, { passive: true });
 
-  // C. Desktop Exit Intent (Cursor leaves top of window)
+  // C. Desktop Exit Intent (Keeps triggering when user attempts to leave the page)
   document.addEventListener("mouseleave", (e) => {
-    if (window.innerWidth <= 1024) return;
+    if (window.innerWidth <= 1024) return; // Desktop only
     if (e.clientY <= 0) {
-      triggerAutoModal("Desktop Exit Intent Popup");
+      try {
+        if (sessionStorage.getItem("thankyouName")) return;
+      } catch (_) {}
+
+      // 8-second cooldown after a close so it doesn't loop during the same cursor twitch
+      if (Date.now() - lastModalCloseTime > 8000) {
+        const modal = ensureCounselingModal();
+        if (!modal.classList.contains("is-open")) {
+          openLeadModal("", "Desktop Exit Intent Popup");
+        }
+      }
     }
   });
 }
