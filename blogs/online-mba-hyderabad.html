@@ -157,7 +157,7 @@
 }
   </script>
 
-  <link rel="stylesheet" href="/styles.css?v=9.0">
+  <link rel="stylesheet" href="/styles.css?v=9.3">
   <style id="critical-nav-css">
     .top-bar { position: sticky !important; top: 0 !important; z-index: 1000 !important; background: #ffffff !important; border-bottom: 1px solid #eef2f5 !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important; min-height: 72px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 0 clamp(16px, 4vw, 42px) !important; box-sizing: border-box !important; }
     .brand { display: flex !important; align-items: center !important; text-decoration: none !important; flex-shrink: 0 !important; }
@@ -226,7 +226,29 @@
       .cs-table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; width: 100% !important; }
       .cs-table { min-width: 520px !important; }
     }
-  </style>
+  
+/* --- PREMIUM ANIMATED FAQ ACCORDION ENGINE --- */
+.cs-faq-wrapper, .cs-faq-list, .faq-accordion { display: flex !important; flex-direction: column !important; gap: 14px !important; margin: 24px 0 36px !important; width: 100% !important; }
+.cs-faq-item, .faq-item { border: 1px solid #e2e8f0 !important; border-radius: 12px !important; background: #ffffff !important; overflow: hidden !important; transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important; margin-bottom: 0 !important; padding: 0 !important; }
+.cs-faq-item:hover, .faq-item:hover { border-color: #cbd5e1 !important; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important; }
+.cs-faq-item.active, .faq-item.active { border-color: #0a6d6f !important; box-shadow: 0 6px 20px rgba(10, 109, 111, 0.12) !important; background: #ffffff !important; }
+.cs-faq-q, .cs-faq-question, .faq-question { padding: 16px 20px !important; font-weight: 700 !important; font-size: 1.02rem !important; color: #0f172a !important; cursor: pointer !important; display: flex !important; justify-content: space-between !important; align-items: center !important; background: #ffffff !important; user-select: none !important; -webkit-tap-highlight-color: transparent !important; transition: background 0.2s ease, color 0.2s ease !important; gap: 16px !important; line-height: 1.45 !important; margin: 0 !important; outline: none !important; }
+.cs-faq-q:hover, .cs-faq-question:hover, .faq-question:hover { background: #f8fafc !important; color: #0a6d6f !important; }
+.cs-faq-item.active > .cs-faq-q, .cs-faq-item.active > .cs-faq-question, .faq-item.active > .faq-question { color: #0a6d6f !important; background: #f8fbfb !important; }
+.cs-faq-q span:first-child, .cs-faq-question span:first-child, .faq-question span:first-child { flex: 1 !important; }
+.cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 32px !important; height: 32px !important; min-width: 32px !important; border-radius: 50% !important; background: #f1f5f9 !important; color: #0a6d6f !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 1.25rem !important; font-weight: 700 !important; line-height: 1 !important; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, color 0.25s ease !important; flex-shrink: 0 !important; margin-left: 12px !important; }
+.cs-faq-q:hover .cs-faq-icon, .cs-faq-question:hover .cs-faq-arrow, .faq-question:hover .faq-chevron { background: #e2e8f0 !important; color: #074e52 !important; }
+.cs-faq-item.active .cs-faq-icon { transform: rotate(45deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-item.active .cs-faq-arrow, .faq-item.active .faq-chevron { transform: rotate(180deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-a, .cs-faq-answer, .faq-answer { max-height: 0 !important; opacity: 0 !important; overflow: hidden !important; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.35s ease !important; padding: 0 20px !important; border-top: 1px solid transparent !important; color: #475569 !important; font-size: 0.95rem !important; line-height: 1.7 !important; display: block !important; }
+.cs-faq-a p, .cs-faq-answer p, .faq-answer p { margin: 0 !important; line-height: 1.7 !important; color: #475569 !important; }
+.cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { max-height: 1000px !important; opacity: 1 !important; padding: 16px 20px 22px 20px !important; border-top: 1px solid #f1f5f9 !important; background: #ffffff !important; }
+@media (max-width: 640px) {
+  .cs-faq-q, .cs-faq-question, .faq-question { padding: 14px 16px !important; font-size: 0.96rem !important; gap: 12px !important; }
+  .cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 28px !important; height: 28px !important; min-width: 28px !important; font-size: 1.1rem !important; margin-left: 8px !important; }
+  .cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { padding: 14px 16px 18px 16px !important; }
+}
+</style>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -738,54 +760,78 @@
         <!-- FAQ Section -->
         <section class="cs-card" id="faqs" style="margin-top: 32px;">
           <h2 class="cs-heading-2">Frequently Asked Questions: Online MBA for Working Professionals</h2>
-          <div class="faq-accordion" style="margin-top: 18px;">
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q1:</span> How does an Online MBA benefit tech professionals in HITEC City and Gachibowli?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Tech professionals in Hyderabad's HITEC City, Madhapur, and Gachibowli use an Online MBA to break out of mid-level coding and QA roles into high-paying management tracks such as Technical Product Manager (TPM), Engineering Program Director, and Business Strategy Consultant.</p>
+          <div class="cs-faq-wrapper">
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>How does an Online MBA benefit tech professionals in HITEC City and Gachibowli?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Tech professionals in Hyderabad's HITEC City, Madhapur, and Gachibowli use an Online MBA to break out of mid-level coding and QA roles into high-paying management tracks such as Technical Product Manager (TPM), Engineering Program Director, and Business Strategy Consultant.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q2:</span> Can life sciences and pharma professionals in Genome Valley pursue an Online MBA?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes. Hyderabad is India's pharmaceutical and vaccine hub (Genome Valley, Dr. Reddy's, Bharat Biotech, Aurobindo). Specialized Online MBA tracks in Operations, Healthcare Management, and Business Analytics allow scientists and plant supervisors to transition into global supply chain management, clinical operations, and regulatory strategy.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Can life sciences and pharma professionals in Genome Valley pursue an Online MBA?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes. Hyderabad is India's pharmaceutical and vaccine hub (Genome Valley, Dr. Reddy's, Bharat Biotech, Aurobindo). Specialized Online MBA tracks in Operations, Healthcare Management, and Business Analytics allow scientists and plant supervisors to transition into global supply chain management, clinical operations, and regulatory strategy.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q3:</span> How is an Online MBA different from Osmania University PGRRCDE distance courses?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Osmania University's PGRRCDE provides traditional correspondence education with printed study booklets and mandatory offline pen-and-paper exam center attendance. UGC-DEB entitled modern Online MBAs provide live weekend faculty lectures, interactive LMS platforms, and 100% remote AI-proctored examinations taken from your laptop at home.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>How is an Online MBA different from Osmania University PGRRCDE distance courses?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Osmania University's PGRRCDE provides traditional correspondence education with printed study booklets and mandatory offline pen-and-paper exam center attendance. UGC-DEB entitled modern Online MBAs provide live weekend faculty lectures, interactive LMS platforms, and 100% remote AI-proctored examinations taken from your laptop at home.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q4:</span> What is the total fee and EMI breakdown for Online MBA in Hyderabad?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Total fees range from ₹80,000 to ₹1,00,000 for high-value accredited universities like St. Aloysius, and ₹1,60,000 to ₹2,00,000 for top-tier private universities like Manipal University Jaipur, Jain, and Amity Online. No-cost EMI schemes start from ₹3,500 to ₹6,500 per month.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>What is the total fee and EMI breakdown for Online MBA in Hyderabad?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Total fees range from ₹80,000 to ₹1,00,000 for high-value accredited universities like St. Aloysius, and ₹1,60,000 to ₹2,00,000 for top-tier private universities like Manipal University Jaipur, Jain, and Amity Online. No-cost EMI schemes start from ₹3,500 to ₹6,500 per month.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q5:</span> Is TS ICET or CAT mandatory for Online MBA admission in Hyderabad?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">No. Admission to UGC-DEB entitled online MBA programs is direct and based purely on your undergraduate degree marks (minimum 50% for General, 45% for Reserved categories). No TS ICET, CAT, or MAT scores are required.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Is TS ICET or CAT mandatory for Online MBA admission in Hyderabad?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>No. Admission to UGC-DEB entitled online MBA programs is direct and based purely on your undergraduate degree marks (minimum 50% for General, 45% for Reserved categories). No TS ICET, CAT, or MAT scores are required.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q6:</span> Is an Online MBA degree valid for Telangana State PSC and PSU jobs?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes. Under Regulation 22 of the UGC 2020 Gazette Notification, online degrees from entitled universities carry 100% statutory equivalence with conventional regular degrees for TSPC, UPSC, PSU undertakings (BHEL, BD, Midhani), and nationalized banks.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Is an Online MBA degree valid for Telangana State PSC and PSU jobs?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes. Under Regulation 22 of the UGC 2020 Gazette Notification, online degrees from entitled universities carry 100% statutory equivalence with conventional regular degrees for TSPC, UPSC, PSU undertakings (BHEL, BD, Midhani), and nationalized banks.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q7:</span> Can B.Tech and MCA graduates apply without taking entrance tests in Hyderabad?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes. B.Tech, B.E., and MCA graduates from recognized universities are eligible for direct merit admission based on their aggregate degree marks. With minimum 50% graduation marks (45% for Reserved categories), no CAT, TS ICET, or GATE scores are required. Specializations like Business Analytics and Cloud Operations build seamlessly on technical engineering backgrounds.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Can B.Tech and MCA graduates apply without taking entrance tests in Hyderabad?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes. B.Tech, B.E., and MCA graduates from recognized universities are eligible for direct merit admission based on their aggregate degree marks. With minimum 50% graduation marks (45% for Reserved categories), no CAT, TS ICET, or GATE scores are required. Specializations like Business Analytics and Cloud Operations build seamlessly on technical engineering backgrounds.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q8:</span> How do AI proctored exams handle broadband disconnects in Hyderabad suburbs?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">University online examination portals feature automated session auto-recovery. If your internet disconnects during an exam in Gachibowli, Madhapur, or Kompally, your answers up to that minute remain cached securely on the cloud server. You are permitted a 10-minute reconnection buffer to resume your proctored test without penalty.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>How do AI proctored exams handle broadband disconnects in Hyderabad suburbs?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>University online examination portals feature automated session auto-recovery. If your internet disconnects during an exam in Gachibowli, Madhapur, or Kompally, your answers up to that minute remain cached securely on the cloud server. You are permitted a 10-minute reconnection buffer to resume your proctored test without penalty.</p>
+            </div>
           </div>
           </div>
         </section>
@@ -974,6 +1020,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=9.0" defer></script>
+  <script src="/script.js?v=9.3" defer></script>
 </body>
 </html>

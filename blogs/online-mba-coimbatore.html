@@ -141,7 +141,7 @@
 }
   </script>
 
-  <link rel="stylesheet" href="/styles.css?v=9.0">
+  <link rel="stylesheet" href="/styles.css?v=9.3">
   <style id="critical-nav-css">
     .top-bar { position: sticky !important; top: 0 !important; z-index: 1000 !important; background: #ffffff !important; border-bottom: 1px solid #eef2f5 !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important; min-height: 72px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 0 clamp(16px, 4vw, 42px) !important; box-sizing: border-box !important; }
     .brand { display: flex !important; align-items: center !important; text-decoration: none !important; flex-shrink: 0 !important; }
@@ -210,7 +210,29 @@
       .cs-table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; width: 100% !important; }
       .cs-table { min-width: 520px !important; }
     }
-  </style>
+  
+/* --- PREMIUM ANIMATED FAQ ACCORDION ENGINE --- */
+.cs-faq-wrapper, .cs-faq-list, .faq-accordion { display: flex !important; flex-direction: column !important; gap: 14px !important; margin: 24px 0 36px !important; width: 100% !important; }
+.cs-faq-item, .faq-item { border: 1px solid #e2e8f0 !important; border-radius: 12px !important; background: #ffffff !important; overflow: hidden !important; transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important; margin-bottom: 0 !important; padding: 0 !important; }
+.cs-faq-item:hover, .faq-item:hover { border-color: #cbd5e1 !important; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important; }
+.cs-faq-item.active, .faq-item.active { border-color: #0a6d6f !important; box-shadow: 0 6px 20px rgba(10, 109, 111, 0.12) !important; background: #ffffff !important; }
+.cs-faq-q, .cs-faq-question, .faq-question { padding: 16px 20px !important; font-weight: 700 !important; font-size: 1.02rem !important; color: #0f172a !important; cursor: pointer !important; display: flex !important; justify-content: space-between !important; align-items: center !important; background: #ffffff !important; user-select: none !important; -webkit-tap-highlight-color: transparent !important; transition: background 0.2s ease, color 0.2s ease !important; gap: 16px !important; line-height: 1.45 !important; margin: 0 !important; outline: none !important; }
+.cs-faq-q:hover, .cs-faq-question:hover, .faq-question:hover { background: #f8fafc !important; color: #0a6d6f !important; }
+.cs-faq-item.active > .cs-faq-q, .cs-faq-item.active > .cs-faq-question, .faq-item.active > .faq-question { color: #0a6d6f !important; background: #f8fbfb !important; }
+.cs-faq-q span:first-child, .cs-faq-question span:first-child, .faq-question span:first-child { flex: 1 !important; }
+.cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 32px !important; height: 32px !important; min-width: 32px !important; border-radius: 50% !important; background: #f1f5f9 !important; color: #0a6d6f !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 1.25rem !important; font-weight: 700 !important; line-height: 1 !important; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, color 0.25s ease !important; flex-shrink: 0 !important; margin-left: 12px !important; }
+.cs-faq-q:hover .cs-faq-icon, .cs-faq-question:hover .cs-faq-arrow, .faq-question:hover .faq-chevron { background: #e2e8f0 !important; color: #074e52 !important; }
+.cs-faq-item.active .cs-faq-icon { transform: rotate(45deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-item.active .cs-faq-arrow, .faq-item.active .faq-chevron { transform: rotate(180deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-a, .cs-faq-answer, .faq-answer { max-height: 0 !important; opacity: 0 !important; overflow: hidden !important; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.35s ease !important; padding: 0 20px !important; border-top: 1px solid transparent !important; color: #475569 !important; font-size: 0.95rem !important; line-height: 1.7 !important; display: block !important; }
+.cs-faq-a p, .cs-faq-answer p, .faq-answer p { margin: 0 !important; line-height: 1.7 !important; color: #475569 !important; }
+.cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { max-height: 1000px !important; opacity: 1 !important; padding: 16px 20px 22px 20px !important; border-top: 1px solid #f1f5f9 !important; background: #ffffff !important; }
+@media (max-width: 640px) {
+  .cs-faq-q, .cs-faq-question, .faq-question { padding: 14px 16px !important; font-size: 0.96rem !important; gap: 12px !important; }
+  .cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 28px !important; height: 28px !important; min-width: 28px !important; font-size: 1.1rem !important; margin-left: 8px !important; }
+  .cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { padding: 14px 16px 18px 16px !important; }
+}
+</style>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -744,42 +766,60 @@
         <!-- FAQ Section -->
         <section class="cs-card" id="faqs" style="margin-top: 32px;">
           <h2 class="cs-heading-2">Frequently Asked Questions: Online MBA for Working Professionals</h2>
-          <div class="faq-accordion" style="margin-top: 18px;">
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q1:</span> Is an online MBA recognized for government jobs and state PSC recruitments in Tamil Nadu?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes. Under UGC Gazette Notification Regulation 22 (September 2020), online degrees granted by UGC-DEB entitled universities have complete legal parity with campus degrees. They are 100% valid for TNPSC, central PSUs, banking sector, and university teaching eligibility.</p>
+          <div class="cs-faq-wrapper">
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Is an online MBA recognized for government jobs and state PSC recruitments in Tamil Nadu?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes. Under UGC Gazette Notification Regulation 22 (September 2020), online degrees granted by UGC-DEB entitled universities have complete legal parity with campus degrees. They are 100% valid for TNPSC, central PSUs, banking sector, and university teaching eligibility.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q2:</span> Can IT engineers and plant managers in Coimbatore manage the online study workload?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes. The curriculum is optimized for working adults, requiring 8–10 hours per week. Lectures are accessible 24/7 on mobile LMS, live masterclasses occur on weekends, and assignments are completed digitally.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Can IT engineers and plant managers in Coimbatore manage the online study workload?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes. The curriculum is optimized for working adults, requiring 8–10 hours per week. Lectures are accessible 24/7 on mobile LMS, live masterclasses occur on weekends, and assignments are completed digitally.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q3:</span> Where do I have to travel for online MBA term-end examinations?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">You do not need to travel anywhere. All term-end examinations are conducted 100% online through secure AI-monitored webcam proctoring. You take them from your home in Coimbatore.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Where do I have to travel for online MBA term-end examinations?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>You do not need to travel anywhere. All term-end examinations are conducted 100% online through secure AI-monitored webcam proctoring. You take them from your home in Coimbatore.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q4:</span> Which specializations are most beneficial for Coimbatore's industrial profile?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Operations & Supply Chain Management and Business Analytics are top choices for automotive, pump, and engineering managers. IT & Systems serves the growing tech corridor, while Healthcare Management suits hospital executives.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Which specializations are most beneficial for Coimbatore's industrial profile?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Operations & Supply Chain Management and Business Analytics are top choices for automotive, pump, and engineering managers. IT & Systems serves the growing tech corridor, while Healthcare Management suits hospital executives.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q5:</span> What is the cost of an online MBA in Coimbatore and are EMI options available?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Total fees range from ₹30,000 for government open universities up to ₹1,20,000–₹2,60,000 for top-tier private universities. 0% interest monthly EMI schemes start at ₹4,500 to ₹7,500 per month.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>What is the cost of an online MBA in Coimbatore and are EMI options available?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Total fees range from ₹30,000 for government open universities up to ₹1,20,000–₹2,60,000 for top-tier private universities. 0% interest monthly EMI schemes start at ₹4,500 to ₹7,500 per month.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q6:</span> Is TANCET or CAT required for online MBA admission?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">No. Admission is direct and merit-based on your undergraduate graduation score (minimum 50% for general, 45% for reserved category). TANCET is not required.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Is TANCET or CAT required for online MBA admission?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>No. Admission is direct and merit-based on your undergraduate graduation score (minimum 50% for general, 45% for reserved category). TANCET is not required.</p>
+            </div>
           </div>
           </div>
         </section>
@@ -968,6 +1008,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=9.0" defer></script>
+  <script src="/script.js?v=9.3" defer></script>
 </body>
 </html>

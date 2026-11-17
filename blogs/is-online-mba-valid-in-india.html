@@ -141,7 +141,7 @@
 }
   </script>
 
-  <link rel="stylesheet" href="/styles.css?v=9.0">
+  <link rel="stylesheet" href="/styles.css?v=9.3">
   <style id="critical-nav-css">
     .top-bar { position: sticky !important; top: 0 !important; z-index: 1000 !important; background: #ffffff !important; border-bottom: 1px solid #eef2f5 !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important; min-height: 72px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 0 clamp(16px, 4vw, 42px) !important; box-sizing: border-box !important; }
     .brand { display: flex !important; align-items: center !important; text-decoration: none !important; flex-shrink: 0 !important; }
@@ -210,7 +210,29 @@
       .cs-table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; width: 100% !important; }
       .cs-table { min-width: 520px !important; }
     }
-  </style>
+  
+/* --- PREMIUM ANIMATED FAQ ACCORDION ENGINE --- */
+.cs-faq-wrapper, .cs-faq-list, .faq-accordion { display: flex !important; flex-direction: column !important; gap: 14px !important; margin: 24px 0 36px !important; width: 100% !important; }
+.cs-faq-item, .faq-item { border: 1px solid #e2e8f0 !important; border-radius: 12px !important; background: #ffffff !important; overflow: hidden !important; transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important; margin-bottom: 0 !important; padding: 0 !important; }
+.cs-faq-item:hover, .faq-item:hover { border-color: #cbd5e1 !important; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important; }
+.cs-faq-item.active, .faq-item.active { border-color: #0a6d6f !important; box-shadow: 0 6px 20px rgba(10, 109, 111, 0.12) !important; background: #ffffff !important; }
+.cs-faq-q, .cs-faq-question, .faq-question { padding: 16px 20px !important; font-weight: 700 !important; font-size: 1.02rem !important; color: #0f172a !important; cursor: pointer !important; display: flex !important; justify-content: space-between !important; align-items: center !important; background: #ffffff !important; user-select: none !important; -webkit-tap-highlight-color: transparent !important; transition: background 0.2s ease, color 0.2s ease !important; gap: 16px !important; line-height: 1.45 !important; margin: 0 !important; outline: none !important; }
+.cs-faq-q:hover, .cs-faq-question:hover, .faq-question:hover { background: #f8fafc !important; color: #0a6d6f !important; }
+.cs-faq-item.active > .cs-faq-q, .cs-faq-item.active > .cs-faq-question, .faq-item.active > .faq-question { color: #0a6d6f !important; background: #f8fbfb !important; }
+.cs-faq-q span:first-child, .cs-faq-question span:first-child, .faq-question span:first-child { flex: 1 !important; }
+.cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 32px !important; height: 32px !important; min-width: 32px !important; border-radius: 50% !important; background: #f1f5f9 !important; color: #0a6d6f !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 1.25rem !important; font-weight: 700 !important; line-height: 1 !important; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, color 0.25s ease !important; flex-shrink: 0 !important; margin-left: 12px !important; }
+.cs-faq-q:hover .cs-faq-icon, .cs-faq-question:hover .cs-faq-arrow, .faq-question:hover .faq-chevron { background: #e2e8f0 !important; color: #074e52 !important; }
+.cs-faq-item.active .cs-faq-icon { transform: rotate(45deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-item.active .cs-faq-arrow, .faq-item.active .faq-chevron { transform: rotate(180deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-a, .cs-faq-answer, .faq-answer { max-height: 0 !important; opacity: 0 !important; overflow: hidden !important; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.35s ease !important; padding: 0 20px !important; border-top: 1px solid transparent !important; color: #475569 !important; font-size: 0.95rem !important; line-height: 1.7 !important; display: block !important; }
+.cs-faq-a p, .cs-faq-answer p, .faq-answer p { margin: 0 !important; line-height: 1.7 !important; color: #475569 !important; }
+.cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { max-height: 1000px !important; opacity: 1 !important; padding: 16px 20px 22px 20px !important; border-top: 1px solid #f1f5f9 !important; background: #ffffff !important; }
+@media (max-width: 640px) {
+  .cs-faq-q, .cs-faq-question, .faq-question { padding: 14px 16px !important; font-size: 0.96rem !important; gap: 12px !important; }
+  .cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 28px !important; height: 28px !important; min-width: 28px !important; font-size: 1.1rem !important; margin-left: 8px !important; }
+  .cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { padding: 14px 16px 18px 16px !important; }
+}
+</style>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -662,42 +684,60 @@
         <!-- FAQ Section -->
         <section class="cs-card" id="faqs" style="margin-top: 32px;">
           <h2 class="cs-heading-2">Frequently Asked Questions: Online MBA for Working Professionals</h2>
-          <div class="faq-accordion" style="margin-top: 18px;">
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q1:</span> Is an online MBA degree legally equivalent to a regular campus MBA in India?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes, 100%. Under Regulation 22 of the UGC (Open and Distance Learning Programmes and Online Programmes) Regulations, 2020, published in the official Gazette of India, degrees acquired through UGC-DEB recognized online modes are treated as completely equivalent to corresponding degrees awarded through conventional campus mode for all purposes including government recruitment, higher education, and corporate hiring.</p>
+          <div class="cs-faq-wrapper">
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Is an online MBA degree legally equivalent to a regular campus MBA in India?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes, 100%. Under Regulation 22 of the UGC (Open and Distance Learning Programmes and Online Programmes) Regulations, 2020, published in the official Gazette of India, degrees acquired through UGC-DEB recognized online modes are treated as completely equivalent to corresponding degrees awarded through conventional campus mode for all purposes including government recruitment, higher education, and corporate hiring.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q2:</span> Can I apply for UPSC, State PSCs, and public sector undertaking (PSU) jobs with an online MBA?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes. All constitutional recruiting bodies—including the Union Public Service Commission (UPSC), State Public Service Commissions (UPPSC, BPSC, MPSC, TNPSC, RPSC), public sector banks (SBI, IBPS), and central PSUs (ONGC, BHEL, IOCL, SAIL)—treat UGC-DEB recognized online MBA degrees with full statutory validity.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Can I apply for UPSC, State PSCs, and public sector undertaking (PSU) jobs with an online MBA?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes. All constitutional recruiting bodies—including the Union Public Service Commission (UPSC), State Public Service Commissions (UPPSC, BPSC, MPSC, TNPSC, RPSC), public sector banks (SBI, IBPS), and central PSUs (ONGC, BHEL, IOCL, SAIL)—treat UGC-DEB recognized online MBA degrees with full statutory validity.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q3:</span> What is the difference between UGC-DEB 'Entitled' and 'Approved' universities?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Under current UGC regulations, Category-1 and Category-2 higher educational institutions (HEIs) having a NAAC score of 3.26 or above, or ranked in the top 100 of the NIRF university category, are 'Entitled' to offer online degree programs automatically without requiring prior year-by-year approval from the UGC, subject to submitting self-compliance affidavits. Other institutions require specific programmatic approval.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>What is the difference between UGC-DEB 'Entitled' and 'Approved' universities?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Under current UGC regulations, Category-1 and Category-2 higher educational institutions (HEIs) having a NAAC score of 3.26 or above, or ranked in the top 100 of the NIRF university category, are 'Entitled' to offer online degree programs automatically without requiring prior year-by-year approval from the UGC, subject to submitting self-compliance affidavits. Other institutions require specific programmatic approval.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q4:</span> Does the certificate or degree mark-sheet mention the word 'Online'?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">According to UGC guidelines, the degree certificate mentions the program name (Master of Business Administration) and the mode of delivery (Online Mode). However, by statutory law (Regulation 22), this mode designation cannot be used to discriminate against the candidate for any government, PSU, or private employment opportunity.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Does the certificate or degree mark-sheet mention the word 'Online'?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>According to UGC guidelines, the degree certificate mentions the program name (Master of Business Administration) and the mode of delivery (Online Mode). However, by statutory law (Regulation 22), this mode designation cannot be used to discriminate against the candidate for any government, PSU, or private employment opportunity.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q5:</span> Is an Indian online MBA valid for Canadian PR and WES credential evaluation?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes. Degrees from UGC-DEB entitled universities with NAAC A+/A++ accreditation (such as Manipal University Jaipur, Amity Online, Jain University, and Chandigarh University) are recognized and evaluated by World Education Services (WES), ICAS, and IQAS as equivalent to a Canadian Master's Degree, yielding maximum Comprehensive Ranking System (CRS) points for Express Entry PR.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Is an Indian online MBA valid for Canadian PR and WES credential evaluation?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes. Degrees from UGC-DEB entitled universities with NAAC A+/A++ accreditation (such as Manipal University Jaipur, Amity Online, Jain University, and Chandigarh University) are recognized and evaluated by World Education Services (WES), ICAS, and IQAS as equivalent to a Canadian Master's Degree, yielding maximum Comprehensive Ranking System (CRS) points for Express Entry PR.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q6:</span> How can a student independently verify if a university's online MBA is approved by UGC-DEB?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Students should visit the official UGC-DEB portal (deb.ugc.ac.in), navigate to the 'Distance & Online Education' tab, and check the 'Entitled HEIs offering Online Programmes' list for the current academic session. Ensure that the university's name appears on the list and that 'Master of Business Administration (MBA)' is explicitly included in the entitled programs.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>How can a student independently verify if a university's online MBA is approved by UGC-DEB?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Students should visit the official UGC-DEB portal (deb.ugc.ac.in), navigate to the 'Distance & Online Education' tab, and check the 'Entitled HEIs offering Online Programmes' list for the current academic session. Ensure that the university's name appears on the list and that 'Master of Business Administration (MBA)' is explicitly included in the entitled programs.</p>
+            </div>
           </div>
           </div>
         </section>
@@ -886,6 +926,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=9.0" defer></script>
+  <script src="/script.js?v=9.3" defer></script>
 </body>
 </html>

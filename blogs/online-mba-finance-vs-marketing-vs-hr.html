@@ -141,7 +141,7 @@
 }
   </script>
 
-  <link rel="stylesheet" href="/styles.css?v=9.0">
+  <link rel="stylesheet" href="/styles.css?v=9.3">
   <style id="critical-nav-css">
     .top-bar { position: sticky !important; top: 0 !important; z-index: 1000 !important; background: #ffffff !important; border-bottom: 1px solid #eef2f5 !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important; min-height: 72px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 0 clamp(16px, 4vw, 42px) !important; box-sizing: border-box !important; }
     .brand { display: flex !important; align-items: center !important; text-decoration: none !important; flex-shrink: 0 !important; }
@@ -210,7 +210,29 @@
       .cs-table-wrapper { overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; width: 100% !important; }
       .cs-table { min-width: 520px !important; }
     }
-  </style>
+  
+/* --- PREMIUM ANIMATED FAQ ACCORDION ENGINE --- */
+.cs-faq-wrapper, .cs-faq-list, .faq-accordion { display: flex !important; flex-direction: column !important; gap: 14px !important; margin: 24px 0 36px !important; width: 100% !important; }
+.cs-faq-item, .faq-item { border: 1px solid #e2e8f0 !important; border-radius: 12px !important; background: #ffffff !important; overflow: hidden !important; transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important; margin-bottom: 0 !important; padding: 0 !important; }
+.cs-faq-item:hover, .faq-item:hover { border-color: #cbd5e1 !important; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important; }
+.cs-faq-item.active, .faq-item.active { border-color: #0a6d6f !important; box-shadow: 0 6px 20px rgba(10, 109, 111, 0.12) !important; background: #ffffff !important; }
+.cs-faq-q, .cs-faq-question, .faq-question { padding: 16px 20px !important; font-weight: 700 !important; font-size: 1.02rem !important; color: #0f172a !important; cursor: pointer !important; display: flex !important; justify-content: space-between !important; align-items: center !important; background: #ffffff !important; user-select: none !important; -webkit-tap-highlight-color: transparent !important; transition: background 0.2s ease, color 0.2s ease !important; gap: 16px !important; line-height: 1.45 !important; margin: 0 !important; outline: none !important; }
+.cs-faq-q:hover, .cs-faq-question:hover, .faq-question:hover { background: #f8fafc !important; color: #0a6d6f !important; }
+.cs-faq-item.active > .cs-faq-q, .cs-faq-item.active > .cs-faq-question, .faq-item.active > .faq-question { color: #0a6d6f !important; background: #f8fbfb !important; }
+.cs-faq-q span:first-child, .cs-faq-question span:first-child, .faq-question span:first-child { flex: 1 !important; }
+.cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 32px !important; height: 32px !important; min-width: 32px !important; border-radius: 50% !important; background: #f1f5f9 !important; color: #0a6d6f !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 1.25rem !important; font-weight: 700 !important; line-height: 1 !important; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, color 0.25s ease !important; flex-shrink: 0 !important; margin-left: 12px !important; }
+.cs-faq-q:hover .cs-faq-icon, .cs-faq-question:hover .cs-faq-arrow, .faq-question:hover .faq-chevron { background: #e2e8f0 !important; color: #074e52 !important; }
+.cs-faq-item.active .cs-faq-icon { transform: rotate(45deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-item.active .cs-faq-arrow, .faq-item.active .faq-chevron { transform: rotate(180deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
+.cs-faq-a, .cs-faq-answer, .faq-answer { max-height: 0 !important; opacity: 0 !important; overflow: hidden !important; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.35s ease !important; padding: 0 20px !important; border-top: 1px solid transparent !important; color: #475569 !important; font-size: 0.95rem !important; line-height: 1.7 !important; display: block !important; }
+.cs-faq-a p, .cs-faq-answer p, .faq-answer p { margin: 0 !important; line-height: 1.7 !important; color: #475569 !important; }
+.cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { max-height: 1000px !important; opacity: 1 !important; padding: 16px 20px 22px 20px !important; border-top: 1px solid #f1f5f9 !important; background: #ffffff !important; }
+@media (max-width: 640px) {
+  .cs-faq-q, .cs-faq-question, .faq-question { padding: 14px 16px !important; font-size: 0.96rem !important; gap: 12px !important; }
+  .cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 28px !important; height: 28px !important; min-width: 28px !important; font-size: 1.1rem !important; margin-left: 8px !important; }
+  .cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { padding: 14px 16px 18px 16px !important; }
+}
+</style>
 </head>
 <body>
   <!-- Google Tag Manager (noscript) -->
@@ -756,42 +778,60 @@
         <!-- FAQ Section -->
         <section class="cs-card" id="faqs" style="margin-top: 32px;">
           <h2 class="cs-heading-2">Frequently Asked Questions: Online MBA for Working Professionals</h2>
-          <div class="faq-accordion" style="margin-top: 18px;">
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q1:</span> Which Online MBA specialization offers the highest average salary: Finance, Marketing, or HR?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Finance and Marketing typically offer the highest initial and mid-career salary ceilings. Finance professionals (Investment Banking, Corporate Finance, Risk Management) average ₹9L–₹18L mid-career. Marketing leaders (Digital Marketing Heads, Brand Directors, Growth Strategists) command ₹8L–₹17L with high performance bonuses. HR professionals average ₹7L–₹14L, with HR Analytics and Talent Acquisition Directors reaching ₹18L+.</p>
+          <div class="cs-faq-wrapper">
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Which Online MBA specialization offers the highest average salary: Finance, Marketing, or HR?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Finance and Marketing typically offer the highest initial and mid-career salary ceilings. Finance professionals (Investment Banking, Corporate Finance, Risk Management) average ₹9L–₹18L mid-career. Marketing leaders (Digital Marketing Heads, Brand Directors, Growth Strategists) command ₹8L–₹17L with high performance bonuses. HR professionals average ₹7L–₹14L, with HR Analytics and Talent Acquisition Directors reaching ₹18L+.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q2:</span> Can I switch from an engineering or technical background into an Online MBA in Finance?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Yes, absolutely. In fact, engineers with quantitative and analytical problem-solving skills are highly sought-after in modern corporate finance, FinTech, and financial analytics. Universities provide foundational accounting and financial management bridge courses in Semesters 1 and 2 to ensure seamless transition.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Can I switch from an engineering or technical background into an Online MBA in Finance?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Yes, absolutely. In fact, engineers with quantitative and analytical problem-solving skills are highly sought-after in modern corporate finance, FinTech, and financial analytics. Universities provide foundational accounting and financial management bridge courses in Semesters 1 and 2 to ensure seamless transition.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q3:</span> What is the difference between MBA Marketing and modern Digital Marketing?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Traditional MBA Marketing covered brand management, sales distribution, and consumer psychology. Contemporary Online MBA programs integrate traditional marketing foundations with performance advertising (Google Ads, Meta Ads), search engine optimization (SEO), data-driven customer segmentation, conversion rate optimization (CRO), and marketing analytics.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>What is the difference between MBA Marketing and modern Digital Marketing?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Traditional MBA Marketing covered brand management, sales distribution, and consumer psychology. Contemporary Online MBA programs integrate traditional marketing foundations with performance advertising (Google Ads, Meta Ads), search engine optimization (SEO), data-driven customer segmentation, conversion rate optimization (CRO), and marketing analytics.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q4:</span> How has HR evolved in the age of AI and remote work?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Modern HR has transformed from administrative personnel management into strategic Human Resource Management (SHRM). Contemporary online MBA curricula emphasize HR Analytics (predictive attrition modeling, workforce planning), talent development, remote team engagement, and labor law compliance across digital enterprises.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>How has HR evolved in the age of AI and remote work?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Modern HR has transformed from administrative personnel management into strategic Human Resource Management (SHRM). Contemporary online MBA curricula emphasize HR Analytics (predictive attrition modeling, workforce planning), talent development, remote team engagement, and labor law compliance across digital enterprises.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q5:</span> Is a dual specialization (e.g., Marketing + Finance or HR + Marketing) better than a single specialization?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Dual specializations are highly advantageous for entrepreneurs, small-to-medium enterprise (SME) leaders, and general managers who oversee multiple departments. However, for corporate specialists aiming for senior roles in investment banks or digital marketing agencies, a focused single specialization with deep elective coursework is often preferred by recruiters.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Is a dual specialization (e.g., Marketing + Finance or HR + Marketing) better than a single specialization?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Dual specializations are highly advantageous for entrepreneurs, small-to-medium enterprise (SME) leaders, and general managers who oversee multiple departments. However, for corporate specialists aiming for senior roles in investment banks or digital marketing agencies, a focused single specialization with deep elective coursework is often preferred by recruiters.</p>
+            </div>
           </div>
-          <div class="faq-item" style="border-bottom: 1px solid #e2e8f0; padding: 16px 0;">
-            <h3 style="font-size: 16.5px; font-weight: 700; color: #1e293b; margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
-              <span style="color: #0a6d6f; font-weight: 800;">Q6:</span> Which specialization is best suited for starting an independent business or scaling a startup?
-            </h3>
-            <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin: 0;">Marketing and Finance are the twin pillars of entrepreneurship. Marketing equips founders with customer acquisition, branding, and sales funnels, while Finance ensures unit economics, cash flow management, valuation, and venture capital fundraising readiness.</p>
+          <div class="cs-faq-item">
+            <div class="cs-faq-q" onclick="toggleFaq(this)">
+              <span>Which specialization is best suited for starting an independent business or scaling a startup?</span>
+              <span class="cs-faq-icon">+</span>
+            </div>
+            <div class="cs-faq-a">
+              <p>Marketing and Finance are the twin pillars of entrepreneurship. Marketing equips founders with customer acquisition, branding, and sales funnels, while Finance ensures unit economics, cash flow management, valuation, and venture capital fundraising readiness.</p>
+            </div>
           </div>
           </div>
         </section>
@@ -980,6 +1020,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=9.0" defer></script>
+  <script src="/script.js?v=9.3" defer></script>
 </body>
 </html>
