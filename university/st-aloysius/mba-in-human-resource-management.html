@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <!-- SEO Title (<60 Chars Target) -->
+  <!-- SEO Title (Strictly 50-60 Chars Target) -->
   <title>Online MBA in Human Resource Management: St Aloysius 2027</title>
   
-  <!-- SEO Meta Description (150-160 Chars Target) -->
+  <!-- SEO Meta Description (Strictly 150-160 Chars Target Ending with CTA) -->
   <meta name="description" content="Study Online MBA in Human Resource Management at St. Aloysius. Compare AI talent analytics curriculum, NAAC A++ ranking, fees & 0% EMI. Check eligibility.">
   <link rel="canonical" href="https://www.onlinembaadmission.com/university/st-aloysius/mba-in-human-resource-management">
   <meta name="robots" content="index, follow, max-image-preview:large">
@@ -38,6 +38,10 @@
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="/styles.css?v=9.3">
   <style id="critical-nav-css">
+    /* Global Image Constraint to Prevent Frame Overflow */
+    img { max-width: 100% !important; height: auto !important; }
+
+    /* Top Bar Navigation System */
     .desktop-only-cta { display: inline-flex !important; }
     .top-bar { position: sticky !important; top: 0 !important; z-index: 1000 !important; background: #ffffff !important; border-bottom: 1px solid #eef2f5 !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important; min-height: 76px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; padding: 0 clamp(16px, 4vw, 42px) !important; box-sizing: border-box !important; }
     .brand { display: flex !important; align-items: center !important; text-decoration: none !important; flex-shrink: 0 !important; }
@@ -51,64 +55,129 @@
     .mobile-nav-toggle { display: none; background: transparent; border: 0; padding: 6px; cursor: pointer; flex-direction: column; gap: 5px; }
     .mobile-nav-toggle span { display: block; width: 24px; height: 2px; background: #17202a; border-radius: 2px; }
 
-    /* Layout & Cards */
-    .cs-wrapper { max-width: 1180px; margin: 0 auto; padding: 24px 20px 60px; }
+    /* Mobile Navigation Drawer */
+    @media (max-width: 980px) {
+      .desktop-only-cta,
+      .top-actions .small-cta,
+      .top-actions .header-counseling-btn,
+      .top-actions > a {
+        display: none !important;
+        visibility: hidden !important;
+        opacity: 0 !important;
+        width: 0 !important;
+        height: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+        pointer-events: none !important;
+      }
+      .mobile-nav-toggle { display: flex !important; }
+      .main-nav { display: none !important; position: absolute !important; top: 100% !important; left: 0 !important; right: 0 !important; background: #ffffff !important; border-bottom: 1px solid #e5ebe9 !important; padding: 16px 24px !important; box-shadow: 0 16px 32px rgba(0,0,0,0.12) !important; margin: 0 !important; z-index: 1001 !important; }
+      .main-nav.is-open { display: block !important; }
+      .nav-list { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
+      .nav-link { display: block !important; width: 100% !important; padding: 8px 0 !important; border-bottom: 1px solid #f0f4f3 !important; font-size: 15px !important; }
+      .nav-mobile-cta { display: block !important; margin-top: 18px !important; width: 100% !important; padding-top: 12px !important; border-top: 1px solid #e5ebe9 !important; }
+      .nav-mobile-apply-btn { display: block !important; width: 100% !important; box-sizing: border-box !important; text-align: center !important; background: #0a6d6f !important; color: #ffffff !important; font-weight: 700 !important; font-size: 15px !important; padding: 12px 18px !important; border-radius: 8px !important; text-decoration: none !important; box-shadow: 0 4px 14px rgba(10, 109, 111, 0.25) !important; }
+    }
+
+    /* Full-Width Standard Layout Container */
+    .cs-wrapper { max-width: 1140px; margin: 0 auto; padding: 24px 20px 60px; box-sizing: border-box; }
     .cs-breadcrumb { font-size: 13px; color: #64748b; margin-bottom: 20px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
     .cs-breadcrumb a { color: #0a6d6f; text-decoration: none; font-weight: 600; }
     .cs-breadcrumb .separator { color: #94a3b8; }
-    .cs-hero { background: linear-gradient(135deg, #074e52 0%, #0a6d6f 100%); color: #ffffff; border-radius: 16px; padding: 36px 32px; margin-bottom: 28px; box-shadow: 0 10px 25px rgba(10, 109, 111, 0.15); }
-    .cs-hero h1 { font-size: clamp(1.8rem, 3.2vw, 2.5rem); font-weight: 850; line-height: 1.25; margin: 0 0 12px; color: #ffffff; }
-    .cs-hero p { font-size: 1.05rem; color: #e0f2f1; line-height: 1.6; max-width: 820px; margin: 0 0 20px; }
+
+    /* Hero Section Responsive Architecture */
+    .cs-hero { background: linear-gradient(135deg, #074e52 0%, #0a6d6f 100%); color: #ffffff; border-radius: 16px; padding: 36px 32px; margin-bottom: 28px; box-shadow: 0 10px 25px rgba(10, 109, 111, 0.15); display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; }
+    .cs-hero-content { display: flex; flex-direction: column; width: 100%; }
+    .cs-hero-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .cs-hero-content h1 { font-size: clamp(1.8rem, 3.2vw, 2.45rem); font-weight: 850; line-height: 1.25; margin: 0 0 12px; color: #ffffff; }
+    .cs-hero-summary { font-size: 1.02rem; color: #e0f2f1; line-height: 1.65; max-width: 820px; margin: 0 0 20px; }
+    .cs-hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .cs-hero-card { background: #ffffff; color: #0f172a; border-radius: 14px; padding: 24px 28px; min-width: 260px; max-width: 290px; text-align: center; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); box-sizing: border-box; }
+    .cs-hero-card .score { font-size: 38px; font-weight: 850; color: #0a6d6f; line-height: 1; }
+    .cs-hero-card .score-label { font-size: 13px; font-weight: 750; color: #64748b; text-transform: uppercase; margin-top: 6px; letter-spacing: 0.5px; }
+    .cs-hero-card .score-desc { font-size: 13px; color: #334155; margin-top: 10px; border-top: 1px solid #e2e8f0; padding-top: 10px; line-height: 1.5; }
+
+    /* Mobile Hero Layout Ordering */
+    @media (max-width: 850px) {
+      .cs-hero { display: flex !important; flex-direction: column !important; padding: 22px 18px !important; gap: 18px !important; }
+      .cs-hero-meta { order: 1 !important; }
+      .cs-hero-content h1 { order: 2 !important; font-size: clamp(22px, 5.5vw, 28px) !important; line-height: 1.3 !important; margin: 0 0 12px 0 !important; }
+      .cs-hero-summary { order: 3 !important; font-size: 14.5px !important; line-height: 1.6 !important; margin: 0 0 18px 0 !important; }
+      .cs-hero-actions { order: 4 !important; display: flex !important; flex-direction: column !important; gap: 10px !important; width: 100% !important; margin-bottom: 4px !important; }
+      .cs-hero-actions .btn { width: 100% !important; text-align: center !important; }
+      .cs-hero-card { order: 5 !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; }
+    }
+
+    /* Quick Stats Matrix Bar */
+    .cs-matrix-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; }
+    .cs-matrix-item { display: flex; flex-direction: column; gap: 4px; }
+    .cs-matrix-lbl { font-size: 11.5px; font-weight: 750; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; }
+    .cs-matrix-val { font-size: 15px; font-weight: 800; color: #0a6d6f; }
+
+    /* Table of Contents */
+    .cs-toc-card { background: #f8fbfc; border: 1.5px solid #d8e9eb; border-radius: 12px; padding: 24px 28px; margin-bottom: 28px; box-shadow: 0 4px 14px rgba(10, 109, 111, 0.05); }
+    .cs-toc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; border-bottom: 1px solid #e1eef0; padding-bottom: 10px; }
+    .cs-toc-header h3 { margin: 0; font-size: 17.5px; font-weight: 800; color: #0a6d6f; }
+    .cs-toc-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 9px 20px; list-style: none; margin: 0; padding: 0; }
+    .cs-toc-list li { margin: 0; padding: 0; }
+    .cs-toc-list a { color: #1e293b; text-decoration: none; font-size: 13.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; transition: color 0.2s ease, transform 0.2s ease; }
+    .cs-toc-list a:hover { color: #0a6d6f; transform: translateX(3px); text-decoration: underline; }
+    .cs-toc-list .toc-num { background: #e0f2f1; color: #00695c; font-size: 11px; font-weight: 800; border-radius: 4px; padding: 2px 6px; }
+
+    /* Section Cards */
     .cs-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 30px; margin-bottom: 28px; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03); }
     .cs-card h2 { font-size: 1.45rem; font-weight: 800; color: #0f172a; margin-top: 0; margin-bottom: 16px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
     .cs-card p { font-size: 15px; color: #334155; line-height: 1.7; margin-bottom: 14px; }
     .cs-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin: 18px 0; }
+    .cs-feature-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px 20px; }
+    .cs-feature-box h4 { margin: 0 0 8px 0; font-size: 15.5px; font-weight: 800; color: #0f172a; }
+    .cs-feature-box p { margin: 0; font-size: 13.5px; color: #475569; line-height: 1.6; }
 
-    /* Quick Matrix Bar */
-    .cs-matrix-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px 20px; margin-bottom: 28px; }
-    .cs-matrix-item { display: flex; flex-direction: column; gap: 4px; }
-    .cs-matrix-lbl { font-size: 11.5px; font-weight: 750; text-transform: uppercase; color: #64748b; letter-spacing: 0.5px; }
-    .cs-matrix-val { font-size: 15.5px; font-weight: 800; color: #0a6d6f; }
+    /* Resilient Badges and Icon Dimensions */
+    .cs-badge-icon, .badge svg { width: 14px !important; height: 14px !important; min-width: 14px !important; max-width: 14px !important; flex-shrink: 0 !important; display: inline-block !important; vertical-align: middle !important; margin-right: 5px !important; }
+    .badge { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 750; letter-spacing: 0.3px; }
+    .badge-ugc { background: rgba(255,255,255,0.2); color: #ffffff; }
+    .badge-naac { background: rgba(255,255,255,0.2); color: #ffffff; }
+    .badge-state { background: rgba(255,255,255,0.2); color: #ffffff; }
 
-    /* Table of contents */
-    .cs-toc-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px 24px; margin-bottom: 28px; }
-    .cs-toc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-    .cs-toc-header h3 { margin: 0; font-size: 16px; font-weight: 800; color: #0f172a; }
-    .cs-toc-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
-    .cs-toc-list li a { text-decoration: none; color: #334155; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: color 0.15s ease; }
-    .cs-toc-list li a:hover { color: #0a6d6f; }
-    .toc-num { background: #e0f2f1; color: #0a6d6f; font-size: 11px; font-weight: 800; padding: 2px 6px; border-radius: 4px; }
-
-    /* Two-column layout */
-    .cs-layout-grid { display: grid; grid-template-columns: 1fr 340px; gap: 30px; align-items: start; }
-    @media (max-width: 960px) {
-      .cs-layout-grid { grid-template-columns: 1fr; }
-    }
+    /* Buttons */
+    .btn { display: inline-flex; align-items: center; justify-content: center; font-weight: 750; font-size: 14px; padding: 10px 20px; border-radius: 8px; text-decoration: none; transition: transform 0.15s ease, background 0.15s ease; cursor: pointer; }
+    .btn-primary { background: #ff471a; color: #ffffff !important; border: none; }
+    .btn-primary:hover { background: #e63d12; transform: translateY(-1px); }
+    .btn-outline { background: rgba(255,255,255,0.15); color: #ffffff !important; border: 1px solid rgba(255,255,255,0.3); }
+    .btn-outline:hover { background: rgba(255,255,255,0.25); }
+    .btn-accent { background: #0a6d6f; color: #ffffff !important; border: none; }
+    .btn-accent:hover { background: #074e52; transform: translateY(-1px); }
 
     /* --- PREMIUM ANIMATED FAQ ACCORDION ENGINE --- */
-    .cs-faq-wrapper, .cs-faq-list, .faq-accordion { display: flex !important; flex-direction: column !important; gap: 14px !important; margin: 24px 0 36px !important; width: 100% !important; }
-    .cs-faq-item, .faq-item { border: 1px solid #e2e8f0 !important; border-radius: 12px !important; background: #ffffff !important; overflow: hidden !important; transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important; margin-bottom: 0 !important; padding: 0 !important; }
-    .cs-faq-item:hover, .faq-item:hover { border-color: #cbd5e1 !important; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important; }
-    .cs-faq-item.active, .faq-item.active { border-color: #0a6d6f !important; box-shadow: 0 6px 20px rgba(10, 109, 111, 0.12) !important; background: #ffffff !important; }
-    .cs-faq-q, .cs-faq-question, .faq-question { padding: 16px 20px !important; font-weight: 700 !important; font-size: 1.02rem !important; color: #0f172a !important; cursor: pointer !important; display: flex !important; justify-content: space-between !important; align-items: center !important; background: #ffffff !important; user-select: none !important; -webkit-tap-highlight-color: transparent !important; transition: background 0.2s ease, color 0.2s ease !important; gap: 16px !important; line-height: 1.45 !important; margin: 0 !important; outline: none !important; }
-    .cs-faq-q:hover, .cs-faq-question:hover, .faq-question:hover { background: #f8fafc !important; color: #0a6d6f !important; }
-    .cs-faq-item.active > .cs-faq-q, .cs-faq-item.active > .cs-faq-question, .faq-item.active > .faq-question { color: #0a6d6f !important; background: #f8fbfb !important; }
-    .cs-faq-q span:first-child, .cs-faq-question span:first-child, .faq-question span:first-child { flex: 1 !important; }
-    .cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 32px !important; height: 32px !important; min-width: 32px !important; border-radius: 50% !important; background: #f1f5f9 !important; color: #0a6d6f !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 1.25rem !important; font-weight: 700 !important; line-height: 1 !important; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, color 0.25s ease !important; flex-shrink: 0 !important; margin-left: 12px !important; }
-    .cs-faq-q:hover .cs-faq-icon, .cs-faq-question:hover .cs-faq-arrow, .faq-question:hover .faq-chevron { background: #e2e8f0 !important; color: #074e52 !important; }
+    .cs-faq-wrapper { display: flex !important; flex-direction: column !important; gap: 14px !important; margin: 24px 0 36px !important; width: 100% !important; }
+    .cs-faq-item { border: 1px solid #e2e8f0 !important; border-radius: 12px !important; background: #ffffff !important; overflow: hidden !important; transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease !important; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04) !important; margin-bottom: 0 !important; padding: 0 !important; }
+    .cs-faq-item:hover { border-color: #cbd5e1 !important; box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07) !important; }
+    .cs-faq-item.active { border-color: #0a6d6f !important; box-shadow: 0 6px 20px rgba(10, 109, 111, 0.12) !important; background: #ffffff !important; }
+    .cs-faq-q { padding: 16px 20px !important; font-weight: 700 !important; font-size: 1.02rem !important; color: #0f172a !important; cursor: pointer !important; display: flex !important; justify-content: space-between !important; align-items: center !important; background: #ffffff !important; user-select: none !important; -webkit-tap-highlight-color: transparent !important; transition: background 0.2s ease, color 0.2s ease !important; gap: 16px !important; line-height: 1.45 !important; margin: 0 !important; outline: none !important; }
+    .cs-faq-q:hover { background: #f8fafc !important; color: #0a6d6f !important; }
+    .cs-faq-item.active > .cs-faq-q { color: #0a6d6f !important; background: #f8fbfb !important; }
+    .cs-faq-q span:first-child { flex: 1 !important; }
+    .cs-faq-icon { width: 32px !important; height: 32px !important; min-width: 32px !important; border-radius: 50% !important; background: #f1f5f9 !important; color: #0a6d6f !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-size: 1.25rem !important; font-weight: 700 !important; line-height: 1 !important; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.25s ease, color 0.25s ease !important; flex-shrink: 0 !important; margin-left: 12px !important; }
+    .cs-faq-q:hover .cs-faq-icon { background: #e2e8f0 !important; color: #074e52 !important; }
     .cs-faq-item.active .cs-faq-icon { transform: rotate(45deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
-    .cs-faq-item.active .cs-faq-arrow, .faq-item.active .faq-chevron { transform: rotate(180deg) !important; background: #0a6d6f !important; color: #ffffff !important; }
-    .cs-faq-a, .cs-faq-answer, .faq-answer { max-height: 0 !important; opacity: 0 !important; overflow: hidden !important; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.35s ease !important; padding: 0 20px !important; border-top: 1px solid transparent !important; color: #475569 !important; font-size: 0.95rem !important; line-height: 1.7 !important; display: block !important; }
-    .cs-faq-a p, .cs-faq-answer p, .faq-answer p { margin: 0 !important; line-height: 1.7 !important; color: #475569 !important; }
-    .cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { max-height: 1000px !important; opacity: 1 !important; padding: 16px 20px 22px 20px !important; border-top: 1px solid #f1f5f9 !important; background: #ffffff !important; }
-    @media (max-width: 640px) {
-      .cs-faq-q, .cs-faq-question, .faq-question { padding: 14px 16px !important; font-size: 0.96rem !important; gap: 12px !important; }
-      .cs-faq-icon, .cs-faq-arrow, .faq-chevron { width: 28px !important; height: 28px !important; min-width: 28px !important; font-size: 1.1rem !important; margin-left: 8px !important; }
-      .cs-faq-item.active > .cs-faq-a, .cs-faq-item.active > .cs-faq-answer, .faq-item.active > .faq-answer { padding: 14px 16px 18px 16px !important; }
+    .cs-faq-a { max-height: 0 !important; opacity: 0 !important; overflow: hidden !important; transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, padding 0.35s ease !important; padding: 0 20px !important; border-top: 1px solid transparent !important; color: #475569 !important; font-size: 0.95rem !important; line-height: 1.7 !important; display: block !important; }
+    .cs-faq-a p { margin: 0 !important; line-height: 1.7 !important; color: #475569 !important; }
+    .cs-faq-item.active > .cs-faq-a { max-height: 1000px !important; opacity: 1 !important; padding: 16px 20px 22px 20px !important; border-top: 1px solid #f1f5f9 !important; background: #ffffff !important; }
+
+    /* Responsive Mobile Adjustments */
+    @media (max-width: 768px) {
+      .cs-wrapper { padding: 16px 14px 48px !important; }
+      .cs-card { padding: 20px 16px !important; border-radius: 12px !important; margin-bottom: 20px !important; }
+      .cs-matrix-bar { grid-template-columns: repeat(2, 1fr) !important; padding: 14px !important; }
+      .cs-faq-q { padding: 14px 16px !important; font-size: 0.96rem !important; gap: 12px !important; }
+      .cs-faq-icon { width: 28px !important; height: 28px !important; min-width: 28px !important; font-size: 1.1rem !important; margin-left: 8px !important; }
+      .cs-faq-item.active > .cs-faq-a { padding: 14px 16px 18px 16px !important; }
     }
   </style>
 
-  <!-- Structured Data JSON-LD -->
+  <!-- Schema.org JSON-LD Structured Data Graph (4 Types) -->
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -244,29 +313,35 @@
 </head>
 <body>
 
-  <!-- Top Sticky Navigation Bar -->
-  <header class="top-bar">
-    <a href="/" class="brand" aria-label="Online MBA Admission Home">
-      <img src="/logo.webp" alt="Online MBA Admission" width="168" height="42" class="brand-logo" loading="eager" fetchpriority="high">
+  <!-- Top Sticky Header Navigation Bar (Identical to Main Pages) -->
+<header class="top-bar">
+    <a class="brand" href="/" aria-label="Online MBA Admission Home" style="display:flex; align-items:center; text-decoration:none;">
+      <picture>
+        <source srcset="/logo.webp?v=5.2" type="image/webp">
+        <img src="/logo.png?v=5.2" alt="Online MBA Admission" class="brand-logo" width="199" height="84" fetchpriority="high" decoding="async">
+      </picture>
     </a>
 
+    <!-- Main Navigation -->
     <nav class="main-nav" aria-label="Main Navigation">
       <ul class="nav-list">
         <li><a href="/" class="nav-link">Home</a></li>
         <li><a href="/universities" class="nav-link active">Universities</a></li>
-        <li><a href="/comparison" class="nav-link">Compare MBA</a></li>
-        <li><a href="/fees" class="nav-link">Fees &amp; EMI</a></li>
+        <li><a href="/specializations" class="nav-link">Specializations</a></li>
+        <li><a href="/fees" class="nav-link">Fee Structure</a></li>
         <li><a href="/eligibility" class="nav-link">Eligibility</a></li>
-        <li><a href="/blogs" class="nav-link">Advisory Blogs</a></li>
+        <li><a href="/admission" class="nav-link">Admission</a></li>
+        <li><a href="/blogs" class="nav-link">Blog</a></li>
       </ul>
+      <div class="nav-mobile-cta">
+        <a href="#admission" class="btn btn-primary nav-mobile-apply-btn">Apply Now</a>
+      </div>
     </nav>
 
     <div class="top-actions">
-      <a href="#lead-form-section" class="btn btn-primary desktop-only-cta" style="background:#0a6d6f; color:#fff; text-decoration:none; padding:10px 20px; border-radius:8px; font-weight:700; font-size:14px;">Free Counseling</a>
-      <button class="mobile-nav-toggle" id="mobile-nav-toggle" aria-label="Open mobile navigation" aria-expanded="false" aria-controls="mobile-nav-drawer">
-        <span></span>
-        <span></span>
-        <span></span>
+      <a href="#admission" class="small-cta desktop-only-cta" style="text-decoration:none;">Apply Now</a>
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <span></span><span></span><span></span>
       </button>
     </div>
   </header>
@@ -285,30 +360,42 @@
       <span class="current">Human Resource Management & Applied AI</span>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Standard Responsive Hero Section -->
     <header class="cs-hero">
-      <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px;">
-        <span style="background:rgba(255,255,255,0.18); color:#ffffff; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:750; letter-spacing:0.3px;">UGC-DEB Entitled</span>
-        <span style="background:rgba(255,255,255,0.18); color:#ffffff; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:750; letter-spacing:0.3px;">NAAC Grade A++ (CGPA 3.67)</span>
-        <span style="background:rgba(255,255,255,0.18); color:#ffffff; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:750; letter-spacing:0.3px;">UGC Category-I Autonomy</span>
-        <span style="background:rgba(255,255,255,0.18); color:#ffffff; padding:4px 10px; border-radius:6px; font-size:12px; font-weight:750; letter-spacing:0.3px;">AICTE Compliant</span>
+      <div class="cs-hero-content">
+        <div class="cs-hero-meta">
+          <span class="badge badge-ugc"><svg width="14" height="14" class="cs-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>UGC-DEB Entitled</span>
+          <span class="badge badge-naac"><svg width="14" height="14" class="cs-badge-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>NAAC Grade A++ (CGPA 3.67)</span>
+          <span class="badge badge-state"><svg width="14" height="14" class="cs-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V10l7-5 7 5v11M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4M9 10v4M15 10v4"/></svg>UGC Category-I Autonomy</span>
+        </div>
+        <h1>Online MBA in Human Resource Management & Applied AI - St. Aloysius Online</h1>
+        <p class="cs-hero-summary">
+          Master modern human capital management, labor relations, talent development, and strategic organizational transformation while utilizing advanced people analytics, AI talent sourcing platforms, and predictive employee retention algorithms.
+        </p>
+        <div class="cs-hero-actions">
+          <a href="#admission" class="btn btn-primary">Apply for 2027 Session &rarr;</a>
+          <a href="#curriculum" class="btn btn-outline">Check Curriculum</a>
+          <a href="#fees" class="btn btn-accent">Fee &amp; 0% EMI</a>
+        </div>
       </div>
-      <h1>Online MBA in Human Resource Management & Applied AI</h1>
-      <p><strong>Talent Intelligence, People Analytics & Organizational Culture.</strong> Master modern human capital management, labor relations, talent development, and strategic organizational transformation while utilizing advanced people analytics, AI talent sourcing platforms, and predictive employee retention algorithms.</p>
-      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:18px;">
-        <a href="#lead-form-section" style="background:#e9542f; color:#ffffff; padding:12px 24px; border-radius:8px; font-weight:750; font-size:14.5px; text-decoration:none;">Apply for 2027 Session &rarr;</a>
-        <a href="#curriculum" style="background:rgba(255,255,255,0.15); color:#ffffff; border:1px solid rgba(255,255,255,0.3); padding:12px 20px; border-radius:8px; font-weight:700; font-size:14.5px; text-decoration:none;">View Syllabus &amp; Credits</a>
+      <div class="cs-hero-card">
+        <div class="score">NAAC A++</div>
+        <div class="score-label">CGPA 3.67 / 4.00</div>
+        <div class="score-desc">
+          <strong>UGC Category-I Graded Autonomy</strong><br>
+          100% Remote AI Web-Proctored Home Exams &bull; 88 UGC Credits
+        </div>
       </div>
     </header>
 
-    <!-- Quick Matrix Bar -->
+    <!-- Quick Stats Matrix Bar -->
     <div class="cs-matrix-bar">
       <div class="cs-matrix-item">
         <span class="cs-matrix-lbl">Program Duration</span>
         <span class="cs-matrix-val">2 Years (4 Semesters)</span>
       </div>
       <div class="cs-matrix-item">
-        <span class="cs-matrix-lbl">Total Academic Credits</span>
+        <span class="cs-matrix-lbl">Total Credits</span>
         <span class="cs-matrix-val">88 UGC Credits</span>
       </div>
       <div class="cs-matrix-item">
@@ -332,7 +419,7 @@
     <!-- Table of Contents -->
     <nav class="cs-toc-card" aria-label="Table of Contents">
       <div class="cs-toc-header">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0a6d6f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        <svg width="20" height="20" style="width: 20px !important; height: 20px !important; flex-shrink: 0;" viewBox="0 0 24 24" fill="none" stroke="#0a6d6f" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
         <h3>Table of Contents &bull; Specialization Guide</h3>
       </div>
       <ul class="cs-toc-list">
@@ -342,259 +429,400 @@
         <li><a href="#ai-coe"><span class="toc-num">04</span> Centre of Excellence &amp; AI Tools</a></li>
         <li><a href="#eligibility"><span class="toc-num">05</span> Eligibility &amp; Direct Admission</a></li>
         <li><a href="#career-scope"><span class="toc-num">06</span> Career Scope &amp; Salary Packages</a></li>
-        <li><a href="#fees-financing"><span class="toc-num">07</span> Transparent Fees &amp; 0% EMI</a></li>
-        <li><a href="#faqs"><span class="toc-num">08</span> Frequently Asked Questions</a></li>
+        <li><a href="#fees"><span class="toc-num">07</span> Transparent Fees &amp; 0% EMI</a></li>
+        <li><a href="#other-specializations"><span class="toc-num">08</span> Other Specializations</a></li>
+        <li><a href="#faqs"><span class="toc-num">09</span> Frequently Asked Questions</a></li>
+        <li><a href="#admission"><span class="toc-num">10</span> Free Admission Counseling</a></li>
       </ul>
     </nav>
 
-    <!-- Two-Column Grid: Main Content + Sidebar -->
-    <div class="cs-layout-grid">
-
-      <!-- Left Column: Main Narrative -->
-      <div>
-
-        <!-- Section 1: Specialization Overview -->
-        <section class="cs-card" id="overview">
-          <h2>01. Specialization Overview &amp; Market Value</h2>
-          <p>
-            The <strong>Online MBA in Human Resource Management & Applied AI</strong> at <strong>St. Aloysius (Deemed to be University)</strong> is specifically calibrated to address the primary demand of today's executive employment market: the union of strategic business acumen with practical, data-driven automation.
-          </p>
-          <p>
-            Rather than treating modern technology as an abstract elective, St. Aloysius embeds domain-specific intelligence directly into foundational and specialized business subjects. Students learn not only classical leadership, management economics, and corporate governance but also how algorithmic models and generative tools streamline day-to-day operations and empower predictive corporate planning.
-          </p>
-          
-          <h3 style="margin-top:22px; color:#0a6d6f; font-size:16px;">Key Competencies &amp; Focus Areas</h3>
-          <div class="cs-grid-2">
-            
-            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 18px; box-shadow:0 2px 6px rgba(15,23,42,0.02);">
-              <h4 style="margin:0 0 6px 0; font-size:15px; font-weight:750; color:#0f172a;">Talent Intelligence</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Using automated parsing, semantic matching, and AI sourcing engines to discover high-performing talent pools.</p>
+    <!-- Section 1: Specialization Overview -->
+    <section class="cs-card" id="overview">
+      <h2>01. Specialization Overview &amp; Market Value</h2>
+      <p>
+        The <strong>Online MBA in Human Resource Management & Applied AI</strong> at <strong>St. Aloysius (Deemed to be University)</strong> is specifically calibrated to address the primary demand of today's executive employment market: the union of strategic business acumen with practical, data-driven automation.
+      </p>
+      <p>
+        Rather than treating modern technology as an abstract elective, St. Aloysius embeds domain-specific intelligence directly into foundational and specialized business subjects. Students learn not only classical leadership, management economics, and corporate governance but also how algorithmic models and generative tools streamline day-to-day operations and empower predictive corporate planning.
+      </p>
+      
+      <h3 style="margin-top:22px; color:#0a6d6f; font-size:16px;">Key Competencies &amp; Focus Areas</h3>
+      <div class="cs-grid-2">
+        
+            <div class="cs-feature-box">
+              <h4>Talent Intelligence</h4>
+              <p>Using automated parsing, semantic matching, and AI sourcing engines to discover high-performing talent pools.</p>
             </div>
-            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 18px; box-shadow:0 2px 6px rgba(15,23,42,0.02);">
-              <h4 style="margin:0 0 6px 0; font-size:15px; font-weight:750; color:#0f172a;">Organizational Transformation</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Leading cultural restructuring, agile workforce planning, and change management across distributed digital workforces.</p>
+            <div class="cs-feature-box">
+              <h4>Organizational Transformation</h4>
+              <p>Leading cultural restructuring, agile workforce planning, and change management across distributed digital workforces.</p>
             </div>
-            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 18px; box-shadow:0 2px 6px rgba(15,23,42,0.02);">
-              <h4 style="margin:0 0 6px 0; font-size:15px; font-weight:750; color:#0f172a;">Strategic HRM</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Aligning talent strategy directly with executive corporate goals, board expectations, and long-term organizational value.</p>
+            <div class="cs-feature-box">
+              <h4>Strategic HRM</h4>
+              <p>Aligning talent strategy directly with executive corporate goals, board expectations, and long-term organizational value.</p>
             </div>
-            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 18px; box-shadow:0 2px 6px rgba(15,23,42,0.02);">
-              <h4 style="margin:0 0 6px 0; font-size:15px; font-weight:750; color:#0f172a;">AI-Enabled Talent Development</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Designing adaptive continuous learning pathways and skill gap heatmaps tailored to employee career aspirations.</p>
+            <div class="cs-feature-box">
+              <h4>AI-Enabled Talent Development</h4>
+              <p>Designing adaptive continuous learning pathways and skill gap heatmaps tailored to employee career aspirations.</p>
             </div>
-            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 18px; box-shadow:0 2px 6px rgba(15,23,42,0.02);">
-              <h4 style="margin:0 0 6px 0; font-size:15px; font-weight:750; color:#0f172a;">Talent Acquisition & Compensation Rewards</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Structuring competitive total rewards (CTC, ESOPs, benefits) and equitable performance appraisal models.</p>
+            <div class="cs-feature-box">
+              <h4>Talent Acquisition & Compensation Rewards</h4>
+              <p>Structuring competitive total rewards (CTC, ESOPs, benefits) and equitable performance appraisal models.</p>
             </div>
-            <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; padding:16px 18px; box-shadow:0 2px 6px rgba(15,23,42,0.02);">
-              <h4 style="margin:0 0 6px 0; font-size:15px; font-weight:750; color:#0f172a;">Advanced People Analytics</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Measuring workforce engagement, sentiment signals, diversity metrics, and building predictive turnover models.</p>
+            <div class="cs-feature-box">
+              <h4>Advanced People Analytics</h4>
+              <p>Measuring workforce engagement, sentiment signals, diversity metrics, and building predictive turnover models.</p>
             </div>
-          </div>
-        </section>
+      </div>
+    </section>
 
-        <!-- Section 2: Statutory Entitlement & Recognition -->
-        <section class="cs-card" id="accreditations">
-          <h2>02. Institutional Standing &amp; Statutory Validity</h2>
-          <p>
-            Founded in 1880 by the Society of Jesus (Jesuits) in Mangaluru, Karnataka, <strong>St. Aloysius</strong> possesses an illustrious 146-year academic heritage. In January 2024, the Ministry of Education and University Grants Commission (UGC) conferred <strong>Deemed-to-be University</strong> status upon the institution alongside prestigious <strong>UGC Category-I Graded Autonomy</strong>.
-          </p>
-          <div style="background:#f0fdfa; border-left:4px solid #0a6d6f; padding:16px 18px; border-radius:0 8px 8px 0; margin:16px 0;">
-            <p style="margin:0; font-size:14px; color:#0f766e; line-height:1.6;">
-              <strong>UGC Gazette Notification Parity:</strong> Under Regulation 22 of the UGC (Open and Distance Learning Programmes and Online Programmes) Regulations, 2020, master's degrees awarded through UGC-entitled online mode hold 100% legal equivalence with traditional conventional on-campus degrees. They are completely valid for UPSC Civil Services, State Public Service Commissions (PSCs), Public Sector Undertakings (PSUs), higher doctoral studies (Ph.D.), and global credential assessments (WES Canada &amp; USA).
-            </p>
-          </div>
-          <p>
-            With an outstanding <strong>NAAC Grade A++ accreditation (CGPA 3.67 out of 4.00)</strong>, St. Aloysius ranks among the highest accredited institutions in India, assuring prospective students and recruiters of stringent curriculum rigor, faculty excellence, and uncompromised examination integrity.
-          </p>
-        </section>
+    <!-- Section 2: Statutory Entitlement & Recognition -->
+    <section class="cs-card" id="accreditations">
+      <h2>02. Institutional Standing &amp; Statutory Validity</h2>
+      <p>
+        Founded in 1880 by the Society of Jesus (Jesuits) in Mangaluru, Karnataka, <strong>St. Aloysius</strong> possesses an illustrious 146-year academic heritage. In January 2024, the Ministry of Education and University Grants Commission (UGC) conferred <strong>Deemed-to-be University</strong> status upon the institution alongside prestigious <strong>UGC Category-I Graded Autonomy</strong>.
+      </p>
+      <div style="background:#f0fdfa; border-left:4px solid #0a6d6f; padding:16px 18px; border-radius:0 8px 8px 0; margin:16px 0;">
+        <p style="margin:0; font-size:14px; color:#0f766e; line-height:1.6;">
+          <strong>UGC Gazette Notification Parity:</strong> Under Regulation 22 of the UGC (Open and Distance Learning Programmes and Online Programmes) Regulations, 2020, master's degrees awarded through UGC-entitled online mode hold 100% legal equivalence with traditional conventional on-campus degrees. They are completely valid for UPSC Civil Services, State Public Service Commissions (PSCs), Public Sector Undertakings (PSUs), higher doctoral studies (Ph.D.), and global credential assessments (WES Canada &amp; USA).
+        </p>
+      </div>
+      <p>
+        With an outstanding <strong>NAAC Grade A++ accreditation (CGPA 3.67 out of 4.00)</strong>, St. Aloysius ranks among the highest accredited institutions in India, assuring prospective students and recruiters of stringent curriculum rigor, faculty excellence, and uncompromised examination integrity.
+      </p>
+    </section>
 
-        <!-- Section 3: Curriculum & Electives -->
-        <section class="cs-card" id="curriculum">
-          <h2>03. Semester-Wise Detailed Curriculum (88 Credits)</h2>
-          <p>
-            The program is structured over four semesters comprising 88 UGC academic credits. Semesters 1 and 2 build foundational managerial competencies across quantitative analysis, organizational behavior, managerial economics, and marketing. Semesters 3 and 4 deliver specialized domain mastery, elective seminars, and real-world project dissertations:
-          </p>
+    <!-- Section 3: Curriculum & Electives -->
+    <section class="cs-card" id="curriculum">
+      <h2>03. Semester-Wise Detailed Curriculum (88 Credits)</h2>
+      <p>
+        The program is structured over four semesters comprising 88 UGC academic credits. Semesters 1 and 2 build foundational managerial competencies across quantitative analysis, organizational behavior, managerial economics, and marketing. Semesters 3 and 4 deliver specialized domain mastery, elective seminars, and real-world project dissertations:
+      </p>
 
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:16px;">
-            <h4 style="margin:0 0 10px 0; font-size:15.5px; font-weight:800; color:#0f172a;">Semesters 1 &amp; 2: Core Management Foundations (44 Credits)</h4>
-            <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.6;">
-              Principles of Management &bull; Managerial Economics &bull; Accounting for Decision Makers &bull; Organizational Behavior &bull; Business Communication &bull; Quantitative Techniques &bull; Marketing Management &bull; Financial Management &bull; Operations &amp; Supply Chain &bull; Human Capital Management &bull; Business Research Methodologies.
-            </p>
-          </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:16px;">
+        <h4 style="margin:0 0 10px 0; font-size:15.5px; font-weight:800; color:#0f172a;">Semesters 1 &amp; 2: Core Management Foundations (44 Credits)</h4>
+        <p style="font-size:13.5px; color:#475569; margin-bottom:0;">
+          Principles of Management &bull; Managerial Economics &bull; Accounting for Decision Makers &bull; Organizational Behavior &bull; Business Communication &bull; Quantitative Techniques &bull; Marketing Management &bull; Financial Management &bull; Operations &amp; Supply Chain &bull; Human Capital Management &bull; Business Research Methodologies.
+        </p>
+      </div>
 
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:16px;">
-            <h4 style="margin:0 0 10px 0; font-size:15.5px; font-weight:800; color:#0a6d6f;">Semester 3: Specialized Domain Electives (22 Credits)</h4>
-            <ul style="margin:0; padding-left:20px;">
-              <li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Strategic Human Resource Management & Leadership</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Talent Sourcing & Recruitment Technology (Zoho / Darwinbox)</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Advanced People Analytics & Workforce Metrics (Power BI)</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Performance Management Systems & Total Rewards</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Specialization Elective I: Labor Laws, Industrial Relations & Compliance</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Centre of Excellence Practical Lab: AI in Talent Management</li>
-            </ul>
-          </div>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px; margin-bottom:16px;">
+        <h4 style="margin:0 0 10px 0; font-size:15.5px; font-weight:800; color:#0a6d6f;">Semester 3: Specialized Domain Electives (22 Credits)</h4>
+        <ul style="margin:0; padding-left:20px; font-size:14px; color:#334155; line-height:1.8;">
+          <li>Strategic Human Resource Management & Leadership</li><li>Talent Sourcing & Recruitment Technology (Zoho / Darwinbox)</li><li>Advanced People Analytics & Workforce Metrics (Power BI)</li><li>Performance Management Systems & Total Rewards</li><li>Specialization Elective I: Labor Laws, Industrial Relations & Compliance</li><li>Centre of Excellence Practical Lab: AI in Talent Management</li>
+        </ul>
+      </div>
 
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px;">
-            <h4 style="margin:0 0 10px 0; font-size:15.5px; font-weight:800; color:#0a6d6f;">Semester 4: Advanced Strategy, Flagship Challenge &amp; Thesis (22 Credits)</h4>
-            <ul style="margin:0; padding-left:20px;">
-              <li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Organizational Development & Change Leadership</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Cross-Cultural Management & Global Human Resources</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Flagship Capstone Challenge: Design a Talent Intelligence System</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">HR Strategy Viva Voce & Case Assessment</li><li style="margin-bottom:8px; font-size:14px; color:#334155; line-height:1.5;">Master's Degree Research Dissertation in Human Resources</li>
-            </ul>
-          </div>
-        </section>
+      <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px 20px;">
+        <h4 style="margin:0 0 10px 0; font-size:15.5px; font-weight:800; color:#0a6d6f;">Semester 4: Advanced Strategy, Flagship Challenge &amp; Thesis (22 Credits)</h4>
+        <ul style="margin:0; padding-left:20px; font-size:14px; color:#334155; line-height:1.8;">
+          <li>Organizational Development & Change Leadership</li><li>Cross-Cultural Management & Global Human Resources</li><li>Flagship Capstone Challenge: Design a Talent Intelligence System</li><li>HR Strategy Viva Voce & Case Assessment</li><li>Master's Degree Research Dissertation in Human Resources</li>
+        </ul>
+      </div>
+    </section>
 
-        <!-- Section 4: AI Centre of Excellence & Hands-On Tools -->
-        <section class="cs-card" id="ai-coe">
-          <h2>04. Centre of Excellence &amp; Practical Hands-On Tools</h2>
-          <p>
-            Under its dedicated <strong>Centre of Excellence in AI &amp; Applied Learning</strong>, St. Aloysius Online provides hands-on exposure to industry-standard software platforms directly integrated into your student Learning Management System (LMS):
-          </p>
+    <!-- Section 4: Centre of Excellence & AI Tools -->
+    <section class="cs-card" id="ai-coe">
+      <h2>04. Centre of Excellence &amp; Practical Hands-On Tools</h2>
+      <p>
+        Under its dedicated <strong>Centre of Excellence in AI &amp; Applied Learning</strong>, St. Aloysius Online provides hands-on exposure to industry-standard software platforms directly integrated into your student Learning Management System (LMS):
+      </p>
 
-          <div style="background:#ffffff; border:1.5px solid #0a6d6f; border-radius:12px; padding:22px; margin:18px 0; box-shadow:0 4px 14px rgba(10,109,111,0.08);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-              <span style="font-size:12px; font-weight:800; text-transform:uppercase; color:#0a6d6f; letter-spacing:0.5px;">Centre of Excellence Focus Area</span>
-              <span style="background:#e0f2f1; color:#074e52; font-size:11.5px; font-weight:800; padding:2px 8px; border-radius:4px;">Applied Track</span>
-            </div>
-            <h3 style="margin:0 0 8px 0; font-size:1.25rem; font-weight:800; color:#0f172a;">AI for Talent & Workforce Management</h3>
-            <p style="font-size:14px; color:#334155; line-height:1.6; margin-bottom:14px;">Explore how AI supports recruitment, workforce planning, and employee development. Use people analytics to forecast talent shortages, map skill matrices, and analyze workforce productivity without administrative friction.</p>
-            
-            <div style="border-top:1px dashed #cbd5e1; padding-top:14px;">
-              <h4 style="margin:0 0 4px 0; font-size:14px; font-weight:800; color:#0a6d6f;">Flagship Challenge: Design a Talent Intelligence System</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Develop a comprehensive enterprise talent management framework that identifies organizational skill gaps, anticipates workforce turnover risks using predictive data, and automates talent development programs for an enterprise.</p>
-            </div>
-          </div>
+      <div style="background:#f0fdfa; border:1.5px solid #ccfbf1; border-radius:12px; padding:22px 24px; margin:20px 0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <span style="font-size:12px; font-weight:800; color:#0f766e; text-transform:uppercase; letter-spacing:0.5px;">Centre of Excellence Focus Area</span>
+          <span style="background:#0a6d6f; color:#ffffff; font-size:11px; font-weight:750; padding:3px 8px; border-radius:4px;">Applied Track</span>
+        </div>
+        <h3 style="margin:0 0 10px 0; font-size:1.25rem; font-weight:800; color:#074e52;">AI for Talent & Workforce Management</h3>
+        <p style="font-size:14px; color:#334155; line-height:1.65; margin-bottom:14px;">
+          Explore how AI supports recruitment, workforce planning, and employee development. Use people analytics to forecast talent shortages, map skill matrices, and analyze workforce productivity without administrative friction.
+        </p>
+        <div style="border-top:1px solid #99f6e4; padding-top:12px; margin-top:12px;">
+          <strong style="color:#0f766e; font-size:13.5px; display:block; margin-bottom:4px;">Flagship Challenge: Design a Talent Intelligence System</strong>
+          <span style="font-size:13px; color:#475569; line-height:1.55;">Develop a comprehensive enterprise talent management framework that identifies organizational skill gaps, anticipates workforce turnover risks using predictive data, and automates talent development programs for an enterprise.</span>
+        </div>
+      </div>
 
-          <h3 style="margin-top:20px; font-size:15px; font-weight:750; color:#0f172a;">Hands-On Software &amp; Analytics Tools</h3>
-          <p style="font-size:14px; color:#64748b; margin-bottom:12px;">Learners on the Applied AI track gain practical working experience with leading enterprise tools:</p>
-          <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
-            <span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 14px; border-radius:20px; font-size:13.5px; font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Darwinbox</span><span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 14px; border-radius:20px; font-size:13.5px; font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>SAP SuccessFactors</span><span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 14px; border-radius:20px; font-size:13.5px; font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Zoho Recruit</span><span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 14px; border-radius:20px; font-size:13.5px; font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Power BI</span><span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 14px; border-radius:20px; font-size:13.5px; font-weight:700;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Microsoft Copilot Studio</span>
-          </div>
-        </section>
+      <h3 style="margin-top:22px; color:#0f172a; font-size:15.5px;">Hands-On Software &amp; Analytics Tools</h3>
+      <p style="font-size:14px; color:#64748b; margin-bottom:12px;">Learners on the Applied AI track gain practical working experience with leading enterprise tools:</p>
+      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+        
+      <span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 12px; border-radius:8px; font-size:13px; font-weight:700;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Darwinbox
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 12px; border-radius:8px; font-size:13px; font-weight:700;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        SAP SuccessFactors
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 12px; border-radius:8px; font-size:13px; font-weight:700;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Zoho Recruit
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 12px; border-radius:8px; font-size:13px; font-weight:700;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Power BI
+      </span>
+      <span style="display:inline-flex; align-items:center; gap:6px; background:#f0fdfa; border:1px solid #ccfbf1; color:#0f766e; padding:6px 12px; border-radius:8px; font-size:13px; font-weight:700;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Microsoft Copilot Studio
+      </span>
+      </div>
+    </section>
 
-        <!-- Section 5: Eligibility & Direct Admission -->
-        <section class="cs-card" id="eligibility">
-          <h2>05. Eligibility Criteria &amp; Direct Admission Guidelines</h2>
-          <p>
-            In accordance with UGC-DEB statutory guidelines, admission into the <strong>St. Aloysius Online MBA in Human Resource Management & Applied AI</strong> is merit-based with zero entrance exam barrier:
-          </p>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:16px; margin:18px 0;">
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px;">
-              <h4 style="margin:0 0 6px 0; font-size:14.5px; font-weight:750; color:#0f172a;">Academic Qualification</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Bachelor's degree in any discipline (B.Com, BBA, B.Sc, B.A., B.Tech, etc.) from a UGC-recognized university.</p>
-            </div>
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px;">
-              <h4 style="margin:0 0 6px 0; font-size:14.5px; font-weight:750; color:#0f172a;">Minimum Aggregate Marks</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;">Minimum <strong>50% aggregate marks</strong> in graduation for General category candidates (45% for SC/ST/OBC categories).</p>
-            </div>
-            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:18px;">
-              <h4 style="margin:0 0 6px 0; font-size:14.5px; font-weight:750; color:#0f172a;">Entrance Exams (CAT / MAT)</h4>
-              <p style="margin:0; font-size:13.5px; color:#475569; line-height:1.55;"><strong>Zero entrance scorecard needed.</strong> Admission is evaluated purely on graduation academic merit.</p>
-            </div>
-          </div>
-          <p style="font-size:13.5px; color:#64748b; margin:0;">
-            * Working executives, fresh graduates, entrepreneurs, and defense personnel are all equally eligible to apply.
-          </p>
-        </section>
+    <!-- Section 5: Eligibility & Direct Admission Roadmap with In-Content Form -->
+    <section class="cs-card" id="eligibility">
+      <h2>05. Eligibility Criteria &amp; Direct Admission Guidelines</h2>
+      <p>
+        In accordance with UGC-DEB statutory guidelines, admission into the <strong>St. Aloysius Online MBA in Human Resource Management & Applied AI</strong> is merit-based with zero entrance exam barrier:
+      </p>
 
-        <!-- Section 6: Career Scope & Salary Benchmarks -->
-        <section class="cs-card" id="career-scope">
-          <h2>06. Career Pathways &amp; Compensation Benchmarks</h2>
-          <p>
-            Graduates with specialized expertise in <strong>Human Resource Management & Applied AI</strong> are recruited across high-growth corporate enterprises, multinational consultancy firms, and tech organizations. Below are representative managerial roles and average CTC compensation brackets:
-          </p>
-          <div style="margin-top:16px;">
-            
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:14px 16px; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
-              <div style="flex:1; padding-right:16px;">
-                <h4 style="margin:0 0 4px 0; font-size:15px; font-weight:750; color:#0f172a;">HR Business Partner (HRBP)</h4>
-                <p style="margin:0; font-size:13px; color:#64748b; line-height:1.5;">Partner directly with business unit directors to drive talent alignment and productivity.</p>
+      <div class="cs-grid-2">
+        <div class="cs-feature-box">
+          <h4>Academic Qualification</h4>
+          <p>Bachelor's degree in any discipline (B.Com, BBA, B.Sc, B.A., B.Tech, etc.) from a UGC-recognized university.</p>
+        </div>
+        <div class="cs-feature-box">
+          <h4>Minimum Aggregate Marks</h4>
+          <p>Minimum <strong>50% aggregate marks</strong> in graduation for General category candidates (45% for SC/ST/OBC categories).</p>
+        </div>
+        <div class="cs-feature-box">
+          <h4>Entrance Exams (CAT / MAT)</h4>
+          <p><strong>Zero entrance scorecard needed.</strong> Admission is evaluated purely on graduation academic merit.</p>
+        </div>
+        <div class="cs-feature-box">
+          <h4>Working Professionals &amp; Freshers</h4>
+          <p>Working executives, fresh graduates, entrepreneurs, and defense personnel are all equally eligible to apply.</p>
+        </div>
+      </div>
+
+      <!-- Mid-Page In-Content Consultation Card & Form (Form 1 of 2) -->
+      <div style="background:linear-gradient(135deg, #074e52 0%, #0a6d6f 100%); color:#ffffff; border-radius:14px; padding:28px 24px; margin:28px 0 10px 0; box-shadow:0 8px 24px rgba(10, 109, 111, 0.16);">
+        <div style="max-width:680px; margin:0 auto; text-align:center;">
+          <span style="background:rgba(255,255,255,0.2); color:#ffffff; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:4px; text-transform:uppercase; letter-spacing:0.5px;">DIRECT MERIT ADMISSION</span>
+          <h3 style="color:#ffffff; margin:10px 0 6px 0; font-size:1.45rem; font-weight:800;">Check Your Eligibility for Human Resource Management & Applied AI</h3>
+          <p style="color:#e0f2f1; margin:0 0 20px 0; font-size:14px; line-height:1.55;">Submit your details for instant eligibility verification and complete fee breakdown by official counselors.</p>
+
+          <form class="lead-form as-it-is-counseling-form" data-source="St. Aloysius Online MBA Human Resource Management & Applied AI Mid-Content Form" style="background:#ffffff; color:#17202a; border-radius:12px; padding:22px; text-align:left; box-shadow:0 10px 25px rgba(0,0,0,0.1);" novalidate>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:12px;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Full Name *</label>
+                <input type="text" name="name" placeholder="Enter your full name" required autocomplete="name" style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13.5px; box-sizing:border-box;">
               </div>
-              <div style="text-align:right; flex-shrink:0;">
-                <span style="display:inline-block; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:12.5px; font-weight:750; padding:4px 10px; border-radius:6px; white-space:nowrap;">₹9,00,000 – ₹16,50,000</span>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:14px 16px; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
-              <div style="flex:1; padding-right:16px;">
-                <h4 style="margin:0 0 4px 0; font-size:15px; font-weight:750; color:#0f172a;">Talent Acquisition & Sourcing Head</h4>
-                <p style="margin:0; font-size:13px; color:#64748b; line-height:1.5;">Lead executive hiring pipelines, employer branding, and campus/lateral recruiting.</p>
-              </div>
-              <div style="text-align:right; flex-shrink:0;">
-                <span style="display:inline-block; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:12.5px; font-weight:750; padding:4px 10px; border-radius:6px; white-space:nowrap;">₹8,50,000 – ₹15,50,000</span>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:14px 16px; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
-              <div style="flex:1; padding-right:16px;">
-                <h4 style="margin:0 0 4px 0; font-size:15px; font-weight:750; color:#0f172a;">People Analytics & HR Insights Lead</h4>
-                <p style="margin:0; font-size:13px; color:#64748b; line-height:1.5;">Translate employee survey data, retention rates, and KPI metrics into executive insights.</p>
-              </div>
-              <div style="text-align:right; flex-shrink:0;">
-                <span style="display:inline-block; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:12.5px; font-weight:750; padding:4px 10px; border-radius:6px; white-space:nowrap;">₹9,50,000 – ₹17,00,000</span>
-              </div>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:14px 16px; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
-              <div style="flex:1; padding-right:16px;">
-                <h4 style="margin:0 0 4px 0; font-size:15px; font-weight:750; color:#0f172a;">Learning & Development (L&D) Manager</h4>
-                <p style="margin:0; font-size:13px; color:#64748b; line-height:1.5;">Design continuous training modules, leadership bootcamps, and skill upskilling.</p>
-              </div>
-              <div style="text-align:right; flex-shrink:0;">
-                <span style="display:inline-block; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:12.5px; font-weight:750; padding:4px 10px; border-radius:6px; white-space:nowrap;">₹8,00,000 – ₹14,50,000</span>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Mobile Number *</label>
+                <input type="tel" name="phone" placeholder="10-digit mobile number" required pattern="[6-9][0-9]{9}" maxlength="10" autocomplete="tel" style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13.5px; box-sizing:border-box;">
               </div>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:flex-start; padding:14px 16px; background:#ffffff; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
-              <div style="flex:1; padding-right:16px;">
-                <h4 style="margin:0 0 4px 0; font-size:15px; font-weight:750; color:#0f172a;">Compensation, Benefits & Rewards Head</h4>
-                <p style="margin:0; font-size:13px; color:#64748b; line-height:1.5;">Architect competitive compensation structures, bonus grids, and executive retention pools.</p>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:12px;">
+              <div>
+                <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Email Address *</label>
+                <input type="email" name="email" placeholder="Enter your email address" required autocomplete="email" style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13.5px; box-sizing:border-box;">
               </div>
-              <div style="text-align:right; flex-shrink:0;">
-                <span style="display:inline-block; background:#ecfdf5; color:#047857; border:1px solid #a7f3d0; font-size:12.5px; font-weight:750; padding:4px 10px; border-radius:6px; white-space:nowrap;">₹10,00,000 – ₹18,00,000</span>
+              <div>
+                <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Track</label>
+                <input type="text" name="program" value="St. Aloysius Online MBA - Human Resource Management & Applied AI" readonly style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12.5px; background:#f8fafc; font-weight:700; color:#0a6d6f; box-sizing:border-box;">
               </div>
             </div>
-          </div>
-        </section>
 
-        <!-- Section 7: Transparent Fees & 0% EMI -->
-        <section class="cs-card" id="fees-financing">
-          <h2>07. Transparent Fee Structure &amp; 0% No-Cost EMI</h2>
-          <p>
-            St. Aloysius Online provides transparent, affordable tuition without hidden charges or examination surcharges. Candidates can select the track that aligns with their budget and professional goals:
-          </p>
+            <input type="hidden" name="university" value="St. Aloysius (Deemed to be University)">
 
-          <div style="overflow-x:auto; margin:16px 0;">
-            <table style="width:100%; border-collapse:collapse; font-size:14px; text-align:left;">
-              <thead>
-                <tr style="background:#0a6d6f; color:#ffffff;">
-                  <th style="padding:12px 14px; border:1px solid #074e52;">Pathway</th>
-                  <th style="padding:12px 14px; border:1px solid #074e52;">Total Tuition</th>
-                  <th style="padding:12px 14px; border:1px solid #074e52;">Per Semester</th>
-                  <th style="padding:12px 14px; border:1px solid #074e52;">12-Mo 0% EMI</th>
-                  <th style="padding:12px 14px; border:1px solid #074e52;">24-Mo 0% EMI</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
-                  <td style="padding:12px 14px; font-weight:700;">Standard Track (without AI)</td>
-                  <td style="padding:12px 14px; font-weight:750; color:#0a6d6f;">&#8377;80,000</td>
-                  <td style="padding:12px 14px;">&#8377;22,000</td>
-                  <td style="padding:12px 14px;">&#8377;6,666 / mo</td>
-                  <td style="padding:12px 14px; font-weight:700; color:#047857;">&#8377;3,333 / mo</td>
-                </tr>
-                <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
-                  <td style="padding:12px 14px; font-weight:700;">Applied AI Enhanced Track</td>
-                  <td style="padding:12px 14px; font-weight:750; color:#0a6d6f;">&#8377;1,20,000</td>
-                  <td style="padding:12px 14px;">&#8377;33,000</td>
-                  <td style="padding:12px 14px;">&#8377;10,000 / mo</td>
-                  <td style="padding:12px 14px; font-weight:700; color:#047857;">&#8377;4,500 / mo</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            <div style="margin-bottom:14px;">
+              <label style="display:flex; align-items:flex-start; gap:8px; font-size:12px; color:#475569; cursor:pointer; line-height:1.4;">
+                <input type="checkbox" name="consent" required checked style="margin-top:2px;">
+                <span>I authorize OnlineMBAAdmission counselors to assist me with verified university admission guidance.</span>
+              </label>
+            </div>
 
-          <p style="font-size:13.5px; color:#64748b;">
-            Zero-cost EMI financing is subvented by the university in partnership with authorized financial institutions (Propelld, Eduvanz, LiquiLoans). Approval is 100% digital with PAN and Aadhaar in 15 minutes.
-          </p>
-        </section>
+            <button type="submit" style="width:100%; background:#ff471a; color:#ffffff; font-weight:800; font-size:14.5px; border:none; border-radius:8px; padding:12px; cursor:pointer; box-shadow:0 4px 14px rgba(255, 71, 26, 0.28);">Verify Eligibility &amp; Get Free Shortlist</button>
+            <p class="form-message" aria-live="polite" style="margin-top:8px; font-size:13px; text-align:center;"></p>
+          </form>
+        </div>
+      </div>
+    </section>
 
-        <!-- Section 8: FAQs (Animated Accordion Engine) -->
-        <section class="cs-card" id="faqs">
-          <h2>08. Frequently Asked Questions (St. Aloysius Online MBA)</h2>
-          <p>Verified, official answers to the most common queries regarding this specialization:</p>
-          <div class="cs-faq-wrapper">
-            
+    <!-- Section 6: Career Scope & Salary Benchmarks -->
+    <section class="cs-card" id="career-scope">
+      <h2>06. Career Pathways &amp; Compensation Benchmarks</h2>
+      <p>
+        Graduates with specialized expertise in <strong>Human Resource Management & Applied AI</strong> are recruited across high-growth corporate enterprises, multinational consultancy firms, and tech organizations. Below are representative managerial roles and average CTC compensation brackets:
+      </p>
+      <div style="margin-top:16px;">
+        
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
+              <div>
+                <strong style="color:#0f172a; font-size:15px; display:block;">HR Business Partner (HRBP)</strong>
+                <span style="font-size:13px; color:#64748b;">₹9,00,000 – ₹16,50,000</span>
+              </div>
+              <div style="background:#e0f2f1; color:#00695c; font-weight:800; font-size:13.5px; padding:5px 12px; border-radius:6px; white-space:nowrap;">
+                Partner directly with business unit directors to drive talent alignment and productivity.
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
+              <div>
+                <strong style="color:#0f172a; font-size:15px; display:block;">Talent Acquisition & Sourcing Head</strong>
+                <span style="font-size:13px; color:#64748b;">₹8,50,000 – ₹15,50,000</span>
+              </div>
+              <div style="background:#e0f2f1; color:#00695c; font-weight:800; font-size:13.5px; padding:5px 12px; border-radius:6px; white-space:nowrap;">
+                Lead executive hiring pipelines, employer branding, and campus/lateral recruiting.
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
+              <div>
+                <strong style="color:#0f172a; font-size:15px; display:block;">People Analytics & HR Insights Lead</strong>
+                <span style="font-size:13px; color:#64748b;">₹9,50,000 – ₹17,00,000</span>
+              </div>
+              <div style="background:#e0f2f1; color:#00695c; font-weight:800; font-size:13.5px; padding:5px 12px; border-radius:6px; white-space:nowrap;">
+                Translate employee survey data, retention rates, and KPI metrics into executive insights.
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
+              <div>
+                <strong style="color:#0f172a; font-size:15px; display:block;">Learning & Development (L&D) Manager</strong>
+                <span style="font-size:13px; color:#64748b;">₹8,00,000 – ₹14,50,000</span>
+              </div>
+              <div style="background:#e0f2f1; color:#00695c; font-weight:800; font-size:13.5px; padding:5px 12px; border-radius:6px; white-space:nowrap;">
+                Design continuous training modules, leadership bootcamps, and skill upskilling.
+              </div>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; padding:14px 18px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; margin-bottom:10px;">
+              <div>
+                <strong style="color:#0f172a; font-size:15px; display:block;">Compensation, Benefits & Rewards Head</strong>
+                <span style="font-size:13px; color:#64748b;">₹10,00,000 – ₹18,00,000</span>
+              </div>
+              <div style="background:#e0f2f1; color:#00695c; font-weight:800; font-size:13.5px; padding:5px 12px; border-radius:6px; white-space:nowrap;">
+                Architect competitive compensation structures, bonus grids, and executive retention pools.
+              </div>
+            </div>
+      </div>
+    </section>
+
+    <!-- Section 7: Transparent Fees & 0% EMI -->
+    <section class="cs-card" id="fees">
+      <h2>07. Transparent Fee Structure &amp; 0% No-Cost EMI</h2>
+      <p>
+        St. Aloysius Online provides transparent, affordable tuition without hidden charges or examination surcharges. Candidates can select the track that aligns with their budget and professional goals:
+      </p>
+
+      <div style="overflow-x:auto; margin:16px 0;">
+        <table style="width:100%; border-collapse:collapse; font-size:14px; text-align:left;">
+          <thead>
+            <tr style="background:#0a6d6f; color:#ffffff;">
+              <th style="padding:12px 14px; border:1px solid #074e52;">Pathway</th>
+              <th style="padding:12px 14px; border:1px solid #074e52;">Total Tuition</th>
+              <th style="padding:12px 14px; border:1px solid #074e52;">Per Semester</th>
+              <th style="padding:12px 14px; border:1px solid #074e52;">12-Mo 0% EMI</th>
+              <th style="padding:12px 14px; border:1px solid #074e52;">24-Mo 0% EMI</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="background:#ffffff; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:12px 14px; font-weight:700;">Standard Track (without AI)</td>
+              <td style="padding:12px 14px; font-weight:750; color:#0a6d6f;">&#8377;80,000</td>
+              <td style="padding:12px 14px;">&#8377;22,000</td>
+              <td style="padding:12px 14px;">&#8377;6,666 / mo</td>
+              <td style="padding:12px 14px; font-weight:700; color:#047857;">&#8377;3,333 / mo</td>
+            </tr>
+            <tr style="background:#f8fafc; border-bottom:1px solid #e2e8f0;">
+              <td style="padding:12px 14px; font-weight:700;">Applied AI Enhanced Track</td>
+              <td style="padding:12px 14px; font-weight:750; color:#0a6d6f;">&#8377;1,20,000</td>
+              <td style="padding:12px 14px;">&#8377;33,000</td>
+              <td style="padding:12px 14px;">&#8377;10,000 / mo</td>
+              <td style="padding:12px 14px; font-weight:700; color:#047857;">&#8377;4,500 / mo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p style="font-size:13.5px; color:#64748b;">
+        Zero-cost EMI financing is subvented by the university in partnership with authorized financial institutions (Propelld, Eduvanz, LiquiLoans). Approval is 100% digital with PAN and Aadhaar in 15 minutes.
+      </p>
+    </section>
+
+    <!-- Section 8: Other Specializations Offered -->
+    <section class="cs-card" id="other-specializations">
+      <h2>08. Other St. Aloysius Online MBA Specializations</h2>
+      <p>
+        Explore the complete spectrum of UGC Category-I accredited MBA specializations offered by St. Aloysius (Deemed to be University):
+      </p>
+      <div class="cs-grid-2">
+        
+            <div class="cs-feature-box" style="display:flex; flex-direction:column; justify-content:space-between; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+              <div>
+                <span style="display:inline-block; font-size:11px; font-weight:800; color:#0a6d6f; background:#e0f2f1; padding:3px 8px; border-radius:4px; text-transform:uppercase; margin-bottom:8px;">88 Credits &bull; UGC-DEB</span>
+                <h4 style="margin:0 0 8px 0; font-size:16px; font-weight:800; color:#0f172a;">General Management & Applied AI</h4>
+                <p style="font-size:13.5px; color:#475569; line-height:1.55; margin:0 0 14px 0;">Develop modern executive leadership, cross-functional managerial acumen, and strategic transformation capabilities while mastering...</p>
+              </div>
+              <div style="border-top:1px solid #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12.5px; font-weight:700; color:#059669;">From ₹3,333/Mo EMI</span>
+                <a href="/university/st-aloysius/mba-in-general-management" style="color:#0a6d6f; font-weight:750; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">Explore Track &rarr;</a>
+              </div>
+            </div>
+            <div class="cs-feature-box" style="display:flex; flex-direction:column; justify-content:space-between; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+              <div>
+                <span style="display:inline-block; font-size:11px; font-weight:800; color:#0a6d6f; background:#e0f2f1; padding:3px 8px; border-radius:4px; text-transform:uppercase; margin-bottom:8px;">88 Credits &bull; UGC-DEB</span>
+                <h4 style="margin:0 0 8px 0; font-size:16px; font-weight:800; color:#0f172a;">Marketing & Applied AI</h4>
+                <p style="font-size:13.5px; color:#475569; line-height:1.55; margin:0 0 14px 0;">Master contemporary marketing strategy, brand intelligence, and omnichannel customer acquisition while harnessing generative AI, p...</p>
+              </div>
+              <div style="border-top:1px solid #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12.5px; font-weight:700; color:#059669;">From ₹3,333/Mo EMI</span>
+                <a href="/university/st-aloysius/mba-in-marketing" style="color:#0a6d6f; font-weight:750; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">Explore Track &rarr;</a>
+              </div>
+            </div>
+            <div class="cs-feature-box" style="display:flex; flex-direction:column; justify-content:space-between; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+              <div>
+                <span style="display:inline-block; font-size:11px; font-weight:800; color:#0a6d6f; background:#e0f2f1; padding:3px 8px; border-radius:4px; text-transform:uppercase; margin-bottom:8px;">88 Credits &bull; UGC-DEB</span>
+                <h4 style="margin:0 0 8px 0; font-size:16px; font-weight:800; color:#0f172a;">Finance & Applied AI</h4>
+                <p style="font-size:13.5px; color:#475569; line-height:1.55; margin:0 0 14px 0;">Master corporate financial architecture, valuation modeling, investment banking principles, and quantitative risk management while...</p>
+              </div>
+              <div style="border-top:1px solid #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12.5px; font-weight:700; color:#059669;">From ₹3,333/Mo EMI</span>
+                <a href="/university/st-aloysius/mba-in-finance" style="color:#0a6d6f; font-weight:750; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">Explore Track &rarr;</a>
+              </div>
+            </div>
+            <div class="cs-feature-box" style="display:flex; flex-direction:column; justify-content:space-between; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+              <div>
+                <span style="display:inline-block; font-size:11px; font-weight:800; color:#0a6d6f; background:#e0f2f1; padding:3px 8px; border-radius:4px; text-transform:uppercase; margin-bottom:8px;">88 Credits &bull; UGC-DEB</span>
+                <h4 style="margin:0 0 8px 0; font-size:16px; font-weight:800; color:#0f172a;">Data Science & Analytics & Applied AI</h4>
+                <p style="font-size:13.5px; color:#475569; line-height:1.55; margin:0 0 14px 0;">Bridge executive management acumen with data engineering, predictive modeling, machine learning algorithms, and generative AI to t...</p>
+              </div>
+              <div style="border-top:1px solid #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12.5px; font-weight:700; color:#059669;">From ₹3,333/Mo EMI</span>
+                <a href="/university/st-aloysius/mba-in-data-science-analytics" style="color:#0a6d6f; font-weight:750; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">Explore Track &rarr;</a>
+              </div>
+            </div>
+            <div class="cs-feature-box" style="display:flex; flex-direction:column; justify-content:space-between; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+              <div>
+                <span style="display:inline-block; font-size:11px; font-weight:800; color:#0a6d6f; background:#e0f2f1; padding:3px 8px; border-radius:4px; text-transform:uppercase; margin-bottom:8px;">88 Credits &bull; UGC-DEB</span>
+                <h4 style="margin:0 0 8px 0; font-size:16px; font-weight:800; color:#0f172a;">Healthcare Management & Applied AI</h4>
+                <p style="font-size:13.5px; color:#475569; line-height:1.55; margin:0 0 14px 0;">Equip yourself to manage modern hospital systems, multi-specialty clinical networks, and healthcare technology enterprises while u...</p>
+              </div>
+              <div style="border-top:1px solid #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12.5px; font-weight:700; color:#059669;">From ₹3,333/Mo EMI</span>
+                <a href="/university/st-aloysius/mba-in-healthcare-management" style="color:#0a6d6f; font-weight:750; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">Explore Track &rarr;</a>
+              </div>
+            </div>
+            <div class="cs-feature-box" style="display:flex; flex-direction:column; justify-content:space-between; background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:20px; transition:transform 0.2s ease, box-shadow 0.2s ease;">
+              <div>
+                <span style="display:inline-block; font-size:11px; font-weight:800; color:#0a6d6f; background:#e0f2f1; padding:3px 8px; border-radius:4px; text-transform:uppercase; margin-bottom:8px;">88 Credits &bull; UGC-DEB</span>
+                <h4 style="margin:0 0 8px 0; font-size:16px; font-weight:800; color:#0f172a;">Logistics & Supply Chain Management & Applied AI</h4>
+                <p style="font-size:13.5px; color:#475569; line-height:1.55; margin:0 0 14px 0;">Master end-to-end supply chain planning, international freight logistics, multimodal transport networks, and automated warehouse m...</p>
+              </div>
+              <div style="border-top:1px solid #f1f5f9; padding-top:12px; display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:12.5px; font-weight:700; color:#059669;">From ₹3,333/Mo EMI</span>
+                <a href="/university/st-aloysius/mba-in-logistics-supply-chain" style="color:#0a6d6f; font-weight:750; font-size:13px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">Explore Track &rarr;</a>
+              </div>
+            </div>
+      </div>
+    </section>
+
+    <!-- Section 9: FAQs (Animated Accordion Engine) -->
+    <section class="cs-card" id="faqs">
+      <h2>09. Frequently Asked Questions (St. Aloysius Online MBA)</h2>
+      <p>Verified, official answers to the most common queries regarding this specialization:</p>
+      <div class="cs-faq-wrapper">
+        
           <div class="cs-faq-item">
             <div class="cs-faq-q" onclick="toggleFaq(this)">
               <span>Why choose St. Aloysius Online MBA in HRM?</span>
@@ -649,203 +877,186 @@
               <p>Yes. 100% of semester exams are conducted remotely from home with webcam AI proctoring.</p>
             </div>
           </div>
-          </div>
-        </section>
-
-        <!-- In-Article Counseling Lead Form -->
-        <section class="cs-card" id="lead-form-section" style="background:#0a6d6f; color:#ffffff;">
-          <div style="text-align:center; max-width:640px; margin:0 auto 20px;">
-            <h3 style="color:#ffffff; font-size:1.55rem; font-weight:800; margin:0 0 6px;">Need Guidance on Human Resource Management & Applied AI?</h3>
-            <p style="color:#d2ecec; font-size:14px; margin:0;">Connect with an academic counselor to verify statutory eligibility, calculate your exact monthly EMI, and get detailed syllabus brochures.</p>
-          </div>
-
-          <form class="lead-form as-it-is-counseling-form" data-source="St. Aloysius Online MBA Human Resource Management & Applied AI Lead Form" style="background:#ffffff; color:#17202a; border-radius:12px; padding:24px; max-width:640px; margin:0 auto;">
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:12px;">
-              <div>
-                <label style="display:block; font-size:12.5px; font-weight:700; margin-bottom:4px; color:#1e293b;">Full Name *</label>
-                <input type="text" name="name" placeholder="Your name" required style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13.5px; box-sizing:border-box;">
-              </div>
-              <div>
-                <label style="display:block; font-size:12.5px; font-weight:700; margin-bottom:4px; color:#1e293b;">Mobile Number *</label>
-                <input type="tel" name="phone" placeholder="10-digit mobile" required pattern="[6-9][0-9]{9}" maxlength="10" style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13.5px; box-sizing:border-box;">
-              </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:12px;">
-              <div>
-                <label style="display:block; font-size:12.5px; font-weight:700; margin-bottom:4px; color:#1e293b;">Email Address *</label>
-                <input type="email" name="email" placeholder="Your email address" required style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13.5px; box-sizing:border-box;">
-              </div>
-              <div>
-                <label style="display:block; font-size:12.5px; font-weight:700; margin-bottom:4px; color:#1e293b;">Selected Specialization</label>
-                <input type="text" name="program" value="St. Aloysius Online MBA - Human Resource Management & Applied AI" readonly style="width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px; background:#f8fafc; font-weight:600; color:#0a6d6f; box-sizing:border-box;">
-              </div>
-            </div>
-
-            <input type="hidden" name="university" value="St. Aloysius (Deemed to be University)">
-
-            <div style="margin-bottom:14px;">
-              <label style="display:flex; align-items:center; gap:8px; font-size:12px; color:#475569; cursor:pointer;">
-                <input type="checkbox" name="consent" required checked>
-                <span>I authorize OnlineMBAAdmission counselors to assist me with verified university admission guidance.</span>
-              </label>
-            </div>
-
-            <button type="submit" style="width:100%; background:#e9542f; color:#ffffff; font-weight:800; font-size:14.5px; border:none; border-radius:8px; padding:12px; cursor:pointer; transition:background 0.2s ease;">Get Free Counseling &amp; Syllabus Brochure</button>
-            <p class="form-message" aria-live="polite" style="margin-top:8px; font-size:13px; text-align:center;"></p>
-          </form>
-        </section>
-
       </div>
+    </section>
 
-      <!-- Right Column: Sidebar -->
-      <aside>
-        
-        <!-- Sidebar Sticky Counseling Form -->
-        <div class="cs-card" style="padding:22px; margin-bottom:20px; border-top:4px solid #0a6d6f;">
-          <div style="font-size:11px; font-weight:800; color:#0a6d6f; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">FREE COUNSELING</div>
-          <h4 style="margin:0 0 8px 0; font-size:16px; font-weight:800; color:#0f172a;">Quick Admission Check</h4>
-          <p style="font-size:13px; color:#64748b; line-height:1.5; margin-bottom:14px;">Verify eligibility and get zero-cost EMI plans for this specialization.</p>
-          <form class="lead-form as-it-is-counseling-form" data-source="St. Aloysius Online MBA Human Resource Management & Applied AI Sidebar Form" novalidate>
-            <div style="margin-bottom:10px;">
-              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Full Name *</label>
-              <input type="text" name="name" placeholder="Enter your name" required autocomplete="name" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px; box-sizing:border-box;">
-            </div>
-            <div style="margin-bottom:10px;">
-              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Mobile Number *</label>
-              <input type="tel" name="phone" placeholder="10-digit mobile number" required pattern="[6-9][0-9]{9}" maxlength="10" autocomplete="tel" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px; box-sizing:border-box;">
-            </div>
-            <div style="margin-bottom:10px;">
-              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Email Address *</label>
-              <input type="email" name="email" placeholder="Enter your email" required autocomplete="email" style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:13px; box-sizing:border-box;">
-            </div>
-            <div style="margin-bottom:10px;">
-              <label style="display:block; font-size:12px; font-weight:700; margin-bottom:4px; color:#1e293b;">Track</label>
-              <input type="text" name="program" value="St. Aloysius MBA - Human Resource Management & Applied AI" readonly style="width:100%; padding:9px 12px; border:1px solid #cbd5e1; border-radius:6px; font-size:12.5px; background:#f8fafc; font-weight:600; color:#0a6d6f; box-sizing:border-box;">
-            </div>
-            <input type="hidden" name="university" value="St. Aloysius (Deemed to be University)">
-            <div style="margin-bottom:12px;">
-              <label style="display:flex; align-items:flex-start; gap:6px; font-size:11.5px; color:#64748b; cursor:pointer; line-height:1.4;">
-                <input type="checkbox" name="consent" required checked style="margin-top:2px;">
-                <span>I authorize counselors to contact me regarding admission.</span>
-              </label>
-            </div>
-            <button type="submit" style="width:100%; background:#0a6d6f; color:#ffffff; font-weight:750; font-size:13.5px; border:none; border-radius:6px; padding:10px; cursor:pointer; transition:background 0.2s ease;">Get Instant Guidance</button>
-            <p class="form-message" aria-live="polite" style="margin-top:6px; font-size:12px; text-align:center;"></p>
-          </form>
-        </div>
+    <!-- Section 10: Conversion Lead Form Banner (Form 2 of 2) -->
+    <div class="cs-cta-banner" id="admission">
+      <h3>Need Guidance on Online MBA in Human Resource Management & Applied AI?</h3>
+      <p>Connect with our senior academic counselors for 100% free, personalized guidance across statutory eligibility verification, semester installments, 0% EMI plans, and syllabus brochures.</p>
+      <a href="#lead-form" class="btn btn-accent">Get Free Expert Shortlist &rarr;</a>
+      
+      <div class="counseling-card-box" style="margin: 28px auto 0 auto; max-width: 560px; text-align: left;">
+        <div class="modal-eyebrow">FREE ADVISORY</div>
+        <h3 class="counseling-card-title">Apply for St. Aloysius Online MBA 2027</h3>
+        <p class="modal-copy">Receive verified admission assistance, fee charts, and 0% no-cost EMI pre-approval from official academic counselors.</p>
 
-        <!-- University Snapshot Card -->
-        <div class="cs-card" style="padding:22px; margin-bottom:20px;">
-          <div style="text-align:center; margin-bottom:14px;">
-            <img src="/images/universities/st-aloysius.png" alt="St. Aloysius (Deemed to be University)" style="height:60px; width:auto; margin-bottom:8px; display:inline-block;" onerror="this.src='/logo.png'">
-            <h4 style="margin:0; font-size:16px; font-weight:800; color:#0f172a;">St. Aloysius University</h4>
-            <span style="font-size:12px; color:#64748b;">Mangaluru, Karnataka (Est. 1880)</span>
+        <form class="lead-form as-it-is-counseling-form" id="lead-form" data-source="St. Aloysius Online MBA Human Resource Management & Applied AI Bottom Form" novalidate>
+          <div class="form-group">
+            <label for="cta-name-mba-in-human-resource-management">Full Name</label>
+            <input type="text" id="cta-name-mba-in-human-resource-management" name="name" placeholder="Enter your full name" required autocomplete="name">
           </div>
-
-          <div style="border-top:1px solid #f1f5f9; padding-top:12px; font-size:13px; line-height:1.7; color:#334155;">
-            <div><strong>Accreditation:</strong> NAAC A++ (3.67 CGPA)</div>
-            <div><strong>Status:</strong> UGC Category-I Autonomy</div>
-            <div><strong>Exams:</strong> 100% Remote AI Web</div>
-            <div><strong>Standard Fee:</strong> &#8377;80,000 Total</div>
-            <div><strong>Applied AI Fee:</strong> &#8377;1,20,000 Total</div>
+          <div class="form-group">
+            <label for="cta-phone-mba-in-human-resource-management">Mobile Number</label>
+            <input type="tel" id="cta-phone-mba-in-human-resource-management" name="phone" placeholder="10-digit mobile number" required pattern="[6-9][0-9]{9}" maxlength="10" autocomplete="tel">
           </div>
-
-          <div style="margin-top:16px;">
-            <a href="/universities/st-aloysius" style="display:block; text-align:center; background:#f0fdfa; color:#0a6d6f; border:1px solid #ccfbf1; font-weight:750; font-size:13.5px; padding:10px; border-radius:8px; text-decoration:none;">View Full University Profile &rarr;</a>
+          <div class="form-group">
+            <label for="cta-email-mba-in-human-resource-management">Email Address</label>
+            <input type="email" id="cta-email-mba-in-human-resource-management" name="email" placeholder="Enter your email address" required autocomplete="email">
           </div>
-        </div>
-
-        <!-- Other St. Aloysius Specializations Card -->
-        <div class="cs-card" style="padding:22px; margin-bottom:20px;">
-          <h4 style="margin:0 0 12px 0; font-size:15px; font-weight:800; color:#0f172a; border-bottom:1.5px solid #f1f5f9; padding-bottom:8px;">Other St. Aloysius Tracks</h4>
-          <div style="display:flex; flex-direction:column; gap:8px;">
-            
-          <a href="/university/st-aloysius/mba-in-general-management" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; text-decoration:none; color:#1e293b; font-weight:600; font-size:13.5px; transition:all 0.2s ease;">
-            <span>General Management & Applied AI</span>
-            <span style="color:#0a6d6f; font-weight:800;">&rarr;</span>
-          </a>
-          <a href="/university/st-aloysius/mba-in-marketing" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; text-decoration:none; color:#1e293b; font-weight:600; font-size:13.5px; transition:all 0.2s ease;">
-            <span>Marketing & Applied AI</span>
-            <span style="color:#0a6d6f; font-weight:800;">&rarr;</span>
-          </a>
-          <a href="/university/st-aloysius/mba-in-finance" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; text-decoration:none; color:#1e293b; font-weight:600; font-size:13.5px; transition:all 0.2s ease;">
-            <span>Finance & Applied AI</span>
-            <span style="color:#0a6d6f; font-weight:800;">&rarr;</span>
-          </a>
-          <a href="/university/st-aloysius/mba-in-data-science-analytics" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; text-decoration:none; color:#1e293b; font-weight:600; font-size:13.5px; transition:all 0.2s ease;">
-            <span>Data Science & Analytics & Applied AI</span>
-            <span style="color:#0a6d6f; font-weight:800;">&rarr;</span>
-          </a>
-          <a href="/university/st-aloysius/mba-in-healthcare-management" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; text-decoration:none; color:#1e293b; font-weight:600; font-size:13.5px; transition:all 0.2s ease;">
-            <span>Healthcare Management & Applied AI</span>
-            <span style="color:#0a6d6f; font-weight:800;">&rarr;</span>
-          </a>
-          <a href="/university/st-aloysius/mba-in-logistics-supply-chain" style="display:flex; justify-content:space-between; align-items:center; padding:10px 14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; text-decoration:none; color:#1e293b; font-weight:600; font-size:13.5px; transition:all 0.2s ease;">
-            <span>Logistics & Supply Chain Management & Applied AI</span>
-            <span style="color:#0a6d6f; font-weight:800;">&rarr;</span>
-          </a>
+          <div class="form-group">
+            <label for="cta-program-mba-in-human-resource-management">Selected Specialization</label>
+            <input type="text" id="cta-program-mba-in-human-resource-management" name="program" value="St. Aloysius Online MBA - Human Resource Management & Applied AI" readonly style="background:#f8fafc; font-weight:700; color:#0a6d6f;">
           </div>
-        </div>
+          <input type="hidden" name="university" value="St. Aloysius (Deemed to be University)">
+          <div class="form-group consent-group">
+            <div class="consent-checkbox-wrap">
+              <input type="checkbox" id="cta-consent-mba-in-human-resource-management" name="consent" required checked>
+              <label for="cta-consent-mba-in-human-resource-management">I agree that OnlineMBAAdmission counsellors may contact me regarding my enquiry.</label>
+            </div>
+          </div>
+          <button type="submit" class="modal-submit-btn">Submit &amp; Get Free Consultation</button>
+          <p class="form-message" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
 
-        <!-- Quick Comparison Link Card -->
-        <div class="cs-card" style="padding:22px; background:#f8fafc;">
-          <h4 style="margin:0 0 8px 0; font-size:15px; font-weight:800; color:#0f172a;">Compare with Other Universities</h4>
-          <p style="font-size:13px; color:#64748b; line-height:1.5; margin-bottom:12px;">Compare St. Aloysius with Manipal, Jain, Amity, and DPU on curriculum, NIRF rank, and fees.</p>
-          <a href="/comparison" style="display:block; text-align:center; background:#0a6d6f; color:#ffffff; font-weight:750; font-size:13.5px; padding:10px; border-radius:8px; text-decoration:none;">Open Comparison Matrix &rarr;</a>
-        </div>
-
-      </aside>
-
+    <!-- Return to University Hub Link -->
+    <div style="margin: 36px 0 20px 0; text-align: center;">
+      <a href="/universities/st-aloysius" class="btn btn-outline" style="background:#0a6d6f; color:#ffffff !important; border:none; padding:12px 24px; font-weight:750;">&larr; Return to All St. Aloysius University Online Programs</a>
     </div>
 
   </main>
 
-  <!-- Site Footer -->
-  <footer class="site-footer" style="background:#090a0c; color:#94a3b8; padding:48px 20px 24px; border-top:1px solid rgba(255,255,255,0.08); font-size:13.5px;">
-    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:28px; margin-bottom:32px;">
-      <div>
-        <h4 style="color:#ffffff; font-size:15px; font-weight:800; margin:0 0 12px;">Online MBA Admission</h4>
-        <p style="line-height:1.6; margin:0 0 12px; font-size:13px;">India's unbiased educational advisory portal helping working professionals compare UGC-DEB entitled online MBA degrees.</p>
-        <div style="font-size:12px; color:#64748b;">Statutory Equivalence under UGC Gazette 2020.</div>
+  <!-- Standard Site Footer (Identical to Main Pages) -->
+<footer class="site-footer">
+    <div class="container">
+      <div class="griffin-footer-grid">
+        <!-- Col 1: Brand and Regulatory Disclosures -->
+        <div class="griffin-footer-col brand-col">
+          <a class="footer-brand" href="/" aria-label="Online MBA Admission Home">
+            <picture>
+              <source srcset="/logo.webp?v=5.2" type="image/webp">
+              <img src="/logo.png?v=5.2" alt="Online MBA Admission" class="footer-logo" width="160" height="68" loading="lazy" decoding="async">
+            </picture>
+          </a>
+          <p class="brand-disclosure">
+            Online MBA Admission is an independent statutory education guidance platform helping students and working professionals choose UGC-DEB entitled programs.
+          </p>
+          <p class="brand-disclosure">
+            All university comparisons, eligibility criteria, and fee structures are verified in accordance with the UGC Open and Distance Learning Regulations Gazette.
+          </p>
+          <p class="brand-subtext">
+            Advisory Desk &bull; PAN India &bull; Non-affiliate platform
+          </p>
+          
+          <div class="footer-seal-badge">
+            <div class="seal-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div class="seal-text">
+              <span class="seal-title">UGC-DEB ALIGNED</span>
+              <span class="seal-sub">100% Free and Unbiased Guidance</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 2: Programs -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">PROGRAMS</h4>
+          <ul class="footer-link-list">
+            <li><a href="/specializations/finance">MBA Finance</a></li>
+            <li><a href="/specializations/marketing">MBA Marketing</a></li>
+            <li><a href="/specializations/human-resource-management">MBA Human Resource</a></li>
+            <li><a href="/specializations/business-analytics">MBA Business Analytics</a></li>
+            <li><a href="/specializations/information-technology">MBA IT Management</a></li>
+            <li><a href="/specializations/operations-management">MBA Operations</a></li>
+            <li><a href="/specializations/marketing">MBA Digital Marketing</a></li>
+            <li><a href="/specializations">All 18 Specializations &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Universities -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">UNIVERSITIES</h4>
+          <ul class="footer-link-list">
+            <li><a href="/universities/st-aloysius">St. Aloysius University</a></li>
+            <li><a href="/universities/chandigarh-university">Chandigarh University</a></li>
+            <li><a href="/universities/noida-international-university">Noida International University</a></li>
+            <li><a href="/universities/amity">Amity Online</a></li>
+            <li><a href="/universities/manipal-jaipur">Manipal Jaipur</a></li>
+            <li><a href="/universities/jain-university">Jain University</a></li>
+            <li><a href="/universities/ignou">IGNOU Online</a></li>
+            <li><a href="/universities/du-sol">DU SOL MBA</a></li>
+            <li><a href="/universities/ccsu">CCSU Online</a></li>
+            <li><a href="/universities">Compare Universities &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Policies and Guides -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">POLICIES and GUIDES</h4>
+          <ul class="footer-link-list">
+            <li><a href="/eligibility">Eligibility and Criteria</a></li>
+            <li><a href="/fees">Fee Structure 2027</a></li>
+            <li><a href="/blogs/no-cost-emi-guide">0% No-Cost EMI Guide</a></li>
+            <li><a href="/blogs/direct-admission-without-cat">Direct Admission (No CAT)</a></li>
+            <li><a href="/blogs/ugc-deb-approval-guide">UGC-DEB Verification</a></li>
+            <li><a href="/blogs/is-online-mba-valid-govt-jobs">Govt Jobs and UPSC Validity</a></li>
+            <li><a href="/blogs/online-vs-distance-mba">Online vs Distance MBA</a></li>
+            <li><a href="/blogs">Blogs and News Guides &rarr;</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 5: Advisory and Social -->
+        <div class="griffin-footer-col">
+          <h4 class="col-title">ADVISORY</h4>
+          <ul class="footer-link-list">
+            <li><a href="/admission">Admission Process</a></li>
+            <li><a href="/comparison">Comparison Matrix</a></li>
+            <li><a href="/about">About Advisory Desk</a></li>
+            <li><a href="mailto:mbaadmissiononline@gmail.com">mbaadmissiononline@gmail.com</a></li>
+          </ul>
+
+          <div class="footer-social-wrap">
+            <h4 class="col-title" style="margin-top:22px;">SOCIAL</h4>
+            <div class="social-icon-row">
+              <a href="#" class="social-btn" aria-label="LinkedIn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              </a>
+              <a href="#" class="social-btn" aria-label="YouTube">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 20c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73z"/></svg>
+              </a>
+              <a href="#" class="social-btn" aria-label="X">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
-      <div>
-        <h4 style="color:#ffffff; font-size:15px; font-weight:800; margin:0 0 12px;">St. Aloysius Specializations</h4>
-        <ul style="list-style:none; padding:0; margin:0; line-height:1.9; font-size:13px;">
-          <li><a href="/university/st-aloysius/mba-in-general-management" style="color:#94a3b8; text-decoration:none;">General Management</a></li>
-          <li><a href="/university/st-aloysius/mba-in-marketing" style="color:#94a3b8; text-decoration:none;">Marketing Management</a></li>
-          <li><a href="/university/st-aloysius/mba-in-finance" style="color:#94a3b8; text-decoration:none;">Financial Management</a></li>
-          <li><a href="/university/st-aloysius/mba-in-human-resource-management" style="color:#94a3b8; text-decoration:none;">Human Resource Management</a></li>
-          <li><a href="/university/st-aloysius/mba-in-data-science-analytics" style="color:#94a3b8; text-decoration:none;">Data Science &amp; Analytics</a></li>
-          <li><a href="/university/st-aloysius/mba-in-healthcare-management" style="color:#94a3b8; text-decoration:none;">Healthcare Management</a></li>
-          <li><a href="/university/st-aloysius/mba-in-logistics-supply-chain" style="color:#94a3b8; text-decoration:none;">Logistics &amp; Supply Chain</a></li>
-        </ul>
+
+      <!-- Griffin-Style Bottom Bar -->
+      <div class="griffin-footer-bottom">
+        <div class="bottom-copy">
+          &copy; 2027 Online MBA Admission. All rights reserved.
+        </div>
+        <div class="bottom-address">
+          Independent Educational Advisory
+        </div>
       </div>
-      <div>
-        <h4 style="color:#ffffff; font-size:15px; font-weight:800; margin:0 0 12px;">Advisory Resources</h4>
-        <ul style="list-style:none; padding:0; margin:0; line-height:1.9; font-size:13px;">
-          <li><a href="/blogs/best-online-mba-universities-in-india" style="color:#94a3b8; text-decoration:none;">Top Online MBA Universities</a></li>
-          <li><a href="/blogs/online-mba-fees-in-india" style="color:#94a3b8; text-decoration:none;">Online MBA Fees Breakdown</a></li>
-          <li><a href="/blogs/is-online-mba-valid-in-india" style="color:#94a3b8; text-decoration:none;">Is Online MBA Valid in India?</a></li>
-          <li><a href="/blogs/online-vs-distance-mba" style="color:#94a3b8; text-decoration:none;">Online vs Distance MBA</a></li>
-          <li><a href="/comparison" style="color:#94a3b8; text-decoration:none;">Compare Universities</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4 style="color:#ffffff; font-size:15px; font-weight:800; margin:0 0 12px;">Legal &amp; Compliance</h4>
-        <ul style="list-style:none; padding:0; margin:0; line-height:1.9; font-size:13px;">
-          <li><a href="/privacy" style="color:#94a3b8; text-decoration:none;">Privacy Policy</a></li>
-          <li><a href="/terms" style="color:#94a3b8; text-decoration:none;">Terms &amp; Conditions</a></li>
-          <li><a href="/about" style="color:#94a3b8; text-decoration:none;">About Us</a></li>
-          <li><a href="/admission" style="color:#94a3b8; text-decoration:none;">Contact Counselors</a></li>
-        </ul>
-      </div>
-    </div>
-    <div style="max-width:1180px; margin:0 auto; border-top:1px solid rgba(255,255,255,0.06); padding-top:18px; text-align:center; font-size:12px; color:#64748b;">
-      &copy; 2026 OnlineMBAAdmission.com &bull; All Rights Reserved. St. Aloysius Online MBA Admissions Advisory.
     </div>
   </footer>
 
+  <!-- FAQ Accordion JS Fallback -->
+  <script>
+    function toggleFaq(el) {
+      const item = el.closest('.cs-faq-item');
+      if (!item) return;
+      const isActive = item.classList.contains('active');
+      document.querySelectorAll('.cs-faq-item').forEach(i => i.classList.remove('active'));
+      if (!isActive) item.classList.add('active');
+    }
+  </script>
   <script src="/script.js?v=9.3" defer></script>
 </body>
 </html>
