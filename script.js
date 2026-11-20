@@ -93,8 +93,28 @@ async function sendLeadToCrm(lead) {
     consent: Boolean(lead.consent)
   };
 
-  // Smart environment routing: Use /api/lead on Vercel, /php/lead.php on Hostinger
+  const neodoveWebhookUrl = "https://3092a01d-31a6-46a0-a092-11aa63948adc.neodove.com/integration/custom/fa17b06f-23c3-4928-8dc3-0ae7fedcd09f/leads";
+
   const isVercel = window.location.hostname.includes("vercel.app");
+  const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
+  // 1. Direct delivery for Local Dev (Python SimpleHTTP server cannot process POST requests)
+  if (isLocal) {
+    try {
+      const localRes = await fetch(neodoveWebhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (localRes.ok) {
+        return { success: true, message: "Lead delivered directly to NeoDove (Local Dev)" };
+      }
+    } catch (localErr) {
+      console.warn("[CRM] Local direct post fallback warning:", localErr);
+    }
+  }
+
+  // 2. Dual-tier endpoint routing for production (Vercel / Hostinger)
   const primaryEndpoint = isVercel ? "/api/lead" : "/php/lead.php";
   const fallbackEndpoint = isVercel ? "/php/lead.php" : "/api/lead";
 
@@ -105,7 +125,6 @@ async function sendLeadToCrm(lead) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    // Fallback if primary endpoint fails (403, 404, 500, etc.)
     if (!response.ok) {
       response = await fetch(fallbackEndpoint, {
         method: "POST",
@@ -114,16 +133,36 @@ async function sendLeadToCrm(lead) {
       });
     }
   } catch (err) {
-    response = await fetch(fallbackEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+    try {
+      response = await fetch(fallbackEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+    } catch (fallbackErr) {
+      // Both internal endpoints failed
+    }
   }
 
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) {
-    throw new Error(data.error || `Server request failed with status ${response.status}`);
+  // 3. Bulletproof Rescue Channel: If both server endpoints fail, deliver directly to NeoDove CRM
+  if (!response || !response.ok) {
+    try {
+      const rescueResponse = await fetch(neodoveWebhookUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (rescueResponse.ok) {
+        return { success: true, message: "Lead delivered safely to NeoDove via rescue channel" };
+      }
+    } catch (rescueErr) {
+      console.error("[CRM] Rescue channel error:", rescueErr);
+    }
+  }
+
+  const data = response ? await response.json().catch(() => ({})) : {};
+  if (!response || !response.ok) {
+    throw new Error(data.error || `Server request failed with status ${response ? response.status : 500}`);
   }
 
   return data;
