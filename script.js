@@ -1550,9 +1550,27 @@ document.addEventListener("submit", async (event) => {
   }
 
   const formData = new FormData(form);
-  const name = String(formData.get("name") || formData.get("fullname") || form.querySelector('input[name="name"], input[name="fullname"]')?.value || "").trim();
-  const phone = normalizePhone(String(formData.get("phone") || formData.get("mobile") || form.querySelector('input[type="tel"], input[name="phone"], input[name="mobile"]')?.value || ""));
-  const email = String(formData.get("email") || form.querySelector('input[type="email"], input[name="email"]')?.value || "").trim();
+  const name = String(
+    formData.get("name") || 
+    formData.get("fullname") || 
+    formData.get("full_name") || 
+    form.querySelector('input[name="name"], input[name="fullname"], input[name="full_name"], input[id*="name"], input[placeholder*="name" i], input[type="text"]')?.value || 
+    ""
+  ).trim();
+
+  const phone = normalizePhone(String(
+    formData.get("phone") || 
+    formData.get("mobile") || 
+    form.querySelector('input[type="tel"], input[name="phone"], input[name="mobile"], input[id*="phone"]')?.value || 
+    ""
+  ));
+
+  const email = String(
+    formData.get("email") || 
+    formData.get("email_address") || 
+    form.querySelector('input[type="email"], input[name="email"], input[id*="email"]')?.value || 
+    ""
+  ).trim();
   const program = String(formData.get("program") || formData.get("specialization") || formData.get("course") || form.querySelector('select[name="program"], select[name="specialization"]')?.value || "Online MBA").trim();
   const university = String(formData.get("university") || formData.get("budget") || form.querySelector('input[name="university"]')?.value || "").trim();
   const qualification = String(formData.get("qualification") || formData.get("experience") || formData.get("query") || form.querySelector('input[name="qualification"]')?.value || "").trim();
@@ -1562,7 +1580,7 @@ document.addEventListener("submit", async (event) => {
   if (name.length < 2) {
     message.textContent = "Please enter your full name.";
     message.classList.add("error");
-    const nameInput = form.querySelector('input[name="name"], input[name="fullname"], input[type="text"]');
+    const nameInput = form.querySelector('input[name="name"], input[name="fullname"], input[name="full_name"], input[id*="name"], input[placeholder*="name" i], input[type="text"]');
     if (nameInput) nameInput.focus();
     return;
   }
@@ -1570,7 +1588,7 @@ document.addEventListener("submit", async (event) => {
   if (!/^[6-9]\d{9}$/.test(phone)) {
     message.textContent = "Please enter a valid 10-digit Indian mobile number.";
     message.classList.add("error");
-    const phoneInput = form.querySelector('input[type="tel"], input[name="phone"], input[name="mobile"]');
+    const phoneInput = form.querySelector('input[type="tel"], input[name="phone"], input[name="mobile"], input[id*="phone"]');
     if (phoneInput) phoneInput.focus();
     return;
   }
@@ -1578,7 +1596,7 @@ document.addEventListener("submit", async (event) => {
   if (!isValidEmail(email)) {
     message.textContent = "Please enter a valid email address.";
     message.classList.add("error");
-    const emailInput = form.querySelector('input[type="email"], input[name="email"]');
+    const emailInput = form.querySelector('input[type="email"], input[name="email"], input[id*="email"]');
     if (emailInput) emailInput.focus();
     return;
   }
