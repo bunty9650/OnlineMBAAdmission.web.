@@ -93,31 +93,30 @@ async function sendLeadToCrm(lead) {
     consent: Boolean(lead.consent)
   };
 
-  // Dual-tier endpoint: Direct Hostinger PHP endpoint first, with fallback to /api/lead
+  // Smart environment routing: Use /api/lead on Vercel, /php/lead.php on Hostinger
+  const isVercel = window.location.hostname.includes("vercel.app");
+  const primaryEndpoint = isVercel ? "/api/lead" : "/php/lead.php";
+  const fallbackEndpoint = isVercel ? "/php/lead.php" : "/api/lead";
+
   let response;
   try {
-    response = await fetch("/php/lead.php", {
+    response = await fetch(primaryEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
-    if (response.status === 404) {
-      response = await fetch(leadApiEndpoint, {
+    // Fallback if primary endpoint fails (403, 404, 500, etc.)
+    if (!response.ok) {
+      response = await fetch(fallbackEndpoint, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
     }
   } catch (err) {
-    response = await fetch(leadApiEndpoint, {
+    response = await fetch(fallbackEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload)
     });
   }
